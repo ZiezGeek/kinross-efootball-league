@@ -471,8 +471,21 @@
 </div>
 
 <div class="toast" id="toast"></div>
+  // FIREBASE SETUP
+  const firebaseConfig = {
+  apiKey: "AIzaSyBpTzJMNlnIkXYSc7HzJgB14Kvv2hB2edc",
+  authDomain: "efootball-league-70d44.firebaseapp.com",
+  projectId: "efootball-league-70d44",
+  storageBucket: "efootball-league-70d44.firebasestorage.app",
+  messagingSenderId: "1027946844235",
+  appId: "1:1027946844235:web:909401b5756937bc31fdce",
+  measurementId: "G-BQRB65CFE0"
+};
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
+  
 // ── TEAMS ──
 const TEAMS=[
   {id:0,name:'ZiezGeek FC', short:'ZGK',bid:'badge-0'},
@@ -505,14 +518,26 @@ function genFixtures(){
 }
 let fixtures=[],goalScorers=[];
 function loadData(){
-  try{fixtures=JSON.parse(localStorage.getItem('knr_fix'))||genFixtures();}catch{fixtures=genFixtures();}
-  try{goalScorers=JSON.parse(localStorage.getItem('knr_sc'))||[];}catch{goalScorers=[];}
+  db.ref("leagueData").on("value", snapshot => {
+    const data = snapshot.val();
+
+    if(data){
+      fixtures = data.fixtures || genFixtures();
+      goalScorers = data.scorers || [];
+    } else {
+      fixtures = genFixtures();
+      goalScorers = [];
+    }
+
+    renderAll();
+  });
 }
 function saveData(){
-  localStorage.setItem('knr_fix',JSON.stringify(fixtures));
-  localStorage.setItem('knr_sc',JSON.stringify(goalScorers));
+  db.ref("leagueData").set({
+    fixtures: fixtures,
+    scorers: goalScorers
+  });
 }
-
 // ── STATS ──
 function getStats(){
   const s=TEAMS.map(t=>({...t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]}));
@@ -735,7 +760,7 @@ function showSection(id,btn){
 }
 
 // ── INIT ──
-loadData();renderAll();
+loadData();;
 </script>
 </body>
 </html>
