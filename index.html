@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,10 +23,18 @@ button:hover{background:#e61e73;}
 .team img {width:24px;height:24px;border-radius:50%;}
 </style>
 </head>
-<body><header>🏆 Kinross Efootball League</header><div class="container"><div class="card">
+<body>
+
+<header>🏆 Kinross Efootball League</header>
+
+<div class="container">
+
+<div class="card">
 <h2>League Table</h2>
 <table id="table"></table>
-</div><div class="card">
+</div>
+
+<div class="card">
 <h2>Add Match Result</h2>
 <input id="team1" placeholder="Team 1">
 <input id="g1" type="number" placeholder="Goals">
@@ -34,7 +43,11 @@ button:hover{background:#e61e73;}
 <input id="g2" type="number" placeholder="Goals">
 <br><br>
 <button onclick="addMatch()">Add Result</button>
-</div></div><script>
+</div>
+
+</div>
+
+<script>
 let logos = {
 "Wishness FC":"https://via.placeholder.com/30/ff2882/ffffff?text=W",
 "Kosabo":"https://via.placeholder.com/30/00ffcc/000000?text=K",
@@ -97,5 +110,7 @@ save();updateTable();
 }
 
 updateTable();
-</script></body>
-</html> 
+</script>
+
+</body>
+</html>
