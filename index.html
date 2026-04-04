@@ -55,42 +55,8 @@
     <rect x="22" y="61" width="36" height="1.5" fill="#c62828" rx="1"/>
     <text x="40" y="72" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffcdd2" letter-spacing="1">F · C</text>
   </symbol>
-  <!-- 6 · Magolide FC – black & gold crown -->
-<symbol id="badge-6" viewBox="0 0 80 90">
-  <defs>
-    <linearGradient id="b6g" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#000000"/>
-      <stop offset="100%" stop-color="#1a1a1a"/>
-    </linearGradient>
-  </defs>
+  
 
-  <!-- shield -->
-  <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z"
-        fill="url(#b6g)" stroke="#ffd700" stroke-width="2.5"/>
-
-  <!-- crown -->
-  <path d="M20 40 L30 25 L40 40 L50 25 L60 40 L60 48 L20 48 Z"
-        fill="#ffd700" stroke="#ffb300" stroke-width="1.2"/>
-
-  <!-- jewels -->
-  <circle cx="30" cy="38" r="2" fill="#ff4d6d"/>
-  <circle cx="40" cy="36" r="2" fill="#00e5a0"/>
-  <circle cx="50" cy="38" r="2" fill="#2196f3"/>
-
-  <!-- name -->
-  <text x="40" y="70" text-anchor="middle"
-        font-family="'Bebas Neue',sans-serif"
-        font-size="10" fill="#ffd700" letter-spacing="1.5">
-    MAGOLIDE
-  </text>
-
-  <text x="40" y="80" text-anchor="middle"
-        font-family="'Barlow Condensed',sans-serif"
-        font-size="7" font-weight="700"
-        fill="#ffffff" letter-spacing="2">
-    F · C
-  </text>
-</symbol> 
   <!-- 2 · Matlala FC – orange, tribal sun -->
   <symbol id="badge-2" viewBox="0 0 80 90">
     <defs>
@@ -203,6 +169,42 @@
     <text x="40" y="67" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11.5" fill="#c8e6c9" letter-spacing="2">TITO</text>
     <text x="40" y="76" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffd600" letter-spacing="2">F · C</text>
   </symbol>
+  <!-- 6 · Magolide FC – black & gold crown -->
+<symbol id="badge-6" viewBox="0 0 80 90">
+  <defs>
+    <linearGradient id="b6g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- shield -->
+  <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z"
+        fill="url(#b6g)" stroke="#ffd700" stroke-width="2.5"/>
+
+  <!-- crown -->
+  <path d="M20 40 L30 25 L40 40 L50 25 L60 40 L60 48 L20 48 Z"
+        fill="#ffd700" stroke="#ffb300" stroke-width="1.2"/>
+
+  <!-- jewels -->
+  <circle cx="30" cy="38" r="2" fill="#ff4d6d"/>
+  <circle cx="40" cy="36" r="2" fill="#00e5a0"/>
+  <circle cx="50" cy="38" r="2" fill="#2196f3"/>
+
+  <!-- name -->
+  <text x="40" y="70" text-anchor="middle"
+        font-family="'Bebas Neue',sans-serif"
+        font-size="10" fill="#ffd700" letter-spacing="1.5">
+    MAGOLIDE
+  </text>
+
+  <text x="40" y="80" text-anchor="middle"
+        font-family="'Barlow Condensed',sans-serif"
+        font-size="7" font-weight="700"
+        fill="#ffffff" letter-spacing="2">
+    F · C
+  </text>
+</symbol>
 
 </defs>
 </svg>
@@ -361,8 +363,8 @@
 
 <div class="hero">
   <div class="league-label">⚡ eFootball Mobile · Season 1</div>
-  <h1>KNR<span>PREMIER</span><br>LEAGUE</h1>
-  <p>6 clubs · Round robin · Glory awaits</p>
+  <h1>KNR <span>PREMIER</span><br>LEAGUE</h1>
+  <p>7 clubs · Round robin · Glory awaits</p>
 
   <div class="clubs-row">
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-0"/></svg><span>ZiezGeek</span></div>
@@ -370,8 +372,13 @@
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-2"/></svg><span>Matlala</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-3"/></svg><span>Wishness</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-4"/></svg><span>Bruno</span></div>
-    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-4"/></svg><span>Magolide</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-5"/></svg><span>Tito</span></div>
+    <div class="club-pin">
+  <svg class="tbadge" width="54" height="61">
+    <use href="#badge-6"/>
+  </svg>
+  <span>Magolide</span>
+</div>
   </div>
 
   <div class="hero-stats">
@@ -463,7 +470,9 @@ const TEAMS=[
   {id:3,name:'Wishness FC', short:'WSH',bid:'badge-3'},
   {id:4,name:'Bruno FC',    short:'BRN',bid:'badge-4'},
   {id:5,name:'Tito FC',     short:'TTO',bid:'badge-5'},
-  {id:6,name:'Magolide FC', short:'MGL',bid:'badge-6'},
+  {id:6,name:'Magolide FC', short:'MGL',bid:'badge-6'}
+];
+
 function svgBadge(id,w=32){
   const h=Math.round(w*1.13);
   return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${TEAMS[id].bid}"/></svg>`;
@@ -634,3 +643,4 @@ loadData();renderAll();
 </script>
 </body>
 </html>
+ 
