@@ -6,27 +6,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 <style>
 body {margin:0;font-family:'Poppins',sans-serif;background:#0a0f2c;color:white;}
-header {background:linear-gradient(90deg,#37003c,#ff2882);padding:15px;text-align:center;font-size:26px;font-weight:bold;}
+header {background:linear-gradient(90deg,#37003c,#ff2882);padding:20px;text-align:center;font-size:28px;font-weight:bold;}
 .container {padding:15px;}
 .card {background:#1a1f4a;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
 h2 {margin-top:0;border-bottom:2px solid #ff2882;padding-bottom:5px;}
 table {width:100%;border-collapse:collapse;}
-th,td {padding:10px;text-align:center;}
+th,td {padding:12px;text-align:center;}
 th {background:#2b2f77;}
 tr:nth-child(even){background:#222870;}
-.top {color:#00ffcc;font-weight:bold;}
+.top {background:#00ffcc;color:black;font-weight:bold;}
 input {padding:8px;border-radius:6px;border:none;margin:5px;}
 button {padding:10px;background:#ff2882;border:none;border-radius:6px;color:white;font-weight:bold;cursor:pointer;}
 button:hover{background:#e61e73;}
-.badge {background:#ff2882;padding:3px 8px;border-radius:6px;font-size:12px;margin-left:5px;}
+.team {display:flex;align-items:center;gap:8px;justify-content:center;}
+.team img {width:24px;height:24px;border-radius:50%;}
 </style>
 </head>
-<body><header>🏆 Kinross Efootball League - ELITE</header><div class="container"><div class="card">
+<body><header>🏆 Kinross Efootball League</header><div class="container"><div class="card">
 <h2>League Table</h2>
 <table id="table"></table>
-</div><div class="card">
-<h2>Fixtures</h2>
-<ul id="fixtures"></ul>
 </div><div class="card">
 <h2>Add Match Result</h2>
 <input id="team1" placeholder="Team 1">
@@ -36,14 +34,15 @@ button:hover{background:#e61e73;}
 <input id="g2" type="number" placeholder="Goals">
 <br><br>
 <button onclick="addMatch()">Add Result</button>
-</div><div class="card">
-<h2>Top Scorers</h2>
-<input id="player" placeholder="Player">
-<input id="pteam" placeholder="Team">
-<input id="pgoals" type="number" placeholder="Goals">
-<button onclick="addScorer()">Add</button>
-<ul id="scorers"></ul>
 </div></div><script>
+let logos = {
+"Wishness FC":"https://via.placeholder.com/30/ff2882/ffffff?text=W",
+"Kosabo":"https://via.placeholder.com/30/00ffcc/000000?text=K",
+"Team a":"https://via.placeholder.com/30/ffaa00/000000?text=A",
+"TEAM B":"https://via.placeholder.com/30/0099ff/ffffff?text=B",
+"ZiezGeek":"https://via.placeholder.com/30/ff0000/ffffff?text=Z"
+};
+
 let teams = JSON.parse(localStorage.getItem('teams')) || {
 "Wishness FC":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
 "Kosabo":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
@@ -52,20 +51,7 @@ let teams = JSON.parse(localStorage.getItem('teams')) || {
 "ZiezGeek":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0}
 };
 
-let scorers = JSON.parse(localStorage.getItem('scorers')) || [];
-
-let fixtures = [
-"Wishness FC vs Kosabo",
-"Team a vs TEAM B",
-"ZiezGeek vs Wishness FC",
-"Kosabo vs TEAM B",
-"ZiezGeek vs Team a"
-];
-
-function save(){
-localStorage.setItem('teams',JSON.stringify(teams));
-localStorage.setItem('scorers',JSON.stringify(scorers));
-}
+function save(){localStorage.setItem('teams',JSON.stringify(teams));}
 
 function updateTable(){
 let table=document.getElementById('table');
@@ -76,23 +62,18 @@ let sorted=Object.entries(teams).sort((a,b)=>b[1].Pts-a[1].Pts);
 sorted.forEach((t,i)=>{
 let team=t[0];let d=t[1];
 let cls=i===0?'top':'';
-table.innerHTML+=`<tr class="${cls}"><td>${i+1}</td><td>${team}${i===0?'<span class="badge">Leader</span>':''}</td><td>${d.P}</td><td>${d.W}</td><td>${d.D}</td><td>${d.L}</td><td>${d.GF}</td><td>${d.GA}</td><td>${d.Pts}</td></tr>`;
+let logo=logos[team] || 'https://via.placeholder.com/30';
+
+table.innerHTML+=`<tr class="${cls}">
+<td>${i+1}</td>
+<td class="team"><img src="${logo}"> ${team}</td>
+<td>${d.P}</td><td>${d.W}</td><td>${d.D}</td><td>${d.L}</td>
+<td>${d.GF}</td><td>${d.GA}</td><td>${d.Pts}</td>
+</tr>`;
 });
 }
 
-function loadFixtures(){
-let list=document.getElementById('fixtures');
-list.innerHTML='';
-fixtures.forEach(f=>{
-list.innerHTML+=`<li>⚽ ${f}</li>`;
-});
-}
-
-function addTeam(name){
-if(!teams[name]){
-teams[name]={P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0};
-}
-}
+function addTeam(name){if(!teams[name]){teams[name]={P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0};}}
 
 function addMatch(){
 let t1=document.getElementById('team1').value;
@@ -115,27 +96,6 @@ else{teams[t1].D++;teams[t2].D++;teams[t1].Pts++;teams[t2].Pts++;}
 save();updateTable();
 }
 
-function addScorer(){
-let name=document.getElementById('player').value;
-let team=document.getElementById('pteam').value;
-let goals=parseInt(document.getElementById('pgoals').value);
-
-if(!name)return;
-
-scorers.push({name,team,goals});
-scorers.sort((a,b)=>b.goals-a.goals);
-
-let list=document.getElementById('scorers');
-list.innerHTML='';
-
-scorers.forEach((s,i)=>{
-list.innerHTML+=`<li>${i+1}. ${s.name} (${s.team}) - ${s.goals} ⚽</li>`;
-});
-
-save();
-}
-
 updateTable();
-loadFixtures();
 </script></body>
-</html>
+</html> 
