@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>ZGK Premier League – eFootball Mobile</title>
+<title>Kinross Premier League – eFootball Mobile</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
 
 <!-- SVG badge symbols (hidden) -->
@@ -316,7 +316,7 @@
 <body>
 
 <header>
-  <div class="logo"><div class="logo-badge">⚽</div>ZGK <span>&nbsp;PREMIER LEAGUE</span></div>
+  <div class="logo"><div class="logo-badge">⚽</div>KNR <span>&nbsp;PREMIER LEAGUE</span></div>
   <nav>
     <button class="active" onclick="showSection('standings',this)">Table</button>
     <button onclick="showSection('fixtures',this)">Fixtures</button>
@@ -326,7 +326,7 @@
 
 <div class="hero">
   <div class="league-label">⚡ eFootball Mobile · Season 1</div>
-  <h1>ZGK <span>PREMIER</span><br>LEAGUE</h1>
+  <h1>KNR<span>PREMIER</span><br>LEAGUE</h1>
   <p>6 clubs · Round robin · Glory awaits</p>
 
   <div class="clubs-row">
@@ -335,6 +335,7 @@
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-2"/></svg><span>Matlala</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-3"/></svg><span>Wishness</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-4"/></svg><span>Bruno</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-4"/></svg><span>Magolide</span></div>
     <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-5"/></svg><span>Tito</span></div>
   </div>
 
@@ -427,8 +428,7 @@ const TEAMS=[
   {id:3,name:'Wishness FC', short:'WSH',bid:'badge-3'},
   {id:4,name:'Bruno FC',    short:'BRN',bid:'badge-4'},
   {id:5,name:'Tito FC',     short:'TTO',bid:'badge-5'},
-];
-
+  {id:6,name:'Magolide FC', short:'MGL',bid:'badge-6'},
 function svgBadge(id,w=32){
   const h=Math.round(w*1.13);
   return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${TEAMS[id].bid}"/></svg>`;
