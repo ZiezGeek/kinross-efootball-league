@@ -548,7 +548,7 @@ function saveData(){
 // ── STATS ──
 function getStats(){
   const s=TEAMS.map(t=>({...t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]}));
-  fixtures.filter(f=>f.homeGoals!==null).forEach(f=>{
+  fixtures.filter(f=>f.homeGoals != null && f.awayGoals != null).forEach(f=>{
     const h=s[f.home],a=s[f.away];
     h.P++;a.P++;h.GF+=f.homeGoals;h.GA+=f.awayGoals;a.GF+=f.awayGoals;a.GA+=f.homeGoals;
     if(f.homeGoals>f.awayGoals){h.W++;h.Pts+=3;a.L++;h.form.push('W');a.form.push('L');}
@@ -570,13 +570,15 @@ function renderStandings(){
       <td><div class="pos-badge ${cls}">${pos}</div></td>
       <td><div class="team-name-cell">${svgBadge(s.id,30)}<span>${s.name}</span></div></td>
       <td>${s.P}</td><td>${s.W}</td><td>${s.D}</td><td>${s.L}</td>
-      <td>${s.GF}</td><td>${s.GA}</td><td>${s.GD>0?'+':''}${s.GD}</td>
+      <td>${s.GF || 0}</td>
+<td>${s.GA || 0}</td>
+<td>${(s.GD || 0) > 0 ? '+' : ''}${s.GD || 0}</td>
       <td><span class="pts">${s.Pts}</span></td>
       <td><div class="form-pills">${form||'<span style="color:var(--muted);font-size:12px">–</span>'}</div></td>
     </tr>`;
   }).join('');
   const played=fixtures.filter(f=>f.homeGoals!==null);
-  const goals=played.reduce((t,f)=>t+f.homeGoals+f.awayGoals,0);
+  const goals = played.reduce((t,f)=>t + (f.homeGoals || 0) + (f.awayGoals || 0), 0);
   document.getElementById('stat-played').textContent=played.length;
   document.getElementById('stat-goals').textContent=goals;
   document.getElementById('stat-remaining').textContent=fixtures.length-played.length;
