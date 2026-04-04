@@ -1,116 +1,601 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kinross Efootball League</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kinross Premier League – eFootball Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- SVG badge symbols (hidden) -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
+<defs>
+
+  <!-- 0 · ZiezGeek FC – blue shield, lightning bolt -->
+  <symbol id="badge-0" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b0g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1e88e5"/>
+        <stop offset="100%" stop-color="#0d2a6b"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b0g)" stroke="#60b4ff" stroke-width="2.5"/>
+    <path d="M40 11 L69 22 L69 52 Q69 71 40 80 Q11 71 11 52 L11 22 Z" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1.2"/>
+    <!-- lightning -->
+    <path d="M46 21 L32 45 L41 45 L34 69 L52 40 L43 40 Z" fill="#ffd600" stroke="#ffb300" stroke-width="0.8"/>
+    <text x="40" y="84" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#9ecfff" letter-spacing="2">ZGK FC</text>
+  </symbol>
+
+  <!-- 1 · Kosabo FC – red, lion face -->
+  <symbol id="badge-1" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b1g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#c62828"/>
+        <stop offset="100%" stop-color="#1a0000"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b1g)" stroke="#ef5350" stroke-width="2.5"/>
+    <!-- mane -->
+    <circle cx="40" cy="37" r="15" fill="#b71c1c" stroke="#ff5252" stroke-width="1.2"/>
+    <!-- face -->
+    <circle cx="40" cy="37" r="10" fill="#d32f2f"/>
+    <!-- ears -->
+    <path d="M27 27 Q24 19 31 23 Z" fill="#ff5252"/>
+    <path d="M53 27 Q56 19 49 23 Z" fill="#ff5252"/>
+    <!-- eyes -->
+    <ellipse cx="36" cy="35" rx="3" ry="3.5" fill="#ffd600"/>
+    <ellipse cx="44" cy="35" rx="3" ry="3.5" fill="#ffd600"/>
+    <circle cx="36" cy="36" r="1.6" fill="#111"/>
+    <circle cx="44" cy="36" r="1.6" fill="#111"/>
+    <!-- nose + mouth -->
+    <circle cx="40" cy="40" r="1.8" fill="#880e4f"/>
+    <path d="M37 43 Q40 46 43 43" stroke="#ffcdd2" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <line x1="29" y1="41" x2="37" y2="41" stroke="#ffcdd2" stroke-width="0.8"/>
+    <line x1="51" y1="41" x2="43" y2="41" stroke="#ffcdd2" stroke-width="0.8"/>
+    <text x="40" y="59" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#ff8a80" letter-spacing="1.5">KOSABO</text>
+    <rect x="22" y="61" width="36" height="1.5" fill="#c62828" rx="1"/>
+    <text x="40" y="72" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffcdd2" letter-spacing="1">F · C</text>
+  </symbol>
+
+  <!-- 2 · Matlala FC – orange, tribal sun -->
+  <symbol id="badge-2" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b2g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#ff8f00"/>
+        <stop offset="100%" stop-color="#bf360c"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b2g)" stroke="#ffcc02" stroke-width="2.5"/>
+    <rect x="3" y="46" width="74" height="5" fill="#ffcc02" opacity="0.9"/>
+    <!-- sun -->
+    <g transform="translate(40,30)">
+      <circle r="12" fill="#ffcc02"/>
+      <circle r="7.5" fill="#ff8f00"/>
+      <circle r="3" fill="#ffcc02"/>
+      <line x1="0" y1="-19" x2="0" y2="-14" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="13.4" y1="-13.4" x2="9.5" y2="-9.5" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="19" y1="0" x2="14" y2="0" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="13.4" y1="13.4" x2="9.5" y2="9.5" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="0" y1="19" x2="0" y2="14" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="-13.4" y1="13.4" x2="-9.5" y2="9.5" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="-19" y1="0" x2="-14" y2="0" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+      <line x1="-13.4" y1="-13.4" x2="-9.5" y2="-9.5" stroke="#ffcc02" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <text x="40" y="63" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="10" fill="#fff3e0" letter-spacing="1.5">MATLALA</text>
+    <text x="40" y="74" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7.5" font-weight="700" fill="#ffcc02" letter-spacing="2">F · C</text>
+  </symbol>
+
+  <!-- 3 · Wishness FC – purple, star + wand -->
+  <symbol id="badge-3" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b3g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#7b1fa2"/>
+        <stop offset="100%" stop-color="#1a0033"/>
+      </linearGradient>
+      <radialGradient id="b3s" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffd700"/>
+        <stop offset="100%" stop-color="#ff8f00"/>
+      </radialGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b3g)" stroke="#ce93d8" stroke-width="2.5"/>
+    <!-- bg sparkles -->
+    <circle cx="14" cy="24" r="2" fill="#ffd700" opacity="0.55"/>
+    <circle cx="66" cy="29" r="1.5" fill="#ffd700" opacity="0.45"/>
+    <circle cx="19" cy="60" r="1.5" fill="#ffd700" opacity="0.4"/>
+    <circle cx="61" cy="58" r="2" fill="#ffd700" opacity="0.5"/>
+    <!-- star -->
+    <polygon points="40,13 43.5,24.5 55.5,24.5 46,31.5 49.5,43 40,36 30.5,43 34,31.5 24.5,24.5 36.5,24.5" fill="url(#b3s)" stroke="#ffb300" stroke-width="0.8"/>
+    <!-- wand -->
+    <line x1="40" y1="44" x2="40" y2="63" stroke="#ce93d8" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="40" cy="64" r="3.5" fill="#ffd700" stroke="#ff8f00" stroke-width="1"/>
+    <line x1="44" y1="51" x2="49" y2="49" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="44" y1="57" x2="50" y2="56" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="36" y1="51" x2="31" y2="49" stroke="#ffd700" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="40" y="76" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#e1bee7" letter-spacing="1.5">WISHNESS</text>
+    <text x="40" y="84" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="6.5" font-weight="700" fill="#ffd700" letter-spacing="2">F · C</text>
+  </symbol>
+
+  <!-- 4 · Bruno FC – teal, panther -->
+  <symbol id="badge-4" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b4g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#00838f"/>
+        <stop offset="100%" stop-color="#002f35"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b4g)" stroke="#4dd0e1" stroke-width="2.5"/>
+    <!-- stripe -->
+    <path d="M4 45 L76 45 L76 56 Q60 59 40 59 Q20 59 4 56 Z" fill="rgba(255,255,255,0.06)"/>
+    <!-- panther -->
+    <g transform="translate(40,35)">
+      <ellipse cx="0" cy="0" rx="15" ry="7.5" fill="#00363a" stroke="#4dd0e1" stroke-width="1.2"/>
+      <circle cx="-13" cy="-5" r="6.5" fill="#00363a" stroke="#4dd0e1" stroke-width="1.2"/>
+      <path d="M-16 -10 L-19.5 -15 L-12 -11 Z" fill="#4dd0e1"/>
+      <path d="M-10.5 -10 L-9 -15 L-6.5 -11 Z" fill="#4dd0e1"/>
+      <circle cx="-14" cy="-6" r="2.2" fill="#4dd0e1"/>
+      <circle cx="-14" cy="-6" r="1.1" fill="#002f35"/>
+      <path d="M15 -2 Q22 -9 19 2 Q23 5 17 7" stroke="#4dd0e1" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <line x1="-6" y1="7" x2="-8" y2="15" stroke="#4dd0e1" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="0" y1="7.5" x2="-1" y2="15" stroke="#4dd0e1" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="7" y1="6.5" x2="8" y2="14" stroke="#4dd0e1" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="-10" y1="2" x2="-15" y2="10" stroke="#4dd0e1" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <text x="40" y="68" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11" fill="#e0f7fa" letter-spacing="2">BRUNO</text>
+    <text x="40" y="77" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#4dd0e1" letter-spacing="2">F · C</text>
+  </symbol>
+
+  <!-- 5 · Tito FC – green & gold, eagle -->
+  <symbol id="badge-5" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b5g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2e7d32"/>
+        <stop offset="100%" stop-color="#0d1f0e"/>
+      </linearGradient>
+    </defs>
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b5g)" stroke="#a5d6a7" stroke-width="2.5"/>
+    <!-- gold top band -->
+    <path d="M40 3 L77 17 L77 27 L3 27 L3 17 Z" fill="#ffd600" opacity="0.88"/>
+    <text x="40" y="20" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#1b5e20" letter-spacing="3">TTO</text>
+    <!-- eagle wings -->
+    <path d="M40 46 Q27 33 13 31 Q19 40 21 46 Q14 44 9 48 Q18 48 20 54 Q29 49 40 53 Z" fill="#1b5e20" stroke="#a5d6a7" stroke-width="1.2"/>
+    <path d="M40 46 Q53 33 67 31 Q61 40 59 46 Q66 44 71 48 Q62 48 60 54 Q51 49 40 53 Z" fill="#1b5e20" stroke="#a5d6a7" stroke-width="1.2"/>
+    <!-- body -->
+    <ellipse cx="40" cy="48" rx="7" ry="9" fill="#2e7d32" stroke="#a5d6a7" stroke-width="1"/>
+    <!-- head -->
+    <circle cx="40" cy="35" r="6.5" fill="#2e7d32" stroke="#a5d6a7" stroke-width="1"/>
+    <path d="M40 37 L45 39 L40 41 Z" fill="#ffd600"/>
+    <circle cx="38" cy="34" r="2.2" fill="#ffd600"/>
+    <circle cx="38" cy="34" r="1.1" fill="#111"/>
+    <text x="40" y="67" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11.5" fill="#c8e6c9" letter-spacing="2">TITO</text>
+    <text x="40" y="76" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffd600" letter-spacing="2">F · C</text>
+  </symbol>
+
+</defs>
+</svg>
+
 <style>
-body {margin:0;font-family:'Poppins',sans-serif;background:#0a0f2c;color:white;}
-header {background:linear-gradient(90deg,#37003c,#ff2882);padding:20px;text-align:center;font-size:28px;font-weight:bold;}
-.container {padding:15px;}
-.card {background:#1a1f4a;border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 5px 15px rgba(0,0,0,0.4);}
-h2 {margin-top:0;border-bottom:2px solid #ff2882;padding-bottom:5px;}
-table {width:100%;border-collapse:collapse;}
-th,td {padding:12px;text-align:center;}
-th {background:#2b2f77;}
-tr:nth-child(even){background:#222870;}
-.top {background:#00ffcc;color:black;font-weight:bold;}
-input {padding:8px;border-radius:6px;border:none;margin:5px;}
-button {padding:10px;background:#ff2882;border:none;border-radius:6px;color:white;font-weight:bold;cursor:pointer;}
-button:hover{background:#e61e73;}
-.team {display:flex;align-items:center;gap:8px;justify-content:center;}
-.team img {width:24px;height:24px;border-radius:50%;}
+  :root {
+    --bg:#0a0c10; --surface:#12151c; --surface2:#1a1f2b;
+    --border:#252b38; --accent:#00e5a0; --accent2:#ff4d6d;
+    --gold:#ffd700; --silver:#c0c0c0; --bronze:#cd7f32;
+    --text:#e8eaf0; --muted:#6b7280; --header-h:64px;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+  header{
+    position:sticky;top:0;z-index:100;height:var(--header-h);
+    background:rgba(10,12,16,0.96);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+  }
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);display:flex;align-items:center;gap:10px;}
+  .logo-badge{width:36px;height:36px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--bg);}
+  .logo span{color:var(--text);}
+  nav{display:flex;gap:4px;}
+  nav button{background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:6px 14px;border-radius:6px;transition:all .2s;}
+  nav button:hover,nav button.active{color:var(--accent);background:rgba(0,229,160,0.08);}
+
+  .hero{position:relative;overflow:hidden;padding:56px 24px 44px;text-align:center;background:linear-gradient(160deg,#0d1117 0%,#0a1628 50%,#0d1117 100%);border-bottom:1px solid var(--border);}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,160,0.12) 0%,transparent 70%);pointer-events:none;}
+  .league-label{display:inline-flex;align-items:center;gap:6px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:20px;padding:4px 14px;margin-bottom:18px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(50px,10vw,96px);letter-spacing:6px;line-height:1;margin-bottom:10px;}
+  .hero h1 span{color:var(--accent);}
+  .hero>p{color:var(--muted);font-size:16px;}
+
+  /* club badges row */
+  .clubs-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:28px 0 32px;}
+  .club-pin{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:default;}
+  .club-pin svg{width:54px;height:61px;filter:drop-shadow(0 4px 14px rgba(0,0,0,0.55));transition:transform .2s,filter .2s;}
+  .club-pin:hover svg{transform:translateY(-5px) scale(1.1);filter:drop-shadow(0 8px 20px rgba(0,229,160,0.25));}
+  .club-pin span{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+
+  .hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;}
+  .hero-stat{text-align:center;}
+  .hero-stat .val{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--accent);line-height:1;}
+  .hero-stat .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+
+  .section{display:none;}.section.active{display:block;}
+  .container{max-width:1100px;margin:0 auto;padding:32px 16px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;}
+  .card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .card-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+  .card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+
+  /* standings */
+  .standings-table{width:100%;border-collapse:collapse;}
+  .standings-table th{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);font-weight:600;}
+  .standings-table th:first-child,.standings-table th:nth-child(2){text-align:left;}
+  .standings-table td{padding:12px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);font-size:15px;}
+  .standings-table td:nth-child(2){text-align:left;font-weight:600;}
+  .standings-table tr:last-child td{border-bottom:none;}
+  .standings-table tr{transition:background .15s;}
+  .standings-table tr:hover td{background:rgba(255,255,255,0.03);}
+  .standings-table tr.top1{border-left:3px solid var(--accent);}
+  .pos-badge{width:26px;height:26px;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;}
+  .pos-1{background:rgba(255,215,0,0.15);color:var(--gold);}
+  .pos-2{background:rgba(192,192,192,0.12);color:var(--silver);}
+  .pos-3{background:rgba(205,127,50,0.12);color:var(--bronze);}
+  .pos-other{background:rgba(255,255,255,0.05);color:var(--muted);}
+  .pts{font-weight:700;font-size:16px;}
+  .form-pills{display:flex;gap:3px;justify-content:center;}
+  .form-pill{width:20px;height:20px;border-radius:4px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .form-W{background:rgba(0,229,160,0.2);color:var(--accent);}
+  .form-D{background:rgba(255,200,50,0.2);color:#ffc832;}
+  .form-L{background:rgba(255,77,109,0.2);color:var(--accent2);}
+  .team-name-cell{display:flex;align-items:center;gap:10px;}
+  .tbadge{flex-shrink:0;display:block;}
+
+  /* fixtures */
+  .matchday-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:12px 20px 8px;}
+  .fixture-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.04);gap:10px;transition:background .15s;}
+  .fixture-row:last-child{border-bottom:none;}
+  .fixture-row:hover{background:rgba(255,255,255,0.03);}
+  .fixture-row.upcoming{opacity:0.58;}
+  .fixture-team{display:flex;align-items:center;gap:9px;}
+  .fixture-team.away{flex-direction:row-reverse;text-align:right;}
+  .fixture-team-name{font-weight:600;font-size:14px;}
+  .fixture-score{display:flex;align-items:center;gap:8px;font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);white-space:nowrap;}
+  .fixture-score .sep{color:var(--muted);font-size:20px;}
+  .fixture-score .vs{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);border-radius:4px;}
+  .fixture-score .winner{color:var(--accent);}
+
+  /* scorers */
+  .scorers-list{padding:0;}
+  .scorer-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
+  .scorer-row:last-child{border-bottom:none;}
+  .scorer-row:hover{background:rgba(255,255,255,0.03);}
+  .scorer-rank{width:28px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--muted);}
+  .scorer-rank.r1{color:var(--gold);}.scorer-rank.r2{color:var(--silver);}.scorer-rank.r3{color:var(--bronze);}
+  .scorer-info{flex:1;}
+  .scorer-name{font-weight:700;font-size:15px;}
+  .scorer-club{font-size:12px;color:var(--muted);margin-top:1px;}
+  .scorer-goals{display:flex;align-items:center;gap:6px;}
+  .scorer-goals .num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--accent);line-height:1;}
+  .scorer-goals .lbl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+
+  /* modal/fab */
+  .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:56px;height:56px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;font-size:26px;color:var(--bg);font-weight:700;box-shadow:0 4px 24px rgba(0,229,160,0.4);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;}
+  .fab:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(0,229,160,0.55);}
+  .modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.82);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px;}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--surface2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:500px;padding:28px;animation:slideUp .25s ease;max-height:90vh;overflow-y:auto;}
+  @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  .modal h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;color:var(--accent);}
+  .form-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
+  .form-group{flex:1;min-width:120px;}
+  label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  select,input[type=number],input[type=text]{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;padding:10px 12px;outline:none;transition:border-color .2s;}
+  select:focus,input:focus{border-color:var(--accent);}
+  .score-inputs{display:flex;align-items:center;gap:12px;}
+  .score-inputs .dash{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--muted);}
+  .btn{padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s;}
+  .btn-primary{background:var(--accent);color:var(--bg);}.btn-primary:hover{background:#00ffc2;}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border);}.btn-ghost:hover{color:var(--text);border-color:var(--text);}
+  .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+  .scorer-entry{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;position:relative;}
+  .scorer-entry .remove-scorer{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;}
+  .add-scorer-btn{background:none;border:1px dashed var(--border);border-radius:8px;color:var(--muted);padding:10px;width:100%;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14px;letter-spacing:1px;transition:all .2s;margin-bottom:6px;}
+  .add-scorer-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:5px;}
+  .legend-color{width:10px;height:10px;border-radius:2px;}
+  .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:12px 24px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:500;}
+  .toast.show{opacity:1;}
+
+  @media(max-width:640px){
+    .standings-table th:nth-child(5),.standings-table th:nth-child(6),
+    .standings-table td:nth-child(5),.standings-table td:nth-child(6){display:none;}
+    nav button{padding:6px 8px;font-size:13px;}
+    .fixture-team-name{font-size:12px;}
+    .club-pin svg{width:42px;height:47px;}
+    .clubs-row{gap:12px;}
+  }
 </style>
 </head>
 <body>
 
-<header>🏆 Kinross Efootball League</header>
+<header>
+  <div class="logo"><div class="logo-badge">⚽</div>ZGK <span>&nbsp;PREMIER LEAGUE</span></div>
+  <nav>
+    <button class="active" onclick="showSection('standings',this)">Table</button>
+    <button onclick="showSection('fixtures',this)">Fixtures</button>
+    <button onclick="showSection('scorers',this)">Scorers</button>
+  </nav>
+</header>
 
-<div class="container">
+<div class="hero">
+  <div class="league-label">⚡ eFootball Mobile · Season 1</div>
+  <h1>KNR <span>PREMIER</span><br>LEAGUE</h1>
+  <p>6 clubs · Round robin · Glory awaits</p>
 
-<div class="card">
-<h2>League Table</h2>
-<table id="table"></table>
+  <div class="clubs-row">
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-0"/></svg><span>ZiezGeek</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-1"/></svg><span>Kosabo</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-2"/></svg><span>Matlala</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-3"/></svg><span>Wishness</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-4"/></svg><span>Bruno</span></div>
+    <div class="club-pin"><svg class="tbadge" width="54" height="61"><use href="#badge-5"/></svg><span>Tito</span></div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val" id="stat-played">0</div><div class="lbl">Matches Played</div></div>
+    <div class="hero-stat"><div class="val" id="stat-goals">0</div><div class="lbl">Total Goals</div></div>
+    <div class="hero-stat"><div class="val" id="stat-remaining">15</div><div class="lbl">Remaining</div></div>
+  </div>
 </div>
 
-<div class="card">
-<h2>Add Match Result</h2>
-<input id="team1" placeholder="Team 1">
-<input id="g1" type="number" placeholder="Goals">
-<br>
-<input id="team2" placeholder="Team 2">
-<input id="g2" type="number" placeholder="Goals">
-<br><br>
-<button onclick="addMatch()">Add Result</button>
+<!-- STANDINGS -->
+<div id="sec-standings" class="section active">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><div class="dot"></div>League Table</div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-color" style="background:var(--accent)"></div>Champions</div>
+          <div class="legend-item"><div class="legend-color" style="background:var(--accent2)"></div>Relegation</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="standings-table">
+          <thead><tr><th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Form</th></tr></thead>
+          <tbody id="standings-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- FIXTURES -->
+<div id="sec-fixtures" class="section">
+  <div class="container">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="dot"></div>All Fixtures & Results</div></div>
+      <div id="fixtures-list"></div>
+    </div>
+  </div>
 </div>
+
+<!-- SCORERS -->
+<div id="sec-scorers" class="section">
+  <div class="container">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><div class="dot"></div>Top Goal Scorers</div></div>
+      <div id="scorers-list" class="scorers-list"></div>
+    </div>
+  </div>
+</div>
+
+<button class="fab" onclick="openModal()">+</button>
+
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <h2>⚽ Add Match Result</h2>
+    <div class="form-row">
+      <div class="form-group"><label>Home Team</label><select id="sel-home"></select></div>
+      <div class="form-group"><label>Away Team</label><select id="sel-away"></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Score</label>
+        <div class="score-inputs">
+          <input type="number" id="score-home" min="0" max="99" value="0" style="text-align:center;font-size:20px;font-family:'Bebas Neue',sans-serif"/>
+          <div class="dash">–</div>
+          <input type="number" id="score-away" min="0" max="99" value="0" style="text-align:center;font-size:20px;font-family:'Bebas Neue',sans-serif"/>
+        </div>
+      </div>
+      <div class="form-group"><label>Match Week</label><input type="number" id="match-week" min="1" max="10" value="1"/></div>
+    </div>
+    <div style="margin-bottom:8px">
+      <label>Goal Scorers</label>
+      <div id="scorer-entries"></div>
+      <button class="add-scorer-btn" onclick="addScorerEntry()">+ Add Scorer</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitResult()">Save Result</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-let logos = {
-"Wishness FC":"https://via.placeholder.com/30/ff2882/ffffff?text=W",
-"Kosabo":"https://via.placeholder.com/30/00ffcc/000000?text=K",
-"Team a":"https://via.placeholder.com/30/ffaa00/000000?text=A",
-"TEAM B":"https://via.placeholder.com/30/0099ff/ffffff?text=B",
-"ZiezGeek":"https://via.placeholder.com/30/ff0000/ffffff?text=Z"
-};
+const TEAMS=[
+  {id:0,name:'ZiezGeek FC', short:'ZGK',bid:'badge-0'},
+  {id:1,name:'Kosabo FC',   short:'KSB',bid:'badge-1'},
+  {id:2,name:'Matlala FC',  short:'MTL',bid:'badge-2'},
+  {id:3,name:'Wishness FC', short:'WSH',bid:'badge-3'},
+  {id:4,name:'Bruno FC',    short:'BRN',bid:'badge-4'},
+  {id:5,name:'Tito FC',     short:'TTO',bid:'badge-5'},
+];
 
-let teams = JSON.parse(localStorage.getItem('teams')) || {
-"Wishness FC":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
-"Kosabo":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
-"Team a":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
-"TEAM B":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0},
-"ZiezGeek":{P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0}
-};
-
-function save(){localStorage.setItem('teams',JSON.stringify(teams));}
-
-function updateTable(){
-let table=document.getElementById('table');
-table.innerHTML=`<tr><th>Pos</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Pts</th></tr>`;
-
-let sorted=Object.entries(teams).sort((a,b)=>b[1].Pts-a[1].Pts);
-
-sorted.forEach((t,i)=>{
-let team=t[0];let d=t[1];
-let cls=i===0?'top':'';
-let logo=logos[team] || 'https://via.placeholder.com/30';
-
-table.innerHTML+=`<tr class="${cls}">
-<td>${i+1}</td>
-<td class="team"><img src="${logo}"> ${team}</td>
-<td>${d.P}</td><td>${d.W}</td><td>${d.D}</td><td>${d.L}</td>
-<td>${d.GF}</td><td>${d.GA}</td><td>${d.Pts}</td>
-</tr>`;
-});
+function svgBadge(id,w=32){
+  const h=Math.round(w*1.13);
+  return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${TEAMS[id].bid}"/></svg>`;
 }
 
-function addTeam(name){if(!teams[name]){teams[name]={P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0};}}
-
-function addMatch(){
-let t1=document.getElementById('team1').value;
-let t2=document.getElementById('team2').value;
-let g1=parseInt(document.getElementById('g1').value);
-let g2=parseInt(document.getElementById('g2').value);
-
-if(!t1||!t2)return;
-
-addTeam(t1);addTeam(t2);
-
-teams[t1].P++;teams[t2].P++;
-teams[t1].GF+=g1;teams[t1].GA+=g2;
-teams[t2].GF+=g2;teams[t2].GA+=g1;
-
-if(g1>g2){teams[t1].W++;teams[t1].Pts+=3;teams[t2].L++;}
-else if(g2>g1){teams[t2].W++;teams[t2].Pts+=3;teams[t1].L++;}
-else{teams[t1].D++;teams[t2].D++;teams[t1].Pts++;teams[t2].Pts++;}
-
-save();updateTable();
+function genFixtures(){
+  const f=[];let id=0;
+  for(let i=0;i<TEAMS.length;i++)
+    for(let j=i+1;j<TEAMS.length;j++){
+      f.push({id:id,home:i,away:j,week:Math.floor(id/3)+1,homeGoals:null,awayGoals:null});
+      id++;
+    }
+  return f;
 }
 
-updateTable();
+let fixtures=[],goalScorers=[];
+function loadData(){
+  try{fixtures=JSON.parse(localStorage.getItem('zgk3_fix'))||genFixtures();}catch{fixtures=genFixtures();}
+  try{goalScorers=JSON.parse(localStorage.getItem('zgk3_sc'))||[];}catch{goalScorers=[];}
+}
+function saveData(){
+  localStorage.setItem('zgk3_fix',JSON.stringify(fixtures));
+  localStorage.setItem('zgk3_sc',JSON.stringify(goalScorers));
+}
+
+function getStats(){
+  const s=TEAMS.map(t=>({...t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]}));
+  fixtures.filter(f=>f.homeGoals!==null).forEach(f=>{
+    const h=s[f.home],a=s[f.away];
+    h.P++;a.P++;h.GF+=f.homeGoals;h.GA+=f.awayGoals;a.GF+=f.awayGoals;a.GA+=f.homeGoals;
+    if(f.homeGoals>f.awayGoals){h.W++;h.Pts+=3;a.L++;h.form.push('W');a.form.push('L');}
+    else if(f.homeGoals===f.awayGoals){h.D++;a.D++;h.Pts++;a.Pts++;h.form.push('D');a.form.push('D');}
+    else{a.W++;a.Pts+=3;h.L++;a.form.push('W');h.form.push('L');}
+  });
+  s.forEach(t=>t.GD=t.GF-t.GA);
+  return s.sort((a,b)=>b.Pts-a.Pts||b.GD-a.GD||b.GF-a.GF);
+}
+
+function renderStandings(){
+  const stats=getStats();
+  const pc=['pos-1','pos-2','pos-3'];
+  document.getElementById('standings-body').innerHTML=stats.map((s,i)=>{
+    const pos=i+1,cls=pc[i]||'pos-other';
+    const form=s.form.slice(-5).map(r=>`<div class="form-pill form-${r}">${r}</div>`).join('');
+    return `<tr class="${pos===1?'top1':''}">
+      <td><div class="pos-badge ${cls}">${pos}</div></td>
+      <td><div class="team-name-cell">${svgBadge(s.id,30)}<span>${s.name}</span></div></td>
+      <td>${s.P}</td><td>${s.W}</td><td>${s.D}</td><td>${s.L}</td>
+      <td>${s.GF}</td><td>${s.GA}</td><td>${s.GD>0?'+':''}${s.GD}</td>
+      <td><span class="pts">${s.Pts}</span></td>
+      <td><div class="form-pills">${form||'<span style="color:var(--muted);font-size:12px">–</span>'}</div></td>
+    </tr>`;
+  }).join('');
+  const played=fixtures.filter(f=>f.homeGoals!==null);
+  const goals=played.reduce((t,f)=>t+f.homeGoals+f.awayGoals,0);
+  document.getElementById('stat-played').textContent=played.length;
+  document.getElementById('stat-goals').textContent=goals;
+  document.getElementById('stat-remaining').textContent=fixtures.length-played.length;
+}
+
+function renderFixtures(){
+  const byW={};
+  fixtures.forEach(f=>{(byW[f.week]=byW[f.week]||[]).push(f);});
+  let html='';
+  Object.keys(byW).sort((a,b)=>a-b).forEach(wk=>{
+    html+=`<div class="matchday-label">Match Week ${wk}</div>`;
+    byW[wk].forEach(f=>{
+      const p=f.homeGoals!==null;
+      const hW=p&&f.homeGoals>f.awayGoals,aW=p&&f.awayGoals>f.homeGoals;
+      const score=p
+        ?`<div class="fixture-score"><span class="${hW?'winner':''}">${f.homeGoals}</span><span class="sep">–</span><span class="${aW?'winner':''}">${f.awayGoals}</span></div>`
+        :`<div class="fixture-score"><span class="vs">VS</span></div>`;
+      html+=`<div class="fixture-row ${p?'played':'upcoming'}">
+        <div class="fixture-team home">${svgBadge(f.home,34)}<div class="fixture-team-name">${TEAMS[f.home].name}</div></div>
+        ${score}
+        <div class="fixture-team away"><div class="fixture-team-name">${TEAMS[f.away].name}</div>${svgBadge(f.away,34)}</div>
+      </div>`;
+    });
+  });
+  document.getElementById('fixtures-list').innerHTML=html;
+}
+
+function renderScorers(){
+  const el=document.getElementById('scorers-list');
+  if(!goalScorers.length){el.innerHTML=`<div style="padding:32px;text-align:center;color:var(--muted)">No goals yet. Add a result to track scorers!</div>`;return;}
+  const sorted=[...goalScorers].sort((a,b)=>b.goals-a.goals);
+  const rc=['r1','r2','r3'];
+  el.innerHTML=sorted.map((s,i)=>`
+    <div class="scorer-row">
+      <div class="scorer-rank ${rc[i]||''}">${i+1}</div>
+      ${svgBadge(s.teamId,40)}
+      <div class="scorer-info"><div class="scorer-name">${s.name}</div><div class="scorer-club">${TEAMS[s.teamId].name}</div></div>
+      <div class="scorer-goals"><div><div class="num">${s.goals}</div><div class="lbl">Goals</div></div><span style="font-size:22px;margin-left:4px">⚽</span></div>
+    </div>`).join('');
+}
+
+function populateSelects(){
+  const opts=TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
+  document.getElementById('sel-home').innerHTML=opts;
+  document.getElementById('sel-away').innerHTML=opts;
+  document.getElementById('sel-away').value=1;
+}
+
+let sc=0;
+function addScorerEntry(name='',tid=0,goals=1){
+  sc++;const id='sc'+sc;
+  const d=document.createElement('div');
+  d.className='scorer-entry';d.id=id;
+  d.innerHTML=`<button class="remove-scorer" onclick="document.getElementById('${id}').remove()">×</button>
+    <div class="form-row" style="margin-bottom:0">
+      <div class="form-group"><label>Player Name</label><input type="text" class="sc-name" placeholder="e.g. Ronaldo" value="${name}"/></div>
+      <div class="form-group"><label>Team</label><select class="sc-team">${TEAMS.map(t=>`<option value="${t.id}"${t.id==tid?' selected':''}>${t.name}</option>`).join('')}</select></div>
+      <div class="form-group" style="max-width:80px"><label>Goals</label><input type="number" class="sc-goals" min="1" max="20" value="${goals}"/></div>
+    </div>`;
+  document.getElementById('scorer-entries').appendChild(d);
+}
+
+function openModal(){
+  populateSelects();
+  document.getElementById('scorer-entries').innerHTML='';
+  sc=0;
+  ['score-home','score-away'].forEach(id=>document.getElementById(id).value=0);
+  document.getElementById('match-week').value=1;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal'))closeModal();}
+
+function submitResult(){
+  const homeId=+document.getElementById('sel-home').value;
+  const awayId=+document.getElementById('sel-away').value;
+  if(homeId===awayId){toast('Teams must be different!');return;}
+  const hg=+document.getElementById('score-home').value;
+  const ag=+document.getElementById('score-away').value;
+  const wk=+document.getElementById('match-week').value;
+  let fix=fixtures.find(f=>(f.home===homeId&&f.away===awayId)||(f.home===awayId&&f.away===homeId));
+  if(fix){
+    if(fix.home===homeId){fix.homeGoals=hg;fix.awayGoals=ag;}
+    else{fix.homeGoals=ag;fix.awayGoals=hg;}
+    fix.week=wk;
+  }else{
+    fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag});
+  }
+  document.querySelectorAll('.scorer-entry').forEach(entry=>{
+    const name=entry.querySelector('.sc-name').value.trim();
+    if(!name)return;
+    const tid=+entry.querySelector('.sc-team').value;
+    const gls=+entry.querySelector('.sc-goals').value;
+    const ex=goalScorers.find(s=>s.name.toLowerCase()===name.toLowerCase()&&s.teamId===tid);
+    if(ex)ex.goals+=gls;else goalScorers.push({name,teamId:tid,goals:gls});
+  });
+  saveData();renderAll();closeModal();toast('Result saved! 🎉');
+}
+
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),3000);
+}
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function renderAll(){renderStandings();renderFixtures();renderScorers();}
+loadData();renderAll();
 </script>
-
 </body>
 </html>
