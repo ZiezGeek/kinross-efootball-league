@@ -4,34 +4,24 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Kinross Premier League – eFootball Mobile</title>
+<!-- Firebase SDKs – loaded synchronously so they are ready before app code -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
 
-<!-- SVG badge symbols (hidden) -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
 <defs>
-
-  <!-- 0 · ZiezGeek FC – blue shield, lightning bolt -->
+  <!-- 0 · ZiezGeek FC -->
   <symbol id="badge-0" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b0g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1e88e5"/>
-        <stop offset="100%" stop-color="#0d2a6b"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b0g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e88e5"/><stop offset="100%" stop-color="#0d2a6b"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b0g)" stroke="#60b4ff" stroke-width="2.5"/>
     <path d="M40 11 L69 22 L69 52 Q69 71 40 80 Q11 71 11 52 L11 22 Z" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1.2"/>
     <path d="M46 21 L32 45 L41 45 L34 69 L52 40 L43 40 Z" fill="#ffd600" stroke="#ffb300" stroke-width="0.8"/>
     <text x="40" y="84" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#9ecfff" letter-spacing="2">ZGK FC</text>
   </symbol>
-
-  <!-- 1 · Kosabo FC – red, lion face -->
+  <!-- 1 · Kosabo FC -->
   <symbol id="badge-1" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b1g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#c62828"/>
-        <stop offset="100%" stop-color="#1a0000"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b1g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c62828"/><stop offset="100%" stop-color="#1a0000"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b1g)" stroke="#ef5350" stroke-width="2.5"/>
     <circle cx="40" cy="37" r="15" fill="#b71c1c" stroke="#ff5252" stroke-width="1.2"/>
     <circle cx="40" cy="37" r="10" fill="#d32f2f"/>
@@ -49,15 +39,9 @@
     <rect x="22" y="61" width="36" height="1.5" fill="#c62828" rx="1"/>
     <text x="40" y="72" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffcdd2" letter-spacing="1">F · C</text>
   </symbol>
-
-  <!-- 2 · Matlala FC – orange, tribal sun -->
+  <!-- 2 · Matlala FC -->
   <symbol id="badge-2" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b2g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ff8f00"/>
-        <stop offset="100%" stop-color="#bf360c"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b2g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ff8f00"/><stop offset="100%" stop-color="#bf360c"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b2g)" stroke="#ffcc02" stroke-width="2.5"/>
     <rect x="3" y="46" width="74" height="5" fill="#ffcc02" opacity="0.9"/>
     <g transform="translate(40,30)">
@@ -74,18 +58,11 @@
     <text x="40" y="63" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="10" fill="#fff3e0" letter-spacing="1.5">MATLALA</text>
     <text x="40" y="74" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7.5" font-weight="700" fill="#ffcc02" letter-spacing="2">F · C</text>
   </symbol>
-
-  <!-- 3 · Wishness FC – purple, star + wand -->
+  <!-- 3 · Wishness FC -->
   <symbol id="badge-3" viewBox="0 0 80 90">
     <defs>
-      <linearGradient id="b3g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#7b1fa2"/>
-        <stop offset="100%" stop-color="#1a0033"/>
-      </linearGradient>
-      <radialGradient id="b3s" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#ffd700"/>
-        <stop offset="100%" stop-color="#ff8f00"/>
-      </radialGradient>
+      <linearGradient id="b3g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7b1fa2"/><stop offset="100%" stop-color="#1a0033"/></linearGradient>
+      <radialGradient id="b3s" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd700"/><stop offset="100%" stop-color="#ff8f00"/></radialGradient>
     </defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b3g)" stroke="#ce93d8" stroke-width="2.5"/>
     <circle cx="14" cy="24" r="2" fill="#ffd700" opacity="0.55"/>
@@ -101,15 +78,9 @@
     <text x="40" y="76" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#e1bee7" letter-spacing="1.5">WISHNESS</text>
     <text x="40" y="84" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="6.5" font-weight="700" fill="#ffd700" letter-spacing="2">F · C</text>
   </symbol>
-
-  <!-- 4 · Bruno FC – teal, panther -->
+  <!-- 4 · Bruno FC -->
   <symbol id="badge-4" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b4g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#00838f"/>
-        <stop offset="100%" stop-color="#002f35"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b4g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00838f"/><stop offset="100%" stop-color="#002f35"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b4g)" stroke="#4dd0e1" stroke-width="2.5"/>
     <path d="M4 45 L76 45 L76 56 Q60 59 40 59 Q20 59 4 56 Z" fill="rgba(255,255,255,0.06)"/>
     <g transform="translate(40,35)">
@@ -128,15 +99,9 @@
     <text x="40" y="68" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11" fill="#e0f7fa" letter-spacing="2">BRUNO</text>
     <text x="40" y="77" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#4dd0e1" letter-spacing="2">F · C</text>
   </symbol>
-
-  <!-- 5 · Tito FC – green & gold, eagle -->
+  <!-- 5 · Tito FC -->
   <symbol id="badge-5" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b5g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#2e7d32"/>
-        <stop offset="100%" stop-color="#0d1f0e"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b5g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2e7d32"/><stop offset="100%" stop-color="#0d1f0e"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b5g)" stroke="#a5d6a7" stroke-width="2.5"/>
     <path d="M40 3 L77 17 L77 27 L3 27 L3 17 Z" fill="#ffd600" opacity="0.88"/>
     <text x="40" y="20" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#1b5e20" letter-spacing="3">TTO</text>
@@ -150,15 +115,9 @@
     <text x="40" y="67" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11.5" fill="#c8e6c9" letter-spacing="2">TITO</text>
     <text x="40" y="76" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffd600" letter-spacing="2">F · C</text>
   </symbol>
-
-  <!-- 6 · Magolide FC – black & gold crown -->
+  <!-- 6 · Magolide FC -->
   <symbol id="badge-6" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b6g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#000000"/>
-        <stop offset="100%" stop-color="#1a1a1a"/>
-      </linearGradient>
-    </defs>
+    <defs><linearGradient id="b6g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#000000"/><stop offset="100%" stop-color="#1a1a1a"/></linearGradient></defs>
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b6g)" stroke="#ffd700" stroke-width="2.5"/>
     <path d="M20 40 L30 25 L40 40 L50 25 L60 40 L60 48 L20 48 Z" fill="#ffd700" stroke="#ffb300" stroke-width="1.2"/>
     <circle cx="30" cy="38" r="2" fill="#ff4d6d"/>
@@ -167,21 +126,14 @@
     <text x="40" y="70" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="10" fill="#ffd700" letter-spacing="1.5">MAGOLIDE</text>
     <text x="40" y="80" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffffff" letter-spacing="2">F · C</text>
   </symbol>
-
 </defs>
 </svg>
 
 <style>
-  :root {
-    --bg:#0a0c10; --surface:#12151c; --surface2:#1a1f2b;
-    --border:#252b38; --accent:#00e5a0; --accent2:#ff4d6d;
-    --gold:#ffd700; --silver:#c0c0c0; --bronze:#cd7f32;
-    --text:#e8eaf0; --muted:#6b7280; --header-h:64px;
-  }
+  :root{--bg:#0a0c10;--surface:#12151c;--surface2:#1a1f2b;--border:#252b38;--accent:#00e5a0;--accent2:#ff4d6d;--gold:#ffd700;--silver:#c0c0c0;--bronze:#cd7f32;--text:#e8eaf0;--muted:#6b7280;--header-h:64px;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-
   header{position:sticky;top:0;z-index:100;height:var(--header-h);background:rgba(10,12,16,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--accent);display:flex;align-items:center;gap:10px;}
   .logo-badge{width:36px;height:36px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--bg);}
@@ -189,7 +141,6 @@
   nav{display:flex;gap:4px;}
   nav button{background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;padding:6px 14px;border-radius:6px;transition:all .2s;}
   nav button:hover,nav button.active{color:var(--accent);background:rgba(0,229,160,0.08);}
-
   .hero{position:relative;overflow:hidden;padding:56px 24px 44px;text-align:center;background:linear-gradient(160deg,#0d1117 0%,#0a1628 50%,#0d1117 100%);border-bottom:1px solid var(--border);}
   .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,160,0.12) 0%,transparent 70%);pointer-events:none;}
   .league-label{display:inline-flex;align-items:center;gap:6px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);border-radius:20px;padding:4px 14px;margin-bottom:18px;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
@@ -205,14 +156,12 @@
   .hero-stat{text-align:center;}
   .hero-stat .val{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--accent);line-height:1;}
   .hero-stat .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
-
   .section{display:none;}.section.active{display:block;}
   .container{max-width:1100px;margin:0 auto;padding:32px 16px;}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px;}
   .card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
   .card-title{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
   .card-title .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
-
   .standings-table{width:100%;border-collapse:collapse;}
   .standings-table th{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 12px;text-align:center;border-bottom:1px solid var(--border);font-weight:600;}
   .standings-table th:first-child,.standings-table th:nth-child(2){text-align:left;}
@@ -234,7 +183,6 @@
   .form-D{background:rgba(255,200,50,0.2);color:#ffc832;}
   .form-L{background:rgba(255,77,109,0.2);color:var(--accent2);}
   .team-name-cell{display:flex;align-items:center;gap:10px;}
-
   .matchday-label{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:12px 20px 8px;}
   .fixture-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.04);gap:10px;transition:background .15s;}
   .fixture-row:last-child{border-bottom:none;}
@@ -247,7 +195,6 @@
   .fixture-score .sep{color:var(--muted);font-size:20px;}
   .fixture-score .vs{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);border-radius:4px;}
   .fixture-score .winner{color:var(--accent);}
-
   .scorers-list{padding:0;}
   .scorer-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .15s;}
   .scorer-row:last-child{border-bottom:none;}
@@ -260,21 +207,15 @@
   .scorer-goals{display:flex;align-items:center;gap:6px;}
   .scorer-goals .num{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--accent);line-height:1;}
   .scorer-goals .lbl{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
-
-  /* ── FAB ── */
   .fab{position:fixed;bottom:28px;right:28px;z-index:200;width:56px;height:56px;border-radius:50%;background:var(--accent);border:none;cursor:pointer;font-size:22px;color:var(--bg);font-weight:700;box-shadow:0 4px 24px rgba(0,229,160,0.4);transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;}
   .fab:hover{transform:scale(1.1);box-shadow:0 6px 32px rgba(0,229,160,0.55);}
   .fab.locked{background:#1a1f2b;border:2px solid var(--border);color:var(--muted);box-shadow:none;}
   .fab.locked:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 4px 20px rgba(0,229,160,0.2);}
-
-  /* ── MODALS ── */
   .modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0.85);backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:16px;}
   .modal-overlay.open{display:flex;}
   .modal{background:var(--surface2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:500px;padding:28px;animation:slideUp .25s ease;max-height:90vh;overflow-y:auto;}
   @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
   .modal h2{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;color:var(--accent);}
-
-  /* ── PIN MODAL ── */
   .pin-modal{max-width:340px;text-align:center;}
   .pin-modal h2{margin-bottom:8px;}
   .pin-subtitle{color:var(--muted);font-size:14px;margin-bottom:24px;}
@@ -291,12 +232,8 @@
   .pin-error-msg{color:var(--accent2);font-size:13px;font-weight:600;min-height:20px;margin-bottom:8px;}
   .pin-cancel{background:none;border:none;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:8px 16px;border-radius:6px;}
   .pin-cancel:hover{color:var(--text);}
-
-  /* admin badge in result modal header */
   .admin-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(0,229,160,0.12);border:1px solid rgba(0,229,160,0.3);border-radius:12px;padding:3px 10px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent);cursor:pointer;}
   .admin-badge:hover{background:rgba(255,77,109,0.1);border-color:var(--accent2);color:var(--accent2);}
-
-  /* result form */
   .form-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;}
   .form-group{flex:1;min-width:120px;}
   label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
@@ -315,10 +252,8 @@
   .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);flex-wrap:wrap;}
   .legend-item{display:flex;align-items:center;gap:5px;}
   .legend-color{width:10px;height:10px;border-radius:2px;}
-
   .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:12px 24px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:500;}
   .toast.show{opacity:1;}
-
   @media(max-width:640px){
     .standings-table th:nth-child(5),.standings-table th:nth-child(6),
     .standings-table td:nth-child(5),.standings-table td:nth-child(6){display:none;}
@@ -356,7 +291,7 @@
   <div class="hero-stats">
     <div class="hero-stat"><div class="val" id="stat-played">0</div><div class="lbl">Matches Played</div></div>
     <div class="hero-stat"><div class="val" id="stat-goals">0</div><div class="lbl">Total Goals</div></div>
-    <div class="hero-stat"><div class="val" id="stat-remaining">21</div><div class="lbl">Remaining</div></div>
+    <div class="hero-stat"><div class="val" id="stat-remaining">0</div><div class="lbl">Remaining</div></div>
   </div>
 </div>
 
@@ -401,10 +336,9 @@
   </div>
 </div>
 
-<!-- FAB: 🔒 when logged out, + when logged in -->
 <button class="fab locked" id="fab-btn" onclick="fabClick()" title="Admin Login">🔒</button>
 
-<!-- ── PIN MODAL ── -->
+<!-- PIN MODAL -->
 <div class="modal-overlay" id="pin-modal-overlay">
   <div class="modal pin-modal">
     <h2>🔐 Admin Access</h2>
@@ -436,7 +370,7 @@
   </div>
 </div>
 
-<!-- ── RESULT MODAL ── -->
+<!-- RESULT MODAL -->
 <div class="modal-overlay" id="result-modal" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
@@ -471,243 +405,282 @@
 </div>
 
 <div class="toast" id="toast"></div>
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-  // FIREBASE CONFIG
-  const firebaseConfig = {
-    apiKey: "AIzaSyBpTzJMNlnIkXYSc7HzJgB14Kvv2hB2edc",
-    authDomain: "efootball-league-70d44.firebaseapp.com",
-    projectId: "efootball-league-70d44",
-    storageBucket: "efootball-league-70d44.firebasestorage.app",
-    messagingSenderId: "1027946844235",
-    appId: "1:1027946844235:web:909401b5756937bc31fdce",
-    measurementId: "G-BQRB65CFE0"
-  };
+// ── FIREBASE ──
+const firebaseConfig = {
+  apiKey: "AIzaSyBpTzJMNlnIkXYSc7HzJgB14Kvv2hB2edc",
+  authDomain: "efootball-league-70d44.firebaseapp.com",
+  projectId: "efootball-league-70d44",
+  storageBucket: "efootball-league-70d44.firebasestorage.app",
+  messagingSenderId: "1027946844235",
+  appId: "1:1027946844235:web:909401b5756937bc31fdce",
+  measurementId: "G-BQRB65CFE0",
+  databaseURL: "https://efootball-league-70d44-default-rtdb.firebaseio.com"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // ✅ INITIALIZE FIREBASE
-  firebase.initializeApp(firebaseConfig);
+// ── NOTE: This page requires an internet connection to load Firebase ──
+// Open via GitHub Pages URL, not as a local file.
 
-  // ✅ CREATE DATABASE REFERENCE
-  const db = firebase.database();
-  
 // ── TEAMS ──
-const TEAMS=[
-  {id:0,name:'ZiezGeek FC', short:'ZGK',bid:'badge-0'},
-  {id:1,name:'Kosabo FC',   short:'KSB',bid:'badge-1'},
-  {id:2,name:'Matlala FC',  short:'MTL',bid:'badge-2'},
-  {id:3,name:'Wishness FC', short:'WSH',bid:'badge-3'},
-  {id:4,name:'Bruno FC',    short:'BRN',bid:'badge-4'},
-  {id:5,name:'Tito FC',     short:'TTO',bid:'badge-5'},
-  {id:6,name:'Magolide FC', short:'MGL',bid:'badge-6'},
+const TEAMS = [
+  {id:0, name:'ZiezGeek FC',  short:'ZGK', bid:'badge-0'},
+  {id:1, name:'Kosabo FC',    short:'KSB', bid:'badge-1'},
+  {id:2, name:'Matlala FC',   short:'MTL', bid:'badge-2'},
+  {id:3, name:'Wishness FC',  short:'WSH', bid:'badge-3'},
+  {id:4, name:'Bruno FC',     short:'BRN', bid:'badge-4'},
+  {id:5, name:'Tito FC',      short:'TTO', bid:'badge-5'},
+  {id:6, name:'Magolide FC',  short:'MGL', bid:'badge-6'},
 ];
 
-// ── PIN ──
-const CORRECT_PIN='020707';
-let isAdmin=false;
+const TOTAL_FIXTURES = (TEAMS.length * (TEAMS.length - 1)) / 2; // 21
 
-function svgBadge(id,w=32){
-  const h=Math.round(w*1.13);
-  return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${TEAMS[id].bid}"/></svg>`;
+// ── PIN ──
+const CORRECT_PIN = '020707';
+let isAdmin = false;
+
+// ── BADGE HELPER ──
+function svgBadge(id, w=32) {
+  // FIX: always coerce id to a number so TEAMS[id] is never undefined
+  const tid = Number(id);
+  const team = TEAMS[tid];
+  if (!team) return '';
+  const h = Math.round(w * 1.13);
+  return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${team.bid}"/></svg>`;
 }
 
-// ── FIXTURES ──
-function genFixtures(){
-  const f=[];let id=0;
-  for(let i=0;i<TEAMS.length;i++)
-    for(let j=i+1;j<TEAMS.length;j++){
-      f.push({id:id,home:i,away:j,week:Math.floor(id/3)+1,homeGoals:null,awayGoals:null});
+// ── GENERATE FIXTURES ──
+function genFixtures() {
+  const f = []; let id = 0;
+  for (let i = 0; i < TEAMS.length; i++)
+    for (let j = i+1; j < TEAMS.length; j++) {
+      f.push({id:id, home:i, away:j, week:Math.floor(id/3)+1, homeGoals:null, awayGoals:null});
       id++;
     }
   return f;
 }
-let fixtures=[],goalScorers=[];
-function loadData(){
+
+let fixtures = [], goalScorers = [];
+
+// ── LOAD FROM FIREBASE ──
+// FIX: Firebase can return arrays as objects with numeric string keys.
+// normaliseFixtures converts every fixture so home/away/homeGoals/awayGoals
+// are proper numbers (or null), preventing "undefined" team lookups.
+function normaliseFixtures(raw) {
+  // Firebase may give an object {0:{...}, 1:{...}} or a sparse array
+  const arr = Array.isArray(raw) ? raw : Object.values(raw || {});
+  return arr.filter(Boolean).map(f => ({
+    id:         Number(f.id ?? 0),
+    home:       Number(f.home),
+    away:       Number(f.away),
+    week:       Number(f.week ?? 1),
+    homeGoals:  f.homeGoals != null ? Number(f.homeGoals) : null,
+    awayGoals:  f.awayGoals != null ? Number(f.awayGoals) : null,
+  }));
+}
+
+function normaliseScorers(raw) {
+  if (!raw) return [];
+  const arr = Array.isArray(raw) ? raw : Object.values(raw);
+  return arr.filter(Boolean).map(s => ({
+    name:   String(s.name || ''),
+    teamId: Number(s.teamId),
+    goals:  Number(s.goals || 0),
+  }));
+}
+
+function loadData() {
   db.ref("leagueData").on("value", snapshot => {
     const data = snapshot.val();
-
-    if(data){
-      fixtures = data.fixtures || genFixtures();
-      goalScorers = data.scorers || [];
+    if (data) {
+      fixtures    = data.fixtures ? normaliseFixtures(data.fixtures) : genFixtures();
+      goalScorers = data.scorers  ? normaliseScorers(data.scorers)   : [];
     } else {
-      fixtures = genFixtures();
+      fixtures    = genFixtures();
       goalScorers = [];
     }
-
     renderAll();
   });
 }
-function saveData(){
+
+function saveData() {
   db.ref("leagueData").set({
-    fixtures: fixtures,
-    scorers: goalScorers
+    fixtures:    fixtures,
+    scorers:     goalScorers,
   });
-}
-// ── STATS ──
-function getStats(){
-  const s=TEAMS.map(t=>({...t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]}));
-  fixtures.filter(f=>f.homeGoals != null && f.awayGoals != null).forEach(f=>{
-    const h=s[f.home],a=s[f.away];
-    h.P++;a.P++;h.GF+=f.homeGoals;h.GA+=f.awayGoals;a.GF+=f.awayGoals;a.GA+=f.homeGoals;
-    if(f.homeGoals>f.awayGoals){h.W++;h.Pts+=3;a.L++;h.form.push('W');a.form.push('L');}
-    else if(f.homeGoals===f.awayGoals){h.D++;a.D++;h.Pts++;a.Pts++;h.form.push('D');a.form.push('D');}
-    else{a.W++;a.Pts+=3;h.L++;a.form.push('W');h.form.push('L');}
-  });
-  s.forEach(t=>t.GD=t.GF-t.GA);
-  return s.sort((a,b)=>b.Pts-a.Pts||b.GD-a.GD||b.GF-a.GF);
 }
 
-// ── RENDER ──
-function renderStandings(){
-  const stats=getStats();
-  const pc=['pos-1','pos-2','pos-3'];
-  document.getElementById('standings-body').innerHTML=stats.map((s,i)=>{
-    const pos=i+1,cls=pc[i]||'pos-other';
-    const form=s.form.slice(-5).map(r=>`<div class="form-pill form-${r}">${r}</div>`).join('');
+// ── STATS ──
+function getStats() {
+  const s = TEAMS.map(t => ({...t, P:0, W:0, D:0, L:0, GF:0, GA:0, GD:0, Pts:0, form:[]}));
+  fixtures
+    .filter(f => f.homeGoals !== null && f.awayGoals !== null)
+    .forEach(f => {
+      const h = s[Number(f.home)], a = s[Number(f.away)];
+      if (!h || !a) return;
+      h.P++; a.P++;
+      h.GF += f.homeGoals; h.GA += f.awayGoals;
+      a.GF += f.awayGoals; a.GA += f.homeGoals;
+      if (f.homeGoals > f.awayGoals)       { h.W++; h.Pts+=3; a.L++; h.form.push('W'); a.form.push('L'); }
+      else if (f.homeGoals === f.awayGoals) { h.D++; a.D++; h.Pts++; a.Pts++; h.form.push('D'); a.form.push('D'); }
+      else                                  { a.W++; a.Pts+=3; h.L++; a.form.push('W'); h.form.push('L'); }
+    });
+  s.forEach(t => t.GD = t.GF - t.GA);
+  return s.sort((a,b) => b.Pts-a.Pts || b.GD-a.GD || b.GF-a.GF);
+}
+
+// ── RENDER STANDINGS ──
+function renderStandings() {
+  const stats = getStats();
+  const pc = ['pos-1','pos-2','pos-3'];
+  document.getElementById('standings-body').innerHTML = stats.map((s,i) => {
+    const pos = i+1, cls = pc[i] || 'pos-other';
+    const form = s.form.slice(-5).map(r => `<div class="form-pill form-${r}">${r}</div>`).join('');
     return `<tr class="${pos===1?'top1':''}">
       <td><div class="pos-badge ${cls}">${pos}</div></td>
       <td><div class="team-name-cell">${svgBadge(s.id,30)}<span>${s.name}</span></div></td>
       <td>${s.P}</td><td>${s.W}</td><td>${s.D}</td><td>${s.L}</td>
-      <td>${s.GF || 0}</td>
-<td>${s.GA || 0}</td>
-<td>${(s.GD || 0) > 0 ? '+' : ''}${s.GD || 0}</td>
+      <td>${s.GF}</td><td>${s.GA}</td><td>${s.GD>0?'+':''}${s.GD}</td>
       <td><span class="pts">${s.Pts}</span></td>
       <td><div class="form-pills">${form||'<span style="color:var(--muted);font-size:12px">–</span>'}</div></td>
     </tr>`;
   }).join('');
-  const played=fixtures.filter(f=>f.homeGoals!==null);
-  const goals = played.reduce((t,f)=>t + (f.homeGoals || 0) + (f.awayGoals || 0), 0);
-  document.getElementById('stat-played').textContent=played.length;
-  document.getElementById('stat-goals').textContent=goals;
-  document.getElementById('stat-remaining').textContent=fixtures.length-played.length;
+
+  // FIX: "Remaining" is now fully dynamic — counts unplayed fixtures,
+  // never shows the hardcoded 21 when games have already been played.
+  const played    = fixtures.filter(f => f.homeGoals !== null && f.awayGoals !== null);
+  const totalGoals = played.reduce((t,f) => t + f.homeGoals + f.awayGoals, 0);
+  document.getElementById('stat-played').textContent    = played.length;
+  document.getElementById('stat-goals').textContent     = totalGoals;
+  document.getElementById('stat-remaining').textContent = fixtures.length - played.length;
 }
 
-function renderFixtures(){
-  const byW={};
-  fixtures.forEach(f=>{(byW[f.week]=byW[f.week]||[]).push(f);});
-  let html='';
-  Object.keys(byW).sort((a,b)=>a-b).forEach(wk=>{
-    html+=`<div class="matchday-label">Match Week ${wk}</div>`;
-    byW[wk].forEach(f=>{
-      const p=f.homeGoals!==null;
-      const hW=p&&f.homeGoals>f.awayGoals,aW=p&&f.awayGoals>f.homeGoals;
-      const score=p
-        ?`<div class="fixture-score"><span class="${hW?'winner':''}">${f.homeGoals}</span><span class="sep">–</span><span class="${aW?'winner':''}">${f.awayGoals}</span></div>`
-        :`<div class="fixture-score"><span class="vs">VS</span></div>`;
-      html+=`<div class="fixture-row ${p?'played':'upcoming'}">
-        <div class="fixture-team home">${svgBadge(f.home,34)}<div class="fixture-team-name">${TEAMS[f.home].name}</div></div>
+// ── RENDER FIXTURES ──
+function renderFixtures() {
+  const byW = {};
+  fixtures.forEach(f => {
+    const wk = f.week || 1;
+    (byW[wk] = byW[wk] || []).push(f);
+  });
+
+  let html = '';
+  Object.keys(byW).sort((a,b) => Number(a)-Number(b)).forEach(wk => {
+    html += `<div class="matchday-label">Match Week ${wk}</div>`;
+    byW[wk].forEach(f => {
+      // FIX: coerce to number before indexing TEAMS
+      const homeId = Number(f.home);
+      const awayId = Number(f.away);
+      const homeTeam = TEAMS[homeId];
+      const awayTeam = TEAMS[awayId];
+      if (!homeTeam || !awayTeam) return; // skip if somehow bad data
+
+      const p  = f.homeGoals !== null && f.awayGoals !== null;
+      const hW = p && f.homeGoals > f.awayGoals;
+      const aW = p && f.awayGoals > f.homeGoals;
+      const score = p
+        ? `<div class="fixture-score"><span class="${hW?'winner':''}">${f.homeGoals}</span><span class="sep">–</span><span class="${aW?'winner':''}">${f.awayGoals}</span></div>`
+        : `<div class="fixture-score"><span class="vs">VS</span></div>`;
+
+      html += `<div class="fixture-row ${p?'played':'upcoming'}">
+        <div class="fixture-team home">${svgBadge(homeId,34)}<div class="fixture-team-name">${homeTeam.name}</div></div>
         ${score}
-        <div class="fixture-team away"><div class="fixture-team-name">${TEAMS[f.away].name}</div>${svgBadge(f.away,34)}</div>
+        <div class="fixture-team away"><div class="fixture-team-name">${awayTeam.name}</div>${svgBadge(awayId,34)}</div>
       </div>`;
     });
   });
-  document.getElementById('fixtures-list').innerHTML=html;
+  document.getElementById('fixtures-list').innerHTML = html;
 }
 
-function renderScorers(){
-  const el=document.getElementById('scorers-list');
-  if(!goalScorers.length){
-    el.innerHTML=`<div style="padding:32px;text-align:center;color:var(--muted)">No goals yet. Results will appear here once added.</div>`;
+// ── RENDER SCORERS ──
+function renderScorers() {
+  const el = document.getElementById('scorers-list');
+  if (!goalScorers.length) {
+    el.innerHTML = `<div style="padding:32px;text-align:center;color:var(--muted)">No goals yet. Results will appear here once added.</div>`;
     return;
   }
-  const sorted=[...goalScorers].sort((a,b)=>b.goals-a.goals);
-  const rc=['r1','r2','r3'];
-  el.innerHTML=sorted.map((s,i)=>`
-    <div class="scorer-row">
+  const sorted = [...goalScorers].sort((a,b) => b.goals - a.goals);
+  const rc = ['r1','r2','r3'];
+  el.innerHTML = sorted.map((s,i) => {
+    const tid = Number(s.teamId);
+    const team = TEAMS[tid];
+    if (!team) return '';
+    return `<div class="scorer-row">
       <div class="scorer-rank ${rc[i]||''}">${i+1}</div>
-      ${svgBadge(s.teamId,40)}
-      <div class="scorer-info"><div class="scorer-name">${s.name}</div><div class="scorer-club">${TEAMS[s.teamId].name}</div></div>
+      ${svgBadge(tid, 40)}
+      <div class="scorer-info"><div class="scorer-name">${s.name}</div><div class="scorer-club">${team.name}</div></div>
       <div class="scorer-goals"><div><div class="num">${s.goals}</div><div class="lbl">Goals</div></div><span style="font-size:22px;margin-left:4px">⚽</span></div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-function renderAll(){renderStandings();renderFixtures();renderScorers();}
+function renderAll() { renderStandings(); renderFixtures(); renderScorers(); }
 
 // ── PIN LOGIC ──
-let pinBuffer='';
-const PIN_LEN=6;
+let pinBuffer = '';
+const PIN_LEN = 6;
 
-function fabClick(){
-  isAdmin ? openResultModal() : openPinModal();
-}
+function fabClick() { isAdmin ? openResultModal() : openPinModal(); }
 
-function openPinModal(){
-  pinBuffer='';
+function openPinModal() {
+  pinBuffer = '';
   updatePinDots();
-  document.getElementById('pin-error').textContent='';
+  document.getElementById('pin-error').textContent = '';
   document.getElementById('pin-modal-overlay').classList.add('open');
 }
-function closePinModal(){
+function closePinModal() {
   document.getElementById('pin-modal-overlay').classList.remove('open');
-  pinBuffer='';
+  pinBuffer = '';
   updatePinDots();
 }
-
-function pinPress(d){
-  if(pinBuffer.length>=PIN_LEN)return;
-  pinBuffer+=d;
+function pinPress(d) {
+  if (pinBuffer.length >= PIN_LEN) return;
+  pinBuffer += d;
   updatePinDots();
-  if(pinBuffer.length===PIN_LEN) setTimeout(checkPin,120);
+  if (pinBuffer.length === PIN_LEN) setTimeout(checkPin, 120);
 }
-function pinDel(){pinBuffer=pinBuffer.slice(0,-1);updatePinDots();document.getElementById('pin-error').textContent='';}
-function pinClear(){pinBuffer='';updatePinDots();document.getElementById('pin-error').textContent='';}
-
-function updatePinDots(){
-  for(let i=0;i<PIN_LEN;i++){
-    const d=document.getElementById('pd'+i);
-    d.classList.toggle('filled',i<pinBuffer.length);
+function pinDel()   { pinBuffer = pinBuffer.slice(0,-1); updatePinDots(); document.getElementById('pin-error').textContent=''; }
+function pinClear() { pinBuffer = ''; updatePinDots(); document.getElementById('pin-error').textContent=''; }
+function updatePinDots() {
+  for (let i=0; i<PIN_LEN; i++) {
+    const d = document.getElementById('pd'+i);
+    d.classList.toggle('filled', i < pinBuffer.length);
     d.classList.remove('error');
   }
 }
-
-function checkPin(){
-  if(pinBuffer===CORRECT_PIN){
-    isAdmin=true;
+function checkPin() {
+  if (pinBuffer === CORRECT_PIN) {
+    isAdmin = true;
     closePinModal();
     updateFab();
     openResultModal();
     toast('Welcome, Admin! 👋');
-  }else{
-    for(let i=0;i<PIN_LEN;i++) document.getElementById('pd'+i).classList.add('error');
-    document.getElementById('pin-error').textContent='Incorrect PIN. Try again.';
-    setTimeout(()=>{pinBuffer='';updatePinDots();},900);
+  } else {
+    for (let i=0; i<PIN_LEN; i++) document.getElementById('pd'+i).classList.add('error');
+    document.getElementById('pin-error').textContent = 'Incorrect PIN. Try again.';
+    setTimeout(() => { pinBuffer=''; updatePinDots(); }, 900);
   }
 }
-
-function updateFab(){
-  const fab=document.getElementById('fab-btn');
-  if(isAdmin){
-    fab.textContent='+';
-    fab.classList.remove('locked');
-    fab.title='Add Result';
-  }else{
-    fab.textContent='🔒';
-    fab.classList.add('locked');
-    fab.title='Admin Login';
-  }
+function updateFab() {
+  const fab = document.getElementById('fab-btn');
+  if (isAdmin) { fab.textContent='+'; fab.classList.remove('locked'); fab.title='Add Result'; }
+  else         { fab.textContent='🔒'; fab.classList.add('locked'); fab.title='Admin Login'; }
 }
-
-function logout(){
-  isAdmin=false;
-  updateFab();
-  closeResultModal();
-  toast('Logged out 🔒');
-}
+function logout() { isAdmin=false; updateFab(); closeResultModal(); toast('Logged out 🔒'); }
 
 // ── RESULT MODAL ──
-function populateSelects(){
-  const opts=TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
-  document.getElementById('sel-home').innerHTML=opts;
-  document.getElementById('sel-away').innerHTML=opts;
-  document.getElementById('sel-away').value=1;
+function populateSelects() {
+  const opts = TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
+  document.getElementById('sel-home').innerHTML = opts;
+  document.getElementById('sel-away').innerHTML = opts;
+  document.getElementById('sel-away').value = 1;
 }
-let sc=0;
-function addScorerEntry(name='',tid=0,goals=1){
-  sc++;const id='sc'+sc;
-  const d=document.createElement('div');
-  d.className='scorer-entry';d.id=id;
+let sc = 0;
+function addScorerEntry(name='', tid=0, goals=1) {
+  sc++; const id='sc'+sc;
+  const d = document.createElement('div');
+  d.className='scorer-entry'; d.id=id;
   d.innerHTML=`<button class="remove-scorer" onclick="document.getElementById('${id}').remove()">×</button>
     <div class="form-row" style="margin-bottom:0">
       <div class="form-group"><label>Player Name</label><input type="text" class="sc-name" placeholder="e.g. Ronaldo" value="${name}"/></div>
@@ -716,8 +689,8 @@ function addScorerEntry(name='',tid=0,goals=1){
     </div>`;
   document.getElementById('scorer-entries').appendChild(d);
 }
-function openResultModal(){
-  if(!isAdmin)return;
+function openResultModal() {
+  if (!isAdmin) return;
   populateSelects();
   document.getElementById('scorer-entries').innerHTML='';
   sc=0;
@@ -725,43 +698,50 @@ function openResultModal(){
   document.getElementById('match-week').value=1;
   document.getElementById('result-modal').classList.add('open');
 }
-function closeResultModal(){document.getElementById('result-modal').classList.remove('open');}
-function handleOverlayClick(e){if(e.target===document.getElementById('result-modal'))closeResultModal();}
+function closeResultModal() { document.getElementById('result-modal').classList.remove('open'); }
+function handleOverlayClick(e) { if (e.target===document.getElementById('result-modal')) closeResultModal(); }
 
-function submitResult(){
-  if(!isAdmin)return;
-  const homeId=+document.getElementById('sel-home').value;
-  const awayId=+document.getElementById('sel-away').value;
-  if(homeId===awayId){toast('Teams must be different!');return;}
-  const hg=+document.getElementById('score-home').value;
-  const ag=+document.getElementById('score-away').value;
-  const wk=+document.getElementById('match-week').value;
-  let fix=fixtures.find(f=>(f.home===homeId&&f.away===awayId)||(f.home===awayId&&f.away===homeId));
-  if(fix){
-    if(fix.home===homeId){fix.homeGoals=hg;fix.awayGoals=ag;}
-    else{fix.homeGoals=ag;fix.awayGoals=hg;}
-    fix.week=wk;
-  }else{
-    fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag});
+function submitResult() {
+  if (!isAdmin) return;
+  const homeId = +document.getElementById('sel-home').value;
+  const awayId = +document.getElementById('sel-away').value;
+  if (homeId===awayId) { toast('Teams must be different!'); return; }
+  const hg = +document.getElementById('score-home').value;
+  const ag = +document.getElementById('score-away').value;
+  const wk = +document.getElementById('match-week').value;
+
+  let fix = fixtures.find(f => (Number(f.home)===homeId && Number(f.away)===awayId) || (Number(f.home)===awayId && Number(f.away)===homeId));
+  if (fix) {
+    if (Number(fix.home)===homeId) { fix.homeGoals=hg; fix.awayGoals=ag; }
+    else                           { fix.homeGoals=ag; fix.awayGoals=hg; }
+    fix.week = wk;
+  } else {
+    fixtures.push({id:fixtures.length, home:homeId, away:awayId, week:wk, homeGoals:hg, awayGoals:ag});
   }
-  document.querySelectorAll('.scorer-entry').forEach(entry=>{
-    const name=entry.querySelector('.sc-name').value.trim();
-    if(!name)return;
-    const tid=+entry.querySelector('.sc-team').value;
-    const gls=+entry.querySelector('.sc-goals').value;
-    const ex=goalScorers.find(s=>s.name.toLowerCase()===name.toLowerCase()&&s.teamId===tid);
-    if(ex)ex.goals+=gls;else goalScorers.push({name,teamId:tid,goals:gls});
+
+  document.querySelectorAll('.scorer-entry').forEach(entry => {
+    const name = entry.querySelector('.sc-name').value.trim();
+    if (!name) return;
+    const tid  = +entry.querySelector('.sc-team').value;
+    const gls  = +entry.querySelector('.sc-goals').value;
+    const ex   = goalScorers.find(s => s.name.toLowerCase()===name.toLowerCase() && Number(s.teamId)===tid);
+    if (ex) ex.goals += gls;
+    else goalScorers.push({name, teamId:tid, goals:gls});
   });
-  saveData();renderAll();closeResultModal();toast('Result saved! 🎉');
+
+  saveData();
+  renderAll();
+  closeResultModal();
+  toast('Result saved! 🎉');
 }
 
 // ── UTILS ──
-function toast(msg){
-  const el=document.getElementById('toast');
-  el.textContent=msg;el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),3000);
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 3000);
 }
-function showSection(id,btn){
+function showSection(id, btn) {
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
@@ -773,4 +753,3 @@ loadData();
 </script>
 </body>
 </html>
- 
