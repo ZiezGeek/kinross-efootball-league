@@ -146,42 +146,110 @@
         <stop offset="100%" stop-color="#9e9e9e"/>
       </linearGradient>
     </defs>
-    <!-- Shield body -->
     <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b7g)" stroke="url(#b7s)" stroke-width="2.5"/>
-    <!-- Silver diagonal sash top-left to bottom-right -->
     <path d="M3 30 L20 17 L77 70 L77 77 Q60 83 40 88 Q28 84 18 78 Z" fill="rgba(255,255,255,0.06)"/>
-    <!-- Silver top band -->
     <path d="M40 3 L77 17 L77 24 L3 24 L3 17 Z" fill="url(#b7s)" opacity="0.9"/>
-    <!-- NGM text in top band -->
     <text x="40" y="20" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#3a0008" letter-spacing="3">NGM</text>
-
-    <!-- Bull head silhouette -->
-    <!-- Head -->
     <ellipse cx="40" cy="42" rx="14" ry="12" fill="#8b1a2a" stroke="url(#b7s)" stroke-width="1"/>
-    <!-- Horns -->
     <path d="M26 36 Q18 22 24 20 Q28 26 32 34 Z" fill="url(#b7s)"/>
     <path d="M54 36 Q62 22 56 20 Q52 26 48 34 Z" fill="url(#b7s)"/>
-    <!-- Ears -->
     <ellipse cx="27" cy="38" rx="4" ry="3" fill="#6a0f1a" stroke="url(#b7s)" stroke-width="0.8"/>
     <ellipse cx="53" cy="38" rx="4" ry="3" fill="#6a0f1a" stroke="url(#b7s)" stroke-width="0.8"/>
-    <!-- Face snout -->
     <ellipse cx="40" cy="47" rx="8" ry="6" fill="#6a0f1a"/>
-    <!-- Nostrils -->
     <ellipse cx="37" cy="48" rx="2" ry="1.5" fill="#3a0008"/>
     <ellipse cx="43" cy="48" rx="2" ry="1.5" fill="#3a0008"/>
-    <!-- Eyes -->
     <circle cx="34" cy="39" r="2.5" fill="#e0e0e0"/>
     <circle cx="46" cy="39" r="2.5" fill="#e0e0e0"/>
     <circle cx="34" cy="39" r="1.2" fill="#111"/>
     <circle cx="46" cy="39" r="1.2" fill="#111"/>
-    <!-- Silver eye glint -->
     <circle cx="34.7" cy="38.3" r="0.5" fill="#fff"/>
     <circle cx="46.7" cy="38.3" r="0.5" fill="#fff"/>
-
-    <!-- Name text -->
     <text x="40" y="67" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="url(#b7s)" letter-spacing="1">NGOMBION</text>
     <rect x="14" y="69" width="52" height="1.2" fill="url(#b7s)" rx="0.6"/>
     <text x="40" y="78" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#e0e0e0" letter-spacing="2">F · C</text>
+  </symbol>
+
+  <!-- 8 · Pro ST FC – royal blue & electric yellow, star + lightning -->
+  <symbol id="badge-8" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b8g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1565c0"/>
+        <stop offset="100%" stop-color="#0a1a3a"/>
+      </linearGradient>
+      <linearGradient id="b8y" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ffe600"/>
+        <stop offset="100%" stop-color="#ffa000"/>
+      </linearGradient>
+    </defs>
+    <!-- Shield -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b8g)" stroke="url(#b8y)" stroke-width="2.5"/>
+    <!-- Inner shield outline -->
+    <path d="M40 9 L71 21 L71 51 Q71 71 40 81 Q9 71 9 51 L9 21 Z" fill="none" stroke="rgba(255,230,0,0.18)" stroke-width="1.2"/>
+    <!-- Diagonal yellow sash band -->
+    <path d="M3 38 L42 3 L77 3 L77 17 L40 17 L3 52 Z" fill="url(#b8y)" opacity="0.13"/>
+    <!-- Top accent bar -->
+    <path d="M40 3 L77 17 L77 23 L3 23 L3 17 Z" fill="url(#b8y)" opacity="0.85"/>
+    <text x="40" y="19.5" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#0a1a3a" letter-spacing="3">PRO ST</text>
+    <!-- Central star burst -->
+    <g transform="translate(40,41)">
+      <!-- Outer glow ring -->
+      <circle r="16" fill="rgba(255,230,0,0.08)" stroke="rgba(255,230,0,0.25)" stroke-width="1"/>
+      <!-- 8-point star -->
+      <polygon points="0,-14 3,-5 12,-5 5.5,1.5 8,11 0,6 -8,11 -5.5,1.5 -12,-5 -3,-5" fill="url(#b8y)" stroke="#ffa000" stroke-width="0.6"/>
+      <!-- Centre dot -->
+      <circle r="3.5" fill="#1565c0" stroke="url(#b8y)" stroke-width="1"/>
+    </g>
+    <!-- Lightning bolt accent -->
+    <path d="M52 26 L44 40 L50 40 L42 58 L58 38 L51 38 Z" fill="url(#b8y)" opacity="0.9" stroke="#ffa000" stroke-width="0.5"/>
+    <!-- Name -->
+    <text x="40" y="69" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="10.5" fill="url(#b8y)" letter-spacing="2">PRO ST</text>
+    <rect x="18" y="71" width="44" height="1.2" fill="url(#b8y)" rx="0.6"/>
+    <text x="40" y="80" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#90caf9" letter-spacing="2">F · C</text>
+  </symbol>
+
+  <!-- 9 · Rangers FC – navy & sky blue, shield with ranger star -->
+  <symbol id="badge-9" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b9g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0d3a6b"/>
+        <stop offset="100%" stop-color="#05101f"/>
+      </linearGradient>
+      <linearGradient id="b9sky" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#29b6f6"/>
+        <stop offset="100%" stop-color="#81d4fa"/>
+      </linearGradient>
+      <linearGradient id="b9star" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#e0f7fa"/>
+        <stop offset="100%" stop-color="#81d4fa"/>
+      </linearGradient>
+    </defs>
+    <!-- Main shield -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b9g)" stroke="url(#b9sky)" stroke-width="2.5"/>
+    <!-- Inner decorative border -->
+    <path d="M40 9 L71 21 L71 51 Q71 71 40 81 Q9 71 9 51 L9 21 Z" fill="none" stroke="rgba(41,182,246,0.2)" stroke-width="1"/>
+    <!-- Sky blue horizontal band mid-shield -->
+    <rect x="3" y="43" width="74" height="7" fill="url(#b9sky)" opacity="0.22"/>
+    <!-- Top name bar -->
+    <path d="M40 3 L77 17 L77 24 L3 24 L3 17 Z" fill="url(#b9sky)" opacity="0.85"/>
+    <text x="40" y="20" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#05101f" letter-spacing="3">RNG</text>
+    <!-- Sheriff / Ranger star (6-point) centred -->
+    <g transform="translate(40,38)">
+      <!-- Outer halo -->
+      <circle r="17" fill="rgba(41,182,246,0.07)" stroke="rgba(41,182,246,0.3)" stroke-width="1"/>
+      <!-- Six-point star body -->
+      <polygon points="0,-15 3.5,-5.5 13,-5.5 6,1.5 8.5,12 0,6.5 -8.5,12 -6,1.5 -13,-5.5 -3.5,-5.5" fill="url(#b9star)" stroke="#29b6f6" stroke-width="0.8"/>
+      <!-- Star centre circle -->
+      <circle r="4.5" fill="#0d3a6b" stroke="url(#b9sky)" stroke-width="1.2"/>
+      <!-- Centre dot -->
+      <circle r="1.8" fill="url(#b9sky)"/>
+    </g>
+    <!-- Crossed banner lines -->
+    <line x1="14" y1="60" x2="34" y2="55" stroke="rgba(41,182,246,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="66" y1="60" x2="46" y2="55" stroke="rgba(41,182,246,0.35)" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Name text -->
+    <text x="40" y="68" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11" fill="url(#b9sky)" letter-spacing="2.5">RANGERS</text>
+    <rect x="16" y="70" width="48" height="1.2" fill="url(#b9sky)" rx="0.6"/>
+    <text x="40" y="79" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#b3e5fc" letter-spacing="2">F · C</text>
   </symbol>
 
 </defs>
@@ -336,7 +404,7 @@
 <div class="hero">
   <div class="league-label">⚡ eFootball Mobile · Season 1</div>
   <h1>KINROSS <span>eFootball</span><br>LEAGUE</h1>
-  <p>8 clubs · AZISHE MAJITA · AKUFE OFAYO 😂</p>
+  <p>10 clubs · AZISHE MAJITA · AKUFE OFAYO 😂</p>
   <div class="clubs-row">
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-0"/></svg><span>ZiezGeek</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-1"/></svg><span>Kosabo</span></div>
@@ -346,6 +414,8 @@
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-5"/></svg><span>Tito</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-6"/></svg><span>Magolide</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-7"/></svg><span>Ngombion</span></div>
+    <div class="club-pin"><svg width="54" height="61"><use href="#badge-8"/></svg><span>Pro ST</span></div>
+    <div class="club-pin"><svg width="54" height="61"><use href="#badge-9"/></svg><span>Rangers</span></div>
   </div>
   <div class="hero-stats">
     <div class="hero-stat"><div class="val" id="stat-played">0</div><div class="lbl">Matches Played</div></div>
@@ -449,7 +519,7 @@
           <input type="number" id="score-away" min="0" max="99" value="0" style="text-align:center;font-size:20px;font-family:'Bebas Neue',sans-serif"/>
         </div>
       </div>
-      <div class="form-group"><label>Match Week</label><input type="number" id="match-week" min="1" max="14" value="1"/></div>
+      <div class="form-group"><label>Match Week</label><input type="number" id="match-week" min="1" max="20" value="1"/></div>
     </div>
     <div style="margin-bottom:8px">
       <label>Goal Scorers</label>
@@ -480,7 +550,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ── TEAMS – Ngombion FC added as id:7 ──
+// ── TEAMS – 10 clubs ──
 const TEAMS = [
   {id:0, name:'ZiezGeek FC',  short:'ZGK', bid:'badge-0'},
   {id:1, name:'Kosabo FC',    short:'KSB', bid:'badge-1'},
@@ -490,6 +560,8 @@ const TEAMS = [
   {id:5, name:'Tito FC',      short:'TTO', bid:'badge-5'},
   {id:6, name:'Magolide FC',  short:'MGL', bid:'badge-6'},
   {id:7, name:'Ngombion FC',  short:'NGM', bid:'badge-7'},
+  {id:8, name:'Pro ST FC',    short:'PST', bid:'badge-8'},
+  {id:9, name:'Rangers FC',   short:'RNG', bid:'badge-9'},
 ];
 
 // ── PIN ──
@@ -505,12 +577,16 @@ function svgBadge(id, w=32) {
   return `<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.55))"><use href="#${team.bid}"/></svg>`;
 }
 
-// ── GENERATE FIXTURES ──
+// ── GENERATE FIXTURES (round-robin, all vs all) ──
 function genFixtures() {
   const f = []; let id = 0;
-  for (let i = 0; i < TEAMS.length; i++)
-    for (let j = i+1; j < TEAMS.length; j++) {
-      f.push({id:id, home:i, away:j, week:Math.floor(id/4)+1, homeGoals:null, awayGoals:null});
+  const n = TEAMS.length;
+  // Spread matches across weeks using a round-robin algorithm
+  for (let i = 0; i < n; i++)
+    for (let j = i+1; j < n; j++) {
+      // Week: spread evenly, (n-1) rounds, each round has n/2 matches
+      const week = Math.floor(id / Math.floor(n/2)) + 1;
+      f.push({id:id, home:i, away:j, week:week, homeGoals:null, awayGoals:null});
       id++;
     }
   return f;
@@ -550,8 +626,27 @@ function loadData() {
       fixtures    = genFixtures();
       goalScorers = [];
     }
+    // Ensure all team matchups exist (handles new teams added)
+    ensureAllFixtures();
     renderAll();
   });
+}
+
+// Add any missing fixtures when new teams are added
+function ensureAllFixtures() {
+  const n = TEAMS.length;
+  for (let i = 0; i < n; i++) {
+    for (let j = i+1; j < n; j++) {
+      const exists = fixtures.find(f =>
+        (Number(f.home)===i && Number(f.away)===j) ||
+        (Number(f.home)===j && Number(f.away)===i)
+      );
+      if (!exists) {
+        const week = Math.floor(fixtures.length / Math.floor(n/2)) + 1;
+        fixtures.push({id:fixtures.length, home:i, away:j, week:week, homeGoals:null, awayGoals:null});
+      }
+    }
+  }
 }
 
 function saveData() {
@@ -726,3 +821,4 @@ loadData();
 </script>
 </body>
 </html>
+ 
