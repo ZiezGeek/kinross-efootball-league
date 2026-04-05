@@ -207,6 +207,50 @@
     <text x="40" y="80" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#90caf9" letter-spacing="2">F · C</text>
   </symbol>
 
+  <!-- 10 · Qesko FC – emerald green & white, falcon / Q emblem -->
+  <symbol id="badge-10" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b10g" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#00695c"/>
+        <stop offset="100%" stop-color="#001a16"/>
+      </linearGradient>
+      <linearGradient id="b10w" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#e0f2f1"/>
+        <stop offset="50%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#b2dfdb"/>
+      </linearGradient>
+      <radialGradient id="b10r" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1de9b6"/>
+        <stop offset="100%" stop-color="#00796b"/>
+      </radialGradient>
+    </defs>
+    <!-- Shield body -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b10g)" stroke="url(#b10w)" stroke-width="2.5"/>
+    <!-- Inner border -->
+    <path d="M40 9 L71 21 L71 51 Q71 71 40 81 Q9 71 9 51 L9 21 Z" fill="none" stroke="rgba(29,233,182,0.18)" stroke-width="1.2"/>
+    <!-- White diagonal flash -->
+    <path d="M3 17 L40 3 L77 17 L77 28 L3 28 Z" fill="url(#b10w)" opacity="0.92"/>
+    <!-- QSK label in top band -->
+    <text x="40" y="21" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="9" fill="#00695c" letter-spacing="3">QSK</text>
+    <!-- Central Q emblem circle -->
+    <circle cx="40" cy="46" r="18" fill="rgba(0,121,107,0.45)" stroke="url(#b10r)" stroke-width="1.5"/>
+    <circle cx="40" cy="46" r="13" fill="none" stroke="url(#b10w)" stroke-width="2.5"/>
+    <!-- Bold Q letter -->
+    <text x="40" y="54" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="22" fill="url(#b10w)" letter-spacing="0">Q</text>
+    <!-- Q tail slash accent -->
+    <line x1="44" y1="51" x2="52" y2="59" stroke="url(#b10r)" stroke-width="3" stroke-linecap="round"/>
+    <!-- Decorative wing lines -->
+    <path d="M8 38 Q18 33 28 37" stroke="rgba(29,233,182,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M72 38 Q62 33 52 37" stroke="rgba(29,233,182,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- Corner dots -->
+    <circle cx="13" cy="55" r="2" fill="url(#b10r)" opacity="0.6"/>
+    <circle cx="67" cy="55" r="2" fill="url(#b10r)" opacity="0.6"/>
+    <!-- Name text -->
+    <text x="40" y="70" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="11" fill="url(#b10w)" letter-spacing="2">QESKO</text>
+    <rect x="18" y="72" width="44" height="1.2" fill="url(#b10r)" rx="0.6"/>
+    <text x="40" y="81" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#80cbc4" letter-spacing="2">F · C</text>
+  </symbol>
+
   <!-- 9 · Rangers FC – navy & sky blue, shield with ranger star -->
   <symbol id="badge-9" viewBox="0 0 80 90">
     <defs>
@@ -404,7 +448,7 @@
 <div class="hero">
   <div class="league-label">⚡ eFootball Mobile · Season 1</div>
   <h1>KINROSS <span>eFootball</span><br>LEAGUE</h1>
-  <p>10 clubs · AZISHE MAJITA · AKUFE OFAYO 😂</p>
+  <p>11 clubs · AZISHE MAJITA · AKUFE OFAYO 😂</p>
   <div class="clubs-row">
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-0"/></svg><span>ZiezGeek</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-1"/></svg><span>Kosabo</span></div>
@@ -416,6 +460,7 @@
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-7"/></svg><span>Ngombion</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-8"/></svg><span>Pro ST</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-9"/></svg><span>Rangers</span></div>
+    <div class="club-pin"><svg width="54" height="61"><use href="#badge-10"/></svg><span>Qesko</span></div>
   </div>
   <div class="hero-stats">
     <div class="hero-stat"><div class="val" id="stat-played">0</div><div class="lbl">Matches Played</div></div>
@@ -562,6 +607,7 @@ const TEAMS = [
   {id:7, name:'Ngombion FC',  short:'NGM', bid:'badge-7'},
   {id:8, name:'Pro ST FC',    short:'PST', bid:'badge-8'},
   {id:9, name:'Rangers FC',   short:'RNG', bid:'badge-9'},
+  {id:10, name:'Qesko FC',   short:'QSK', bid:'badge-10'},
 ];
 
 // ── PIN ──
@@ -821,4 +867,3 @@ loadData();
 </script>
 </body>
 </html>
- 
