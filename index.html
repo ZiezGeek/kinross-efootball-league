@@ -40,31 +40,6 @@
     <rect x="22" y="61" width="36" height="1.5" fill="#c62828" rx="1"/>
     <text x="40" y="72" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="7" font-weight="700" fill="#ffcdd2" letter-spacing="1">F · C</text>
   </symbol>
-  <!-- 8 · Pro ST FC - New Badge -->
-  <symbol id="badge-8" viewBox="0 0 80 90">
-    <defs>
-      <linearGradient id="b8g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#1a1a1a"/>
-        <stop offset="100%" stop-color="#0f0f0f"/>
-      </linearGradient>
-      <linearGradient id="b8red" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#ff1744"/>
-        <stop offset="100%" stop-color="#d50000"/>
-      </linearGradient>
-    </defs>
-    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b8g)" stroke="#ff1744" stroke-width="3"/>
-    <path d="M40 11 L69 22 L69 52 Q69 71 40 80 Q11 71 11 52 L11 22 Z" fill="none" stroke="#ff5252" stroke-width="2"/>
-    <path d="M15 25 L65 65" stroke="#ff1744" stroke-width="6" opacity="0.75"/>
-    <path d="M15 45 L55 25" stroke="#ff1744" stroke-width="5" opacity="0.6"/>
-    <text x="40" y="48" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="26" font-weight="700" fill="#ffffff" letter-spacing="-2">PST</text>
-    <rect x="22" y="55" width="36" height="3" rx="1.5" fill="#ffd700"/>
-    <text x="40" y="73" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="8.5" fill="#ff5252" letter-spacing="2">PRO ST</text>
-    <text x="40" y="82" text-anchor="middle" font-family="'Barlow Condensed',sans-serif" font-size="6.5" font-weight="700" fill="#ffd700" letter-spacing="1.5">F · C</text>
-  </symbol>
-
-</defs>
-</svg>
-
 
   <!-- 2 · Matlala FC – orange, tribal sun -->
   <symbol id="badge-2" viewBox="0 0 80 90">
@@ -372,8 +347,6 @@
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-6"/></svg><span>Magolide</span></div>
     <div class="club-pin"><svg width="54" height="61"><use href="#badge-7"/></svg><span>Ngombion</span></div>
   </div>
-  <div class="club-pin"><svg width="54" height="61"><use href="#badge-8"/></svg><span>Pro ST</span></div>
-</div>
   <div class="hero-stats">
     <div class="hero-stat"><div class="val" id="stat-played">0</div><div class="lbl">Matches Played</div></div>
     <div class="hero-stat"><div class="val" id="stat-goals">0</div><div class="lbl">Total Goals</div></div>
@@ -508,6 +481,16 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // ── TEAMS – Ngombion FC added as id:7 ──
+const TEAMS = [
+  {id:0, name:'ZiezGeek FC',  short:'ZGK', bid:'badge-0'},
+  {id:1, name:'Kosabo FC',    short:'KSB', bid:'badge-1'},
+  {id:2, name:'Matlala FC',   short:'MTL', bid:'badge-2'},
+  {id:3, name:'Wishness FC',  short:'WSH', bid:'badge-3'},
+  {id:4, name:'Bruno FC',     short:'BRN', bid:'badge-4'},
+  {id:5, name:'Tito FC',      short:'TTO', bid:'badge-5'},
+  {id:6, name:'Magolide FC',  short:'MGL', bid:'badge-6'},
+  {id:7, name:'Ngombion FC',  short:'NGM', bid:'badge-7'},
+];
 
 // ── PIN ──
 const CORRECT_PIN = '020707';
@@ -541,18 +524,7 @@ function normaliseFixtures(raw) {
     id:        Number(f.id ?? 0),
     home:      Number(f.home),
     away:      Number(f.away),
-    weconst TEAMS = [
-  {id:0, name:'ZiezGeek FC',  short:'ZGK', bid:'badge-0'},
-  {id:1, name:'Kosabo FC',    short:'KSB', bid:'badge-1'},
-  {id:2, name:'Matlala FC',   short:'MTL', bid:'badge-2'},
-  {id:3, name:'Wishness FC',  short:'WSH', bid:'badge-3'},
-  {id:4, name:'Bruno FC',     short:'BRN', bid:'badge-4'},
-  {id:5, name:'Tito FC',      short:'TTO', bid:'badge-5'},
-  {id:6, name:'Magolide FC',  short:'MGL', bid:'badge-6'},
-  {id:7, name:'Ngombion FC',  short:'NGM', bid:'badge-7'},
-  {id:8, name:'Pro ST FC',    short:'PST', bid:'badge-8'}
-];
-  ek:      Number(f.week ?? 1),
+    week:      Number(f.week ?? 1),
     homeGoals: f.homeGoals != null ? Number(f.homeGoals) : null,
     awayGoals: f.awayGoals != null ? Number(f.awayGoals) : null,
   }));
