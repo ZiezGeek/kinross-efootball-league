@@ -410,6 +410,7 @@
   .b-score{font-family:'Bebas Neue',sans-serif;font-size:18px;min-width:18px;text-align:center;}
   .b-score.b-win{color:var(--gold);}
   .b-divider{height:1px;background:var(--border);margin:0;}
+  .b-kickoff{font-size:10px;color:var(--gold);letter-spacing:0.5px;padding:4px 10px 2px;opacity:0.8;}
 
   @media(max-width:640px){
     .standings-table th:nth-child(5),.standings-table th:nth-child(6),
@@ -880,24 +881,28 @@ function drawCup() {
 }
 
 function getWinner(m) {
-  if (m.homeGoals===null||m.awayGoals===null) return null;
-  if (m.home===null) return m.away;
-  if (m.away===null) return m.home;
-  if (m.homeGoals>m.awayGoals) return m.home;
-  if (m.awayGoals>m.homeGoals) return m.away;
+  const hg = m.homeGoals !== null && m.homeGoals !== undefined ? Number(m.homeGoals) : null;
+  const ag = m.awayGoals !== null && m.awayGoals !== undefined ? Number(m.awayGoals) : null;
+  const home = m.home !== null && m.home !== undefined ? Number(m.home) : null;
+  const away = m.away !== null && m.away !== undefined ? Number(m.away) : null;
+  if (hg === null || ag === null) return null;
+  if (home === null) return away;
+  if (away === null) return home;
+  if (hg > ag) return home;
+  if (ag > hg) return away;
   return null;
 }
 
 function propagateWinners() {
   if (!cupData) return;
   const {rounds} = cupData;
-  for (let r=0;r<rounds.length-1;r++) {
-    rounds[r].forEach((m,mi) => {
+  for (let r = 0; r < rounds.length - 1; r++) {
+    rounds[r].forEach((m, mi) => {
       const w = getWinner(m);
-      if (w===null) return;
+      if (w === null) return;
       const next = rounds[r+1][Math.floor(mi/2)];
-      const slot = mi%2===0 ? 'home' : 'away';
-      if (next[slot] !== w) {
+      const slot = mi % 2 === 0 ? 'home' : 'away';
+      if (Number(next[slot]) !== w) {
         next[slot] = w;
         next.homeGoals = null;
         next.awayGoals = null;
@@ -954,35 +959,63 @@ function renderCupPage() {
 function renderBracket() {
   const {rounds} = cupData;
   const total = rounds.length;
-  document.getElementById('cup-bracket').innerHTML = rounds.map((round,rIdx) => {
-    const matches = round.map((m,mIdx) => {
-      const hTeam = m.home!==null ? TEAMS[m.home] : null;
-      const aTeam = m.away!==null ? TEAMS[m.away] : null;
-      const played = m.homeGoals!==null && m.awayGoals!==null;
-      const winner = getWinner(m);
+
+  // Build match kick-off times starting tomorrow 12:00, every 30 mins
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(12, 0, 0, 0);
+  let matchCounter = 0;
+
+  function getKickoff(n) {
+    const d = new Date(tomorrow.getTime() + n * 30 * 60000);
+    const day = d.toLocaleDateString('en-ZA', {weekday:'short', day:'numeric', month:'short'});
+    const time = d.toLocaleTimeString('en-ZA', {hour:'2-digit', minute:'2-digit', hour12:false});
+    return `${day} · ${time}`;
+  }
+
+  document.getElementById('cup-bracket').innerHTML = rounds.map((round, rIdx) => {
+    const matches = round.map((m, mIdx) => {
+      // FIX: always coerce home/away/scores to numbers — Firebase returns strings
+      const homeId = m.home !== null && m.home !== undefined ? Number(m.home) : null;
+      const awayId = m.away !== null && m.away !== undefined ? Number(m.away) : null;
+      const hGoals = m.homeGoals !== null && m.homeGoals !== undefined ? Number(m.homeGoals) : null;
+      const aGoals = m.awayGoals !== null && m.awayGoals !== undefined ? Number(m.awayGoals) : null;
+
+      const hTeam  = homeId !== null ? TEAMS[homeId] : null;
+      const aTeam  = awayId !== null ? TEAMS[awayId] : null;
+      const played = hGoals !== null && aGoals !== null;
+      const fixedM = {home: homeId, away: awayId, homeGoals: hGoals, awayGoals: aGoals};
+      const winner = getWinner(fixedM);
       const canClick = isAdmin && hTeam && aTeam;
 
-      const hCls = played ? (winner===m.home?'b-winner':'b-loser') : (!hTeam?'b-tbd':'');
-      const aCls = played ? (winner===m.away?'b-winner':'b-loser') : (!aTeam?'b-tbd':'');
-      const hScore = played?`<span class="b-score ${winner===m.home?'b-win':''}">${m.homeGoals}</span>`:'';
-      const aScore = played?`<span class="b-score ${winner===m.away?'b-win':''}">${m.awayGoals}</span>`:'';
-      const click  = canClick?`onclick="openCupScoreModal(${rIdx},${mIdx})"`:'';
+      const hCls = played ? (winner===homeId?'b-winner':'b-loser') : (!hTeam?'b-tbd':'');
+      const aCls = played ? (winner===awayId?'b-winner':'b-loser') : (!aTeam?'b-tbd':'');
+      const hScore = played ? `<span class="b-score ${winner===homeId?'b-win':''}">${hGoals}</span>` : '';
+      const aScore = played ? `<span class="b-score ${winner===awayId?'b-win':''}">${aGoals}</span>` : '';
+      const click  = canClick ? `onclick="openCupScoreModal(${rIdx},${mIdx})"` : '';
+
+      // Show scheduled time if match not yet played and both teams known
+      const kickoff = (!played && hTeam && aTeam)
+        ? `<div class="b-kickoff">🕐 ${getKickoff(matchCounter)}</div>`
+        : '';
+      if (!played && hTeam && aTeam) matchCounter++;
 
       return `<div class="b-match">
         <div class="b-team ${hCls}" ${click}>
-          ${hTeam?svgBadge(m.home,20):'<span style="font-size:10px;color:var(--muted)">TBD</span>'}
-          <span class="b-name">${hTeam?hTeam.name:'???'}</span>${hScore}
+          ${hTeam ? svgBadge(homeId,20) : '<span style="font-size:10px;color:var(--muted)">TBD</span>'}
+          <span class="b-name">${hTeam ? hTeam.name : '???'}</span>${hScore}
         </div>
         <div class="b-divider"></div>
         <div class="b-team ${aCls}" ${click}>
-          ${aTeam?svgBadge(m.away,20):'<span style="font-size:10px;color:var(--muted)">TBD</span>'}
-          <span class="b-name">${aTeam?aTeam.name:'???'}</span>${aScore}
+          ${aTeam ? svgBadge(awayId,20) : '<span style="font-size:10px;color:var(--muted)">TBD</span>'}
+          <span class="b-name">${aTeam ? aTeam.name : '???'}</span>${aScore}
         </div>
+        ${kickoff}
       </div>`;
     }).join('');
 
     return `<div class="b-round">
-      <div class="b-round-label">${getRoundLabel(rIdx,total)}</div>
+      <div class="b-round-label">${getRoundLabel(rIdx, total)}</div>
       ${matches}
     </div>`;
   }).join('');
@@ -991,7 +1024,9 @@ function renderBracket() {
 function openCupScoreModal(rIdx, mIdx) {
   if (!isAdmin) return;
   const m = cupData.rounds[rIdx][mIdx];
-  const hT = TEAMS[m.home], aT = TEAMS[m.away];
+  const homeId = Number(m.home), awayId = Number(m.away);
+  const hT = TEAMS[homeId], aT = TEAMS[awayId];
+  if (!hT || !aT) return;
   cupMatchEditing = {rIdx, mIdx};
   document.getElementById('cup-home-label').textContent = hT.name;
   document.getElementById('cup-away-label').textContent = aT.name;
@@ -1100,4 +1135,3 @@ loadCup();
 </script>
 </body>
 </html>
- 
