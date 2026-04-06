@@ -492,6 +492,8 @@
   .b-score.b-win{color:var(--gold);}
   .b-divider{height:1px;background:var(--border);}
   .b-kickoff{font-size:10px;color:var(--gold);padding:3px 10px 1px;opacity:0.75;}
+  .cup-match-clickable[data-ridx]:hover .b-team{border-color:rgba(255,215,0,0.5);background:rgba(255,215,0,0.06);}
+  .cup-match-clickable[data-ridx]:hover{border-radius:8px;outline:1px solid rgba(255,215,0,0.3);}
   @media(max-width:640px){
     .standings-table th:nth-child(5),.standings-table th:nth-child(6),
     .standings-table td:nth-child(5),.standings-table td:nth-child(6){display:none;}
@@ -676,7 +678,7 @@
 </div>
 
 <!-- CUP SCORE MODAL -->
-<div class="modal-overlay" id="cup-score-modal">
+<div class="modal-overlay" id="cup-score-modal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal" style="max-width:370px">
     <h2 style="color:var(--gold)">🏆 Cup Match Result</h2>
     <p style="color:var(--muted);font-size:13px;margin-bottom:18px;text-align:center" id="cup-match-info"></p>
@@ -1113,15 +1115,16 @@ function renderBracket() {
       const aCls=played?(winner===aId?'b-winner':'b-loser'):(!aT?'b-tbd':'');
       const hScore=played?`<span class="b-score ${winner===hId?'b-win':''}">${hg}</span>`:'';
       const aScore=played?`<span class="b-score ${winner===aId?'b-win':''}">${ag}</span>`:'';
-      const click=canClick?`onclick="openCupScoreModal(${rIdx},${mIdx})"`:' ';
       const ko=(!played&&hT&&aT)?`<div class="b-kickoff">🕒 ${kickoff(mc++)}</div>`:'';
-      return`<div class="b-match">
-        <div class="b-team ${hCls}" ${click}>
+      // Use data attributes + event delegation to avoid HTML attribute quoting issues
+      const clickAttr=canClick?`data-ridx="${rIdx}" data-midx="${mIdx}" style="cursor:pointer"`:'';
+      return`<div class="b-match cup-match-clickable" ${clickAttr}>
+        <div class="b-team ${hCls}">
           ${hT?svgBadge(hId,20):'<span style="font-size:10px;color:var(--muted)">TBD</span>'}
           <span class="b-name">${hT?hT.name:'???'}</span>${hScore}
         </div>
         <div class="b-divider"></div>
-        <div class="b-team ${aCls}" ${click}>
+        <div class="b-team ${aCls}">
           ${aT?svgBadge(aId,20):'<span style="font-size:10px;color:var(--muted)">TBD</span>'}
           <span class="b-name">${aT?aT.name:'???'}</span>${aScore}
         </div>${ko}
@@ -1129,6 +1132,15 @@ function renderBracket() {
     }).join('');
     return`<div class="b-round"><div class="b-round-label">${getRoundLabel(rIdx,total)}</div>${matches}</div>`;
   }).join('');
+
+  // Attach click handlers via event delegation (avoids all quoting bugs)
+  document.getElementById('cup-bracket').addEventListener('click', function(e){
+    const match = e.target.closest('.cup-match-clickable[data-ridx]');
+    if(!match)return;
+    const rI=parseInt(match.getAttribute('data-ridx'));
+    const mI=parseInt(match.getAttribute('data-midx'));
+    openCupScoreModal(rI, mI);
+  });
 }
 function openCupScoreModal(rIdx,mIdx) {
   if(!isAdmin)return;
