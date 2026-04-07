@@ -11,12 +11,115 @@
 <!-- ═══════════════════════════════════════ SVG BADGES ═══════════════════════ -->
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
 <defs>
+  <!-- 0 · ZiezGeek FC — Elite Crest Redesign -->
   <symbol id="badge-0" viewBox="0 0 80 90">
-    <defs><linearGradient id="b0g" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1e88e5"/><stop offset="100%" stop-color="#0d2a6b"/></linearGradient></defs>
-    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b0g)" stroke="#60b4ff" stroke-width="2.5"/>
-    <path d="M40 11 L69 22 L69 52 Q69 71 40 80 Q11 71 11 52 L11 22 Z" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1.2"/>
-    <path d="M46 21 L32 45 L41 45 L34 69 L52 40 L43 40 Z" fill="#ffd600" stroke="#ffb300" stroke-width="0.8"/>
-    <text x="40" y="84" text-anchor="middle" font-family="'Oswald',sans-serif" font-size="8.5" fill="#9ecfff" letter-spacing="2">ZGK FC</text>
+    <defs>
+      <!-- Deep navy base gradient -->
+      <linearGradient id="z0base" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#0a1a4a"/>
+        <stop offset="100%" stop-color="#04091e"/>
+      </linearGradient>
+      <!-- Crimson quarter gradient -->
+      <linearGradient id="z0red" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"   stop-color="#b71c1c"/>
+        <stop offset="100%" stop-color="#7f0000"/>
+      </linearGradient>
+      <!-- Royal blue quarter gradient -->
+      <linearGradient id="z0blue" x1="1" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="#1565c0"/>
+        <stop offset="100%" stop-color="#0d3b8c"/>
+      </linearGradient>
+      <!-- Gold shimmer for stroke + text -->
+      <linearGradient id="z0gold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%"   stop-color="#ffe082"/>
+        <stop offset="40%"  stop-color="#ffd700"/>
+        <stop offset="70%"  stop-color="#ffb300"/>
+        <stop offset="100%" stop-color="#ff8f00"/>
+      </linearGradient>
+      <!-- Inner glow radial -->
+      <radialGradient id="z0glow" cx="50%" cy="42%" r="45%">
+        <stop offset="0%"   stop-color="#ffd700" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+      <!-- Clip path for shield shape -->
+      <clipPath id="z0clip">
+        <path d="M40 3 L77 16 L77 53 Q77 77 40 88 Q3 77 3 53 L3 16 Z"/>
+      </clipPath>
+    </defs>
+
+    <!-- ── OUTER SHIELD BODY ── -->
+    <path d="M40 3 L77 16 L77 53 Q77 77 40 88 Q3 77 3 53 L3 16 Z"
+          fill="url(#z0base)" stroke="url(#z0gold)" stroke-width="2.8"/>
+
+    <!-- ── QUARTER PANELS (clipped to shield) ── -->
+    <!-- Top-left: crimson -->
+    <rect x="3" y="3" width="37" height="43" fill="url(#z0red)" clip-path="url(#z0clip)" opacity="0.92"/>
+    <!-- Top-right: royal blue -->
+    <rect x="40" y="3" width="37" height="43" fill="url(#z0blue)" clip-path="url(#z0clip)" opacity="0.92"/>
+    <!-- Bottom-left: royal blue -->
+    <rect x="3" y="46" width="37" height="46" fill="url(#z0blue)" clip-path="url(#z0clip)" opacity="0.92"/>
+    <!-- Bottom-right: crimson -->
+    <rect x="40" y="46" width="37" height="46" fill="url(#z0red)" clip-path="url(#z0clip)" opacity="0.92"/>
+
+    <!-- ── GOLD CROSS dividing the four quarters ── -->
+    <rect x="38.2" y="3"  width="3.6" height="85" fill="url(#z0gold)" clip-path="url(#z0clip)" opacity="0.9"/>
+    <rect x="3"    y="44.2" width="74" height="3.6" fill="url(#z0gold)" clip-path="url(#z0clip)" opacity="0.9"/>
+
+    <!-- ── INNER BORDER (ornate double ring) ── -->
+    <path d="M40 8 L72 19 L72 53 Q72 73 40 83 Q8 73 8 53 L8 19 Z"
+          fill="none" stroke="url(#z0gold)" stroke-width="1.4" opacity="0.55"/>
+    <path d="M40 11 L69 21 L69 53 Q69 70 40 80 Q11 70 11 53 L11 21 Z"
+          fill="none" stroke="rgba(255,215,0,0.2)" stroke-width="0.7"/>
+
+    <!-- ── CENTRAL GLOW ── -->
+    <path d="M40 3 L77 16 L77 53 Q77 77 40 88 Q3 77 3 53 L3 16 Z"
+          fill="url(#z0glow)"/>
+
+    <!-- ── CENTRAL CIRCLE — emblem mount ── -->
+    <circle cx="40" cy="44" r="14" fill="#04091e" stroke="url(#z0gold)" stroke-width="1.6" opacity="0.97"/>
+    <circle cx="40" cy="44" r="11.5" fill="none" stroke="rgba(255,215,0,0.25)" stroke-width="0.8"/>
+
+    <!-- ── Z·G MONOGRAM ── -->
+    <!-- Z letter -->
+    <text x="34.5" y="50"
+          text-anchor="middle"
+          font-family="'Georgia',serif"
+          font-size="13" font-weight="700" font-style="italic"
+          fill="url(#z0gold)" opacity="0.98">Z</text>
+    <!-- G letter -->
+    <text x="45.5" y="50"
+          text-anchor="middle"
+          font-family="'Georgia',serif"
+          font-size="13" font-weight="700" font-style="italic"
+          fill="url(#z0gold)" opacity="0.98">G</text>
+    <!-- thin separator dot -->
+    <circle cx="40" cy="44.5" r="1.1" fill="url(#z0gold)" opacity="0.7"/>
+
+    <!-- ── TOP BANNER ── -->
+    <path d="M40 3 L77 16 L77 21 L3 21 L3 16 Z"
+          fill="url(#z0gold)" opacity="0.92" clip-path="url(#z0clip)"/>
+    <text x="40" y="18"
+          text-anchor="middle"
+          font-family="'Oswald',sans-serif"
+          font-size="7.5" font-weight="700" fill="#04091e" letter-spacing="2.5">ZIEZGEEK</text>
+
+    <!-- ── BOTTOM NAME RIBBON ── -->
+    <path d="M40 88 Q3 77 3 68 L3 72 Q3 80 40 88 Q77 80 77 72 L77 68 Q77 77 40 88 Z"
+          fill="url(#z0gold)" opacity="0.88" clip-path="url(#z0clip)"/>
+    <text x="40" y="83"
+          text-anchor="middle"
+          font-family="'Oswald',sans-serif"
+          font-size="7" font-weight="700" fill="#04091e" letter-spacing="2">F · C</text>
+
+    <!-- ── CORNER STAR ACCENTS ── -->
+    <polygon points="11,28 12.4,32.3 16.9,32.3 13.3,34.9 14.7,39.2 11,36.6 7.3,39.2 8.7,34.9 5.1,32.3 9.6,32.3"
+             fill="url(#z0gold)" opacity="0.7" transform="scale(0.55) translate(-6,20)"/>
+    <polygon points="69,28 70.4,32.3 74.9,32.3 71.3,34.9 72.7,39.2 69,36.6 65.3,39.2 66.7,34.9 63.1,32.3 67.6,32.3"
+             fill="url(#z0gold)" opacity="0.7" transform="scale(0.55) translate(70,20)"/>
+
+    <!-- ── GOLD OUTER STROKE re-draw (on top) ── -->
+    <path d="M40 3 L77 16 L77 53 Q77 77 40 88 Q3 77 3 53 L3 16 Z"
+          fill="none" stroke="url(#z0gold)" stroke-width="2.8"/>
   </symbol>
   <symbol id="badge-1" viewBox="0 0 80 90">
     <defs><linearGradient id="b1g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c62828"/><stop offset="100%" stop-color="#1a0000"/></linearGradient></defs>
@@ -291,7 +394,8 @@ header::before {
 }
 @keyframes tickerSlide { 0%{background-position:0%} 100%{background-position:200%} }
 .logo { font-family:'Oswald',sans-serif; font-size:20px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text); display:flex; align-items:center; gap:10px; flex-shrink:0; }
-.logo-shield { width:36px; height:36px; background:linear-gradient(135deg,var(--pitch),#00a851); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow:0 0 14px rgba(0,208,104,0.5); }
+.logo-shield { width:40px; height:40px; border-radius:50%; border:2px solid var(--pitch); box-shadow:0 0 0 2px rgba(0,208,104,0.25), 0 0 14px rgba(0,208,104,0.4); overflow:hidden; flex-shrink:0; transition:box-shadow .3s; cursor:pointer; }
+.logo-shield:hover { box-shadow:0 0 0 2px var(--gold), 0 0 18px rgba(255,215,0,0.5); }
 .logo-text { color:var(--pitch); }
 .logo-sub  { color:var(--text2); font-size:13px; font-weight:500; letter-spacing:3px; }
 nav { display:flex; gap:2px; flex-wrap:wrap; }
@@ -748,6 +852,65 @@ select:focus, input:focus { border-color:var(--pitch); }
   .totw-card{ flex-direction:column; text-align:center; }
   .totw-stats{ justify-content:center; }
 }
+/* ════════════ FOOTER ════════════ */
+#site-footer {
+  margin-top: 48px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+#site-footer::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #b71c1c, #ffd700, #1565c0, #ffd700, #b71c1c);
+  background-size: 200% 100%;
+  animation: tickerSlide 5s linear infinite;
+}
+.footer-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 28px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.footer-badge-wrap {
+  flex-shrink: 0;
+  animation: footerFloat 4s ease-in-out infinite;
+}
+.footer-badge-wrap:last-child { animation-delay: 2s; }
+@keyframes footerFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.footer-text { text-align: center; flex: 1; }
+.footer-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text); margin-bottom: 6px;
+}
+.footer-credit {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text2);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.footer-name {
+  background: linear-gradient(135deg, #ffe082, #ffd700, #ffb300);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 15px; font-weight: 700;
+}
+.footer-sep  { color: var(--border2); }
+.footer-year { color: var(--pitch); font-weight: 700; }
+.footer-sub  {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text2); opacity: 0.5;
+  margin-top: 4px;
+}
+@media(max-width:480px){
+  .footer-badge-wrap { display: none; }
+}
 </style>
 </head>
 <body>
@@ -765,7 +928,10 @@ select:focus, input:focus { border-color:var(--pitch); }
 <!-- ════════════ HEADER ════════════ -->
 <header>
   <div class="logo">
-    <div class="logo-shield">⚽</div>
+    <div class="logo-shield">
+      <img src="data:image/jpeg;base64,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" 
+           alt="ZiezGeek" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;"/>
+    </div>
     <div><div class="logo-text">KNR PL</div><div class="logo-sub">Premier</div></div>
   </div>
   <nav id="main-nav">
@@ -1951,6 +2117,30 @@ function showSection(id,btn){
 // ════════════════════════════════════════════
 buildClubsRow();loadData();loadCup();
 </script>
+<!-- ════════════ FOOTER ════════════ -->
+<footer id="site-footer">
+  <div class="footer-inner">
+    <div class="footer-badge-wrap">
+      <svg width="38" height="43" style="filter:drop-shadow(0 0 10px rgba(255,215,0,0.5))">
+        <use href="#badge-0"/>
+      </svg>
+    </div>
+    <div class="footer-text">
+      <div class="footer-title">KNR Premier League</div>
+      <div class="footer-credit">
+        Designed &amp; Built by <span class="footer-name">ZiezGeek</span>
+        <span class="footer-sep">·</span>
+        <span class="footer-year">2025</span>
+      </div>
+      <div class="footer-sub">eFootball Mobile · All rights reserved</div>
+    </div>
+    <div class="footer-badge-wrap">
+      <svg width="38" height="43" style="filter:drop-shadow(0 0 10px rgba(255,215,0,0.5))">
+        <use href="#badge-0"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
- 
