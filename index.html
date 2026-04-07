@@ -1015,983 +1015,214 @@ select:focus,input:focus{border-color:var(--pitch);}
 </div>
 
 <div class="toast" id="toast"></div>
-
-<script>
-// ════════════════════════════════════════════
-// FIREBASE
-// ════════════════════════════════════════════
-const firebaseConfig={apiKey:"AIzaSyBpTzJMNlnIkXYSc7HzJgB14Kvv2hB2edc",authDomain:"efootball-league-70d44.firebaseapp.com",projectId:"efootball-league-70d44",storageBucket:"efootball-league-70d44.firebasestorage.app",messagingSenderId:"1027946844235",appId:"1:1027946844235:web:909401b5756937bc31fdce",databaseURL:"https://efootball-league-70d44-default-rtdb.firebaseio.com"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
+  <script>
+// ... (keep all your existing code at the top: firebase, TEAMS, etc.)
 
 // ════════════════════════════════════════════
-// TEAMS
+// FIXTURES RENDER - NOW CLICKABLE FOR EDIT
 // ════════════════════════════════════════════
-const TEAMS_S1=[
-  {id:0,name:'ZiezGeek FC',short:'ZGK',bid:'badge-0'},
-  {id:1,name:'Kosabo FC',short:'KSB',bid:'badge-1'},
-  {id:2,name:'Matlala FC',short:'MTL',bid:'badge-2'},
-  {id:3,name:'Wishness FC',short:'WSH',bid:'badge-3'},
-  {id:4,name:'Bruno FC',short:'BRN',bid:'badge-4'},
-  {id:5,name:'Tito FC',short:'TTO',bid:'badge-5'},
-  {id:6,name:'Magolide FC',short:'MGL',bid:'badge-6'},
-  {id:7,name:'Ngombion FC',short:'NGM',bid:'badge-7'},
-  {id:8,name:'Pro ST FC',short:'PST',bid:'badge-8'},
-  {id:9,name:'Rangers FC',short:'RNG',bid:'badge-9'},
-  {id:10,name:'Qesko FC',short:'QSK',bid:'badge-10'},
-];
-const TEAMS_S2=[
-  {id:0,name:'ZiezGeek FC',short:'ZGK',bid:'badge-0'},
-  {id:1,name:'Matlala FC',short:'MTL',bid:'badge-2'},
-  {id:2,name:'RC Lens FC',short:'RCL',bid:'badge-12'},
-  {id:3,name:'Tito FC',short:'TTO',bid:'badge-5'},
-  {id:4,name:'Magolide FC',short:'MGL',bid:'badge-6'},
-  {id:5,name:'Pro ST FC',short:'PST',bid:'badge-8'},
-  {id:6,name:'Rangers FC',short:'RNG',bid:'badge-9'},
-  {id:7,name:'Vamos!!!',short:'VMO',bid:'badge-13'},
-  {id:8,name:'Sporting FC',short:'SPT',bid:'badge-11'},
-];
-// Season 3: includes Man Utd KNR edition — Home & Away (double round-robin)
-const TEAMS_S3=[
-  {id:0,name:'ZiezGeek FC',short:'ZGK',bid:'badge-0'},
-  {id:1,name:'Matlala FC',short:'MTL',bid:'badge-2'},
-  {id:2,name:'RC Lens FC',short:'RCL',bid:'badge-12'},
-  {id:3,name:'Tito FC',short:'TTO',bid:'badge-5'},
-  {id:4,name:'Magolide FC',short:'MGL',bid:'badge-6'},
-  {id:5,name:'Pro ST FC',short:'PST',bid:'badge-8'},
-  {id:6,name:'Rangers FC',short:'RNG',bid:'badge-9'},
-  {id:7,name:'Vamos!!!',short:'VMO',bid:'badge-13'},
-  {id:8,name:'Sporting FC',short:'SPT',bid:'badge-11'},
-  {id:9,name:'Man United KNR',short:'MUN',bid:'badge-14'},
-];
-
-let currentSeason=2,TEAMS=TEAMS_S2;
-let fixtures=[],goalScorers=[],cupData=null,cupSelectedTeams=new Set(),cupMatchEditing=null;
-const CORRECT_PIN='020707';
-let isAdmin=false;
-let countdownTimer=null;
-
-function dbRef(){
-  if(currentSeason===1)return'leagueData';
-  if(currentSeason===2)return'leagueData_s2';
-  return'leagueData_s3';
-}
-function cupDbRef(){
-  if(currentSeason===1)return'cupData';
-  if(currentSeason===2)return'cupData_s2';
-  return'cupData_s3';
-}
-
-function svgBadge(id,w=32){
-  const t=TEAMS[Number(id)];if(!t)return'';
-  const h=Math.round(w*1.13);
-  return`<svg width="${w}" height="${h}" style="flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5))"><use href="#${t.bid}"/></svg>`;
-}
-
-// ════════════════════════════════════════════
-// THEME
-// ════════════════════════════════════════════
-function toggleTheme(){
-  const html=document.documentElement;
-  const isDark=html.getAttribute('data-theme')==='dark';
-  html.setAttribute('data-theme',isDark?'light':'dark');
-  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
-}
-
-// ════════════════════════════════════════════
-// TICKER
-// ════════════════════════════════════════════
-function buildTicker(){
-  const stats=getStats();
-  const played=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null);
-  const totalGoals=played.reduce((t,f)=>t+f.homeGoals+f.awayGoals,0);
-  const leader=stats[0];
-  const topScorer=[...goalScorers].sort((a,b)=>b.goals-a.goals)[0];
-  const nextFix=getNextFixture();
-  const isS3=currentSeason===3;
-
-  const items=[
-    `<span class="${isS3?'t-orange':'t-gold'}">⚽ KNR PREMIER LEAGUE</span><span class="t-sep"> · </span><span class="t-hi">Season ${currentSeason}${isS3?' 🔥 HOME & AWAY':''}</span>`,
-    `<span>Matches Played:</span><span class="${isS3?'t-orange':'t-green'}"> ${played.length}</span><span class="t-sep"> · </span><span>Goals Scored:</span><span class="${isS3?'t-orange':'t-green'}"> ${totalGoals}</span>`,
-    leader&&leader.P>0?`<span>League Leaders:</span><span class="t-hi"> ${leader.name}</span><span class="t-sep"> · </span><span class="t-gold">${leader.Pts} pts</span>`:`<span>No results yet</span>`,
-    topScorer&&TEAMS[topScorer.teamId]?`<span>Top Scorer:</span><span class="t-hi"> ${topScorer.name}</span><span class="t-sep"> (</span><span class="t-gold">${topScorer.goals} ⚽</span><span class="t-sep">)</span>`:`<span>Top Scorer: No goals yet</span>`,
-    nextFix?`<span>Next:</span><span class="t-hi"> ${TEAMS[nextFix.home]?.name} vs ${TEAMS[nextFix.away]?.name}</span>`:`<span class="t-green">All fixtures played!</span>`,
-    `<span>Remaining:</span><span class="t-hi"> ${fixtures.length-played.length} fixtures</span>`,
-  ];
-  const all=[...items,...items];
-  const track=document.getElementById('ticker-track');
-  track.innerHTML=all.map(i=>`<div class="ticker-item">${i}<span class="t-sep" style="opacity:0.3;padding-left:20px">●</span></div>`).join('');
-}
-
-// ════════════════════════════════════════════
-// COUNTDOWN
-// ════════════════════════════════════════════
-function getNextFixture(){
-  const sched=buildSchedule(fixtures);
-  const now=new Date();
-  const upcoming=fixtures
-    .filter(f=>f.homeGoals===null&&f.awayGoals===null&&sched[f.id]&&sched[f.id]>now)
-    .sort((a,b)=>sched[a.id]-sched[b.id]);
-  if(!upcoming.length)return null;
-  const f=upcoming[0];
-  return{...f,kickoff:sched[f.id]};
-}
-
-function startCountdown(){
-  if(countdownTimer)clearInterval(countdownTimer);
-  const banner=document.getElementById('countdown-banner');
-  const next=getNextFixture();
-  if(!next){banner.style.display='none';return;}
-  const hT=TEAMS[next.home],aT=TEAMS[next.away];
-  if(!hT||!aT){banner.style.display='none';return;}
-  document.getElementById('cd-match-name').textContent=`${hT.name}  vs  ${aT.name}`;
-  banner.style.display='flex';
-  function tick(){
-    const diff=next.kickoff-new Date();
-    if(diff<=0){banner.style.display='none';clearInterval(countdownTimer);renderAll();return;}
-    const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
-    document.getElementById('cd-d').textContent=String(d).padStart(2,'0');
-    document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
-    document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
-    document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
-  }
-  tick();countdownTimer=setInterval(tick,1000);
-}
-
-// ════════════════════════════════════════════
-// TEAM OF THE WEEK
-// ════════════════════════════════════════════
-function renderTOTW(){
-  const panel=document.getElementById('totw-panel');
-  const stats=getStats();
-  const played=stats.filter(s=>s.P>0);
-  if(!played.length){panel.innerHTML='';return;}
-  const best=played[0];
-  const topScorer=goalScorers.filter(s=>Number(s.teamId)===best.id).sort((a,b)=>b.goals-a.goals)[0];
-  const winRate=best.P>0?Math.round((best.W/best.P)*100):0;
-  panel.innerHTML=`
-    <div class="totw-card">
-      <div class="totw-badge-wrap">
-        <div class="totw-crown">👑</div>
-        <svg width="72" height="81"><use href="#${best.bid}"/></svg>
-      </div>
-      <div class="totw-info">
-        <div class="totw-eyebrow">🏆 Current League Leaders</div>
-        <div class="totw-name">${best.name}</div>
-        <div class="totw-stats">
-          <div class="totw-stat"><div class="totw-stat-val">${best.Pts}</div><div class="totw-stat-lbl">Pts</div></div>
-          <div class="totw-stat"><div class="totw-stat-val">${best.W}</div><div class="totw-stat-lbl">Wins</div></div>
-          <div class="totw-stat"><div class="totw-stat-val">${best.GF}</div><div class="totw-stat-lbl">Goals</div></div>
-          <div class="totw-stat"><div class="totw-stat-val">${winRate}%</div><div class="totw-stat-lbl">Win Rate</div></div>
-          ${topScorer?`<div class="totw-stat"><div class="totw-stat-val">${topScorer.goals}⚽</div><div class="totw-stat-lbl">${topScorer.name.split(' ')[0]}</div></div>`:''}
-        </div>
-      </div>
-    </div>`;
-}
-
-// ════════════════════════════════════════════
-// CLUB PROFILE
-// ════════════════════════════════════════════
-function openClubProfile(teamIdx){
-  const team=TEAMS[teamIdx];if(!team)return;
-  const stats=getStats();
-  const s=stats.find(x=>x.id===teamIdx)||{P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]};
-  const rank=stats.findIndex(x=>x.id===teamIdx)+1;
-  const clubScorers=goalScorers.filter(x=>Number(x.teamId)===teamIdx).sort((a,b)=>b.goals-a.goals);
-  document.getElementById('cp-badge').innerHTML=`<svg width="80" height="90"><use href="#${team.bid}"/></svg>`;
-  document.getElementById('cp-name').textContent=team.name;
-  document.getElementById('cp-season').textContent=`Season ${currentSeason} · Position #${rank}`;
-  document.getElementById('cp-stats-grid').innerHTML=`
-    <div class="cp-stat"><div class="cp-stat-val">${s.Pts}</div><div class="cp-stat-lbl">Points</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.P}</div><div class="cp-stat-lbl">Played</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.W}</div><div class="cp-stat-lbl">Won</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.D}</div><div class="cp-stat-lbl">Drawn</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.L}</div><div class="cp-stat-lbl">Lost</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.GF}</div><div class="cp-stat-lbl">Goals For</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.GA}</div><div class="cp-stat-lbl">Goals Against</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.GD>0?'+':''}${s.GD}</div><div class="cp-stat-lbl">Goal Diff</div></div>
-    <div class="cp-stat"><div class="cp-stat-val">${s.P>0?Math.round(s.W/s.P*100):0}%</div><div class="cp-stat-lbl">Win Rate</div></div>
-  `;
-  const form=s.form.slice(-8).map(r=>`<div class="form-pill f${r}">${r}</div>`).join('');
-  document.getElementById('cp-form').innerHTML=form||'<span style="color:var(--text2);font-size:12px">No matches yet</span>';
-  if(clubScorers.length){
-    document.getElementById('cp-scorers-list').innerHTML=`
-      <div style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:8px;margin-top:12px">Goal Scorers</div>
-      ${clubScorers.map(s=>`<div class="cp-scorer"><span class="cp-scorer-name">${s.name}</span><span class="cp-scorer-g">${s.goals} ⚽</span></div>`).join('')}`;
-  } else {
-    document.getElementById('cp-scorers-list').innerHTML='';
-  }
-  document.getElementById('club-profile-modal').classList.add('open');
-}
-
-// ════════════════════════════════════════════
-// SEASON SWITCH
-// ════════════════════════════════════════════
-function toggleSeasonMenu(){
-  document.getElementById('season-btn').classList.toggle('open');
-  document.getElementById('season-menu').classList.toggle('open');
-}
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.season-dropdown-wrap')){
-    document.getElementById('season-btn').classList.remove('open');
-    document.getElementById('season-menu').classList.remove('open');
-  }
-});
-
-function setSeason(n){
-  currentSeason=n;
-  TEAMS=n===1?TEAMS_S1:n===2?TEAMS_S2:TEAMS_S3;
-  fixtures=[];goalScorers=[];cupData=null;cupSelectedTeams=new Set();manualSlots=[];
-
-  document.getElementById('season-btn-label').textContent=`Season ${n}${n===3?' 🔥':''}`;
-  document.getElementById('hero-label').textContent=`⚡ eFootball Mobile · Season ${n}${n===3?' · Home & Away':''}`;
-  document.getElementById('hero-season-text').textContent=`Season ${n} · ${n===3?'2025 · Home & Away':'2025'}`;
-  document.getElementById('hero-sub').textContent=`${TEAMS.length} clubs · ${n===3?'HOME & AWAY · Double Round-Robin 🔥':'AZISHE MAJITA · AKUFE OFAYO 😂'}`;
-  document.getElementById('cup-subtitle').textContent=`Single Elimination · Season ${n}`;
-
-  // Season option highlights
-  document.getElementById('s-opt-1').classList.toggle('active-season',n===1);
-  document.getElementById('s-opt-2').classList.toggle('active-season',n===2);
-  document.getElementById('s-opt-3').classList.toggle('active-season',n===3);
-
-  // Banners
-  document.getElementById('s1-banner-tag').style.display=n===1?'block':'none';
-  document.getElementById('s3-banner-tag').style.display=n===3?'block':'none';
-  document.getElementById('s3-banner').style.display=n===3?'flex':'none';
-
-  // Table header accent for S3
-  const headRow=document.getElementById('table-head-row');
-  if(n===3) headRow.classList.add('s3-table-header');
-  else headRow.classList.remove('s3-table-header');
-
-  updateFab();buildClubsRow();initFloatingBadges();
-  document.getElementById('season-btn').classList.remove('open');
-  document.getElementById('season-menu').classList.remove('open');
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-standings').classList.add('active');
-  document.querySelectorAll('#main-nav button').forEach(b=>b.classList.remove('active'));
-  document.querySelector('#main-nav button').classList.add('active');
-  loadData();loadCup();
-}
-
-function buildClubsRow(){
-  document.getElementById('clubs-row').innerHTML=TEAMS.map((t,i)=>`
-    <div class="club-pin" onclick="openClubProfile(${i})" title="View ${t.name} stats">
-      <svg width="48" height="54"><use href="#${t.bid}"/></svg>
-      <span>${t.name.replace(/ FC$/,'')}</span>
-    </div>`).join('');
-}
-
-// ════════════════════════════════════════════
-// DATA
-// ════════════════════════════════════════════
-function genFixtures(){
-  const n=TEAMS.length;
-  if(currentSeason===3){
-    // Home & Away: full double round-robin
-    return genHomeAwayFixtures();
-  }
-  // Single round-robin (S1 & S2)
-  const teams=Array.from({length:n},(_,i)=>i);
-  if(n%2!==0)teams.push(null);
-  const total=teams.length,rounds=total-1,perRound=total/2;
-  const f=[];let id=0;
-  for(let r=0;r<rounds;r++){
-    for(let i=0;i<perRound;i++){
-      const home=teams[i],away=teams[total-1-i];
-      if(home!==null&&away!==null)f.push({id:id++,home,away,week:r+1,homeGoals:null,awayGoals:null});
-    }
-    teams.splice(1,0,teams.pop());
-  }
-  return f;
-}
-
-function genHomeAwayFixtures(){
-  // Double round-robin: each pair plays twice, home & away
-  const n=TEAMS.length;
-  const teams=Array.from({length:n},(_,i)=>i);
-  if(n%2!==0)teams.push(null);
-  const total=teams.length,rounds=total-1,perRound=total/2;
-  const leg1=[],leg2=[];
-  let id=0;
-  const teamsCopy=[...teams];
-  for(let r=0;r<rounds;r++){
-    for(let i=0;i<perRound;i++){
-      const home=teamsCopy[i],away=teamsCopy[total-1-i];
-      if(home!==null&&away!==null){
-        leg1.push({id:id++,home,away,week:r+1,homeGoals:null,awayGoals:null,leg:1});
-        // Reverse fixture for leg 2
-        leg2.push({id:id++,home:away,away:home,week:r+1+rounds,homeGoals:null,awayGoals:null,leg:2});
-      }
-    }
-    teamsCopy.splice(1,0,teamsCopy.pop());
-  }
-  return [...leg1,...leg2];
-}
-
-function normaliseFixtures(raw){
-  const arr=Array.isArray(raw)?raw:Object.values(raw||{});
-  return arr.filter(Boolean).map(f=>({
-    id:Number(f.id??0),home:Number(f.home),away:Number(f.away),
-    week:Number(f.week??1),homeGoals:f.homeGoals!=null?Number(f.homeGoals):null,
-    awayGoals:f.awayGoals!=null?Number(f.awayGoals):null,
-    leg:f.leg?Number(f.leg):undefined
-  }));
-}
-function normaliseScorers(raw){
-  if(!raw)return[];
-  const arr=Array.isArray(raw)?raw:Object.values(raw);
-  return arr.filter(Boolean).map(s=>({name:String(s.name||''),teamId:Number(s.teamId),goals:Number(s.goals||0)}));
-}
-function ensureAllFixtures(){
-  if(currentSeason===3){
-    // For S3 home-away, ensure all home/away pairs exist
-    const n=TEAMS.length;
-    for(let i=0;i<n;i++)for(let j=0;j<n;j++){
-      if(i===j)continue;
-      const ex=fixtures.find(f=>Number(f.home)===i&&Number(f.away)===j);
-      if(!ex){
-        const wk=fixtures.length%n+1;
-        fixtures.push({id:fixtures.length,home:i,away:j,week:wk,homeGoals:null,awayGoals:null,leg:i<j?1:2});
-      }
-    }
-  } else {
-    const n=TEAMS.length;
-    for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){
-      const ex=fixtures.find(f=>(Number(f.home)===i&&Number(f.away)===j)||(Number(f.home)===j&&Number(f.away)===i));
-      if(!ex)fixtures.push({id:fixtures.length,home:i,away:j,week:1,homeGoals:null,awayGoals:null});
-    }
-  }
-}
-
-let leagueListener=null;
-function loadData(){
-  if(leagueListener)leagueListener();leagueListener=null;
-  const ref=db.ref(dbRef());
-  const h=snap=>{
-    const d=snap.val();
-    fixtures=d?.fixtures?normaliseFixtures(d.fixtures):genFixtures();
-    goalScorers=d?.scorers?normaliseScorers(d.scorers):[];
-    ensureAllFixtures();renderAll();
-  };
-  ref.on('value',h);leagueListener=()=>ref.off('value',h);
-}
-function saveData(){db.ref(dbRef()).set({fixtures,scorers:goalScorers});}
-
-// ════════════════════════════════════════════
-// SCHEDULE — S3: SPONTANEOUS 2-DAY BLITZ
-// ════════════════════════════════════════════
-function buildSchedule(list){
-  const now=new Date();
-  const isS3=currentSeason===3;
-
-  if(isS3){
-    // Season 3: spread over exactly 2 days from today
-    // Time slots: every 20 minutes from 09:00 to 23:40 each day
-    const slots=[];
-    for(let d=0;d<2;d++){
-      // Day 0 = today, Day 1 = tomorrow
-      // Generate random-ish times across the day for spontaneous feel
-      // Use a fixed set of spread-out times so they feel "spontaneous" but logical
-      const baseTimes=[9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-      baseTimes.forEach(h=>{
-        // add some random minutes offset (seeded per day+hour to be consistent)
-        const seed=(d*100+h)*13;
-        const mins=(seed%3)*10; // 0, 10, or 20 min offset
-        const slot=new Date(now);
-        slot.setDate(now.getDate()+d);
-        slot.setHours(h,mins,0,0);
-        if(slot.getTime()-now.getTime()>15*60*1000)slots.push(new Date(slot));
-      });
-    }
-
-    const unplayed=list
-      .filter(f=>f.homeGoals===null&&f.awayGoals===null)
-      .sort((a,b)=>a.week-b.week||a.id-b.id);
-
-    const sched={};
-    if(!slots.length||!unplayed.length)return sched;
-
-    // Spread matches across available slots with no two matches at exact same time
-    // But allow multiple at same hour (like real matchdays)
-    unplayed.forEach((f,i)=>{
-      sched[f.id]=slots[i%slots.length];
-    });
-    return sched;
-  }
-
-  // Default schedule (S1/S2 logic)
-  const todayDow=now.getDay();
-  const daysLeftInWeek=7-todayDow;
-  const timeSlots=[15,17,19,21];
-  const slots=[];
-  for(let d=0;d<daysLeftInWeek;d++){
-    timeSlots.forEach(h=>{
-      const slot=new Date(now);
-      slot.setDate(now.getDate()+d);
-      slot.setHours(h,0,0,0);
-      if(slot.getTime()-now.getTime()>30*60*1000)slots.push(new Date(slot));
-    });
-  }
-  const unplayed=list
-    .filter(f=>f.homeGoals===null&&f.awayGoals===null)
-    .sort((a,b)=>a.week-b.week||a.id-b.id);
-  const sched={};
-  if(!slots.length||!unplayed.length){
-    const base=new Date();base.setHours(15,0,0,0);
-    unplayed.forEach((f,i)=>{sched[f.id]=new Date(base.getTime()+i*86400000);});
-    return sched;
-  }
-  if(unplayed.length<=slots.length){
-    const step=slots.length/unplayed.length;
-    unplayed.forEach((f,i)=>{sched[f.id]=slots[Math.floor(i*step)];});
-  } else {
-    unplayed.forEach((f,i)=>{sched[f.id]=slots[i%slots.length];});
-  }
-  return sched;
-}
-
-function fmtKO(d){
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return`${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} · ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-}
-function fmtDate(d){
-  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return`${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]}`;
-}
-
-// ════════════════════════════════════════════
-// STATS
-// ════════════════════════════════════════════
-function getStats(){
-  const s=TEAMS.map(t=>({...t,P:0,W:0,D:0,L:0,GF:0,GA:0,GD:0,Pts:0,form:[]}));
-  fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null).forEach(f=>{
-    const h=s[Number(f.home)],a=s[Number(f.away)];if(!h||!a)return;
-    h.P++;a.P++;h.GF+=f.homeGoals;h.GA+=f.awayGoals;a.GF+=f.awayGoals;a.GA+=f.homeGoals;
-    if(f.homeGoals>f.awayGoals){h.W++;h.Pts+=3;a.L++;h.form.push('W');a.form.push('L');}
-    else if(f.homeGoals===f.awayGoals){h.D++;a.D++;h.Pts++;a.Pts++;h.form.push('D');a.form.push('D');}
-    else{a.W++;a.Pts+=3;h.L++;a.form.push('W');h.form.push('L');}
-  });
-  s.forEach(t=>t.GD=t.GF-t.GA);
-  return s.sort((a,b)=>b.Pts-a.Pts||b.GD-a.GD||b.GF-a.GF);
-}
-
-// ════════════════════════════════════════════
-// RENDER
-// ════════════════════════════════════════════
-function renderStandings(){
-  const stats=getStats(),n=stats.length;
-  const isS3=currentSeason===3;
-  document.getElementById('standings-body').innerHTML=stats.map((s,i)=>{
-    const pos=i+1;
-    const rowCls=pos===1?`pos-champ${isS3?' s3-table-accent':''}`:pos<=3?'pos-top':pos===n?'pos-rel':'';
-    const numCls=pos===1?'pn-1':pos===2?'pn-2':pos===3?'pn-3':'pn-o';
-    const form=s.form.slice(-5).map(r=>`<div class="form-pill f${r}">${r}</div>`).join('');
-    return`<tr class="${rowCls}">
-      <td><div class="pos-num ${numCls}">${pos}</div></td>
-      <td><div class="team-cell">${svgBadge(s.id,28)}<span>${s.name}</span></div></td>
-      <td>${s.P}</td><td>${s.W}</td><td>${s.D}</td><td>${s.L}</td>
-      <td>${s.GF}</td><td>${s.GA}</td><td>${s.GD>0?'+':''}${s.GD}</td>
-      <td><span class="pts-cell">${s.Pts}</span></td>
-      <td><div class="form-pills">${form||'<span style="color:var(--text2);font-size:11px">–</span>'}</div></td>
-    </tr>`;
-  }).join('');
-  const played=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null);
-  document.getElementById('stat-played').textContent=played.length;
-  document.getElementById('stat-goals').textContent=played.reduce((t,f)=>t+f.homeGoals+f.awayGoals,0);
-  document.getElementById('stat-remaining').textContent=fixtures.length-played.length;
-}
-
 function renderFixtures(){
-  const sched=buildSchedule(fixtures);
-  const now=new Date();
-  const isS3=currentSeason===3;
-  const byW={};
-  fixtures.forEach(f=>{const wk=f.week||1;(byW[wk]=byW[wk]||[]).push(f);});
-  let html='';
+  const sched = buildSchedule(fixtures);
+  const now = new Date();
+  const isS3 = currentSeason === 3;
+  const byW = {};
+  fixtures.forEach(f => {
+    const wk = f.week || 1;
+    (byW[wk] = byW[wk] || []).push(f);
+  });
 
-  Object.keys(byW).sort((a,b)=>Number(a)-Number(b)).forEach(wk=>{
-    const wkNum=Number(wk);
-    const isLeg2=isS3&&wkNum>Math.ceil(fixtures.length/2/TEAMS.length);
+  let html = '';
 
-    // Get the date for this matchweek from the first fixture's schedule
-    const firstFix=byW[wk].find(f=>sched[f.id]);
-    const weekDateStr=firstFix&&sched[firstFix.id]?fmtDate(sched[firstFix.id]):'';
-    const weekDateDay=firstFix&&sched[firstFix.id]?sched[firstFix.id].getDay():null;
-    // For S3: Day 1 = today, Day 2 = tomorrow
-    let dayLabel='';
-    if(isS3&&weekDateDay!==null){
-      const todayDay=now.getDay();
-      if(weekDateDay===todayDay)dayLabel='📅 Day 1';
-      else dayLabel='📅 Day 2';
+  Object.keys(byW).sort((a,b) => Number(a)-Number(b)).forEach(wk => {
+    const wkNum = Number(wk);
+    const isLeg2 = isS3 && wkNum > Math.ceil(fixtures.length / 2 / TEAMS.length);
+
+    const firstFix = byW[wk].find(f => sched[f.id]);
+    const weekDateStr = firstFix && sched[firstFix.id] ? fmtDate(sched[firstFix.id]) : '';
+    let dayLabel = '';
+    if(isS3 && firstFix && sched[firstFix.id]){
+      const weekDay = sched[firstFix.id].getDay();
+      const todayDay = now.getDay();
+      dayLabel = weekDay === todayDay ? '📅 Day 1' : '📅 Day 2';
     }
 
-    html+=`<div class="fixture-card"><div class="matchday-hdr">
-      <div class="matchday-hdr-pill${isS3?' s3-pill':''}">MW ${wk}${isS3?(isLeg2?' · Away':'  · Home'):''}</div>
-      <div class="matchday-hdr-label">${isS3?(isLeg2?'🔄 Return Leg':'⚽ First Leg'):('Match Week '+wk)}</div>
-      ${isS3&&dayLabel?`<div class="matchday-hdr-date">${dayLabel}</div>`:''}
-    </div>`;
-
-    byW[wk].forEach(f=>{
-      const hId=Number(f.home),aId=Number(f.away),hT=TEAMS[hId],aT=TEAMS[aId];
-      if(!hT||!aT)return;
-      const p=f.homeGoals!==null&&f.awayGoals!==null;
-      const hW=p&&f.homeGoals>f.awayGoals,aW=p&&f.awayGoals>f.homeGoals;
-      let koHtml='';
-      if(!p&&sched[f.id]){
-        const ko=sched[f.id],past=ko<now;
-        if(isS3){
-          koHtml=`<div class="ko-chip${past?' stale':' s3-ko'}">${!past?'<span class="ko-dot"></span>':''} ${fmtKO(ko)}</div>`;
-        } else {
-          koHtml=`<div class="ko-chip${past?' stale':''}">${!past?'<span class="ko-dot"></span>':''} ${fmtKO(ko)}</div>`;
-        }
-      }
-      const score=p
-        ?`<div class="score-line"><span class="${hW?'win':''}">${f.homeGoals}</span><span class="sep">–</span><span class="${aW?'win':''}">${f.awayGoals}</span></div>`
-        :`<div class="score-line"><span class="vs-badge">VS</span></div>`;
-      // H&A badges for S3
-      const haBadge=isS3?`<span class="ha-badge ha-home">H</span>`:'';
-      const haAwayBadge=isS3?`<span class="ha-badge ha-away">A</span>`:'';
-      html+=`<div class="fixture-match">
-        <div class="fixture-team home">${svgBadge(hId,32)}<div><div class="fixture-team-name">${hT.name}</div>${haBadge}</div></div>
-        <div class="fixture-score-block">${score}${koHtml}</div>
-        <div class="fixture-team away"><div style="text-align:right"><div class="fixture-team-name">${aT.name}</div>${haAwayBadge}</div>${svgBadge(aId,32)}</div>
+    html += `<div class="fixture-card">
+      <div class="matchday-hdr">
+        <div class="matchday-hdr-pill${isS3?' s3-pill':''}">MW \( {wk} \){isS3?(isLeg2?' · Away':' · Home'):''}</div>
+        <div class="matchday-hdr-label">${isS3?(isLeg2?'🔄 Return Leg':'⚽ First Leg'):'Match Week '+wk}</div>
+        \( {isS3&&dayLabel?`<div class="matchday-hdr-date"> \){dayLabel}</div>`:''}
       </div>`;
+
+    byW[wk].forEach(f => {
+      const hId = Number(f.home), aId = Number(f.away);
+      const hT = TEAMS[hId], aT = TEAMS[aId];
+      if(!hT || !aT) return;
+
+      const played = f.homeGoals !== null && f.awayGoals !== null;
+      const hW = played && f.homeGoals > f.awayGoals;
+      const aW = played && f.awayGoals > f.homeGoals;
+
+      let koHtml = '';
+      if(!played && sched[f.id]){
+        const ko = sched[f.id];
+        const past = ko < now;
+        koHtml = `<div class="ko-chip\( {past?' stale':' s3-ko'}"> \){!past?'<span class="ko-dot"></span>':''} ${fmtKO(ko)}</div>`;
+      }
+
+      const scoreHtml = played 
+        ? `<div class="score-line"><span class="\( {hW?'win':''}"> \){f.homeGoals}</span><span class="sep">–</span><span class="\( {aW?'win':''}"> \){f.awayGoals}</span></div>`
+        : `<div class="score-line"><span class="vs-badge">VS</span></div>`;
+
+      const haBadge = isS3 ? `<span class="ha-badge ha-home">H</span>` : '';
+      const haAwayBadge = isS3 ? `<span class="ha-badge ha-away">A</span>` : '';
+
+      // Make whole match row clickable
+      html += `
+        <div class="fixture-match" style="cursor:pointer" onclick="editFixture(${f.id})">
+          <div class="fixture-team home">\( {svgBadge(hId,32)}<div><div class="fixture-team-name"> \){hT.name}</div>${haBadge}</div></div>
+          <div class="fixture-score-block">\( {scoreHtml} \){koHtml}</div>
+          <div class="fixture-team away"><div style="text-align:right"><div class="fixture-team-name">\( {aT.name}</div> \){haAwayBadge}</div>${svgBadge(aId,32)}</div>
+        </div>`;
     });
-    html+='</div>';
+    html += '</div>';
   });
-  document.getElementById('fixtures-list').innerHTML=html;
+
+  document.getElementById('fixtures-list').innerHTML = html;
 }
 
 // ════════════════════════════════════════════
-// STATS SECTION
+// EDIT FIXTURE (NEW FUNCTION)
 // ════════════════════════════════════════════
-function getBiggestWin(){
-  const played=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null);
-  if(!played.length)return null;
-  let best=null,bestDiff=0;
-  played.forEach(f=>{
-    const diff=Math.abs(f.homeGoals-f.awayGoals);
-    if(diff>bestDiff){bestDiff=diff;const winner=f.homeGoals>f.awayGoals?f.home:f.away;const wG=Math.max(f.homeGoals,f.awayGoals),lG=Math.min(f.homeGoals,f.awayGoals);best={winner,loser:f.homeGoals>f.awayGoals?f.away:f.home,wG,lG,diff};}
-  });
-  return best;
-}
-function getCleanSheets(){
-  const cs={};TEAMS.forEach(t=>cs[t.id]=0);
-  fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null).forEach(f=>{
-    if(f.awayGoals===0)cs[Number(f.home)]=(cs[Number(f.home)]||0)+1;
-    if(f.homeGoals===0)cs[Number(f.away)]=(cs[Number(f.away)]||0)+1;
-  });
-  return TEAMS.map(t=>({...t,cs:cs[t.id]||0})).sort((a,b)=>b.cs-a.cs);
-}
-function getBestUnbeaten(){
-  const stats=getStats();
-  return stats.map(s=>{let best=0,cur=0;s.form.forEach(r=>{if(r!=='L'){cur++;best=Math.max(best,cur);}else cur=0;});return{...s,unbeaten:best};}).sort((a,b)=>b.unbeaten-a.unbeaten);
-}
-function getMostGoalsGame(){
-  const played=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null);
-  if(!played.length)return null;
-  return played.sort((a,b)=>(b.homeGoals+b.awayGoals)-(a.homeGoals+a.awayGoals))[0];
-}
-function renderStatRow(rank,badgeId,name,sub,val,barPct,barClass=''){
-  const rc=rank===1?'sr1':rank===2?'sr2':rank===3?'sr3':'';
-  return`<div class="stat-row"><div class="stat-row-rank ${rc}">${rank}</div>${svgBadge(badgeId,28)}<div class="stat-row-info"><div class="stat-row-name">${name}</div>${sub?`<div class="stat-row-sub">${sub}</div>`:''}<div class="stat-bar-wrap"><div class="stat-bar ${barClass}" style="width:${barPct}%"></div></div></div><div class="stat-row-val">${val}</div></div>`;
-}
-function renderStats(){
-  const stats=getStats();
-  const played=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null);
-  const totalGoals=played.reduce((t,f)=>t+f.homeGoals+f.awayGoals,0);
-  const avgGoals=played.length?(totalGoals/played.length).toFixed(1):'0.0';
-  const bigWin=getBiggestWin();
-  const csData=getCleanSheets();
-  const unbeatenData=getBestUnbeaten();
-  const topAttack=[...stats].sort((a,b)=>b.GF-a.GF)[0];
-  const mostGoalGame=getMostGoalsGame();
-  const hT=mostGoalGame?TEAMS[mostGoalGame.home]:null;
-  const aT=mostGoalGame?TEAMS[mostGoalGame.away]:null;
-
-  const isS3=currentSeason===3;
-  document.getElementById('stats-records-row').innerHTML=`
-    <div class="record-card rc-green"><span class="record-card-icon">⚽</span><div class="record-card-val"><span>${totalGoals}</span></div><div class="record-card-lbl">Total Goals</div></div>
-    <div class="record-card rc-gold"><span class="record-card-icon">📊</span><div class="record-card-val"><span>${avgGoals}</span></div><div class="record-card-lbl">Goals / Game</div></div>
-    <div class="record-card rc-violet"><span class="record-card-icon">🎯</span><div class="record-card-val"><span>${played.length}</span></div><div class="record-card-lbl">Matches Played</div></div>
-    ${isS3?`<div class="record-card rc-orange"><span class="record-card-icon">🏠</span><div class="record-card-val"><span>${fixtures.length}</span></div><div class="record-card-lbl">Total Fixtures</div><div class="record-card-team">Home &amp; Away</div></div>`:''}
-    ${bigWin?`<div class="record-card rc-red"><span class="record-card-icon">💥</span><div class="record-card-val"><span>${bigWin.wG}–${bigWin.lG}</span></div><div class="record-card-lbl">Biggest Win</div><div class="record-card-team">${TEAMS[bigWin.winner]?.name||'–'}</div></div>`:''}
-    ${mostGoalGame&&hT&&aT?`<div class="record-card rc-blue"><span class="record-card-icon">🔥</span><div class="record-card-val"><span>${mostGoalGame.homeGoals+mostGoalGame.awayGoals}</span></div><div class="record-card-lbl">Most Goals, 1 Game</div><div class="record-card-team">${hT.short} ${mostGoalGame.homeGoals}–${mostGoalGame.awayGoals} ${aT.short}</div></div>`:''}
-  `;
-
-  // Match History
-  const playedFixtures=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null).slice(-8).reverse();
-  document.getElementById('stats-history').innerHTML=playedFixtures.length
-    ?playedFixtures.map(f=>{
-      const hT=TEAMS[Number(f.home)],aT=TEAMS[Number(f.away)];if(!hT||!aT)return'';
-      const hW=f.homeGoals>f.awayGoals,aW=f.awayGoals>f.homeGoals,isDraw=f.homeGoals===f.awayGoals;
-      const resultColor=isDraw?'var(--gold)':'var(--pitch)';
-      return`<div class="history-row"><div class="history-team home-side">${svgBadge(hT.id,24)}<span class="history-tname ${hW?'hist-win':''}">${hT.name}</span></div><div class="history-score-block" style="border-color:${resultColor}"><span class="${hW?'hist-win':aW?'hist-lose':'hist-draw'}">${f.homeGoals}</span><span class="history-sep">–</span><span class="${aW?'hist-win':hW?'hist-lose':'hist-draw'}">${f.awayGoals}</span></div><div class="history-team away-side"><span class="history-tname ${aW?'hist-win':''}">${aT.name}</span>${svgBadge(aT.id,24)}</div></div>`;
-    }).join('')
-    :`<div class="h2h-empty">No results yet — check back after matches!</div>`;
-
-  // Clean Sheets
-  const maxCS=csData[0]?.cs||1;
-  document.getElementById('stats-cleansheets').innerHTML=csData.filter(t=>t.cs>0).slice(0,6).map((t,i)=>renderStatRow(i+1,t.id,t.name,`${t.P} games played`,`${t.cs}`,Math.round(t.cs/maxCS*100),'bar-blue')).join('')||`<div class="h2h-empty">No clean sheets yet</div>`;
-
-  // Most Wins
-  const maxW=stats[0]?.W||1;
-  document.getElementById('stats-wins').innerHTML=[...stats].sort((a,b)=>b.W-a.W).slice(0,6).map((t,i)=>renderStatRow(i+1,t.id,t.name,`${t.P} played`,`${t.W}W`,Math.round(t.W/maxW*100))).join('');
-
-  // Best Attack
-  const maxGF=topAttack?.GF||1;
-  document.getElementById('stats-attack').innerHTML=[...stats].sort((a,b)=>b.GF-a.GF).slice(0,6).map((t,i)=>renderStatRow(i+1,t.id,t.name,`${t.P} games`,`${t.GF}`,Math.round(t.GF/maxGF*100))).join('');
-
-  // Best Defence
-  const playedTeams=stats.filter(t=>t.P>0);
-  const minGA=playedTeams.length?Math.min(...playedTeams.map(t=>t.GA)):0;
-  const maxGA=playedTeams.length?Math.max(...playedTeams.map(t=>t.GA)):1;
-  document.getElementById('stats-defence').innerHTML=playedTeams.length
-    ?[...playedTeams].sort((a,b)=>a.GA-b.GA).slice(0,6).map((t,i)=>renderStatRow(i+1,t.id,t.name,`${t.P} games`,`${t.GA} conceded`,Math.round((1-(t.GA-minGA)/Math.max(maxGA-minGA,1))*100),'bar-red')).join('')
-    :`<div class="h2h-empty">No matches played yet</div>`;
-
-  // Unbeaten Run
-  const maxUB=unbeatenData[0]?.unbeaten||1;
-  document.getElementById('stats-unbeaten').innerHTML=unbeatenData.filter(t=>t.unbeaten>0).slice(0,6).map((t,i)=>renderStatRow(i+1,t.id,t.name,`${t.P} played`,`${t.unbeaten} games`,Math.round(t.unbeaten/maxUB*100),'bar-gold')).join('')||`<div class="h2h-empty">No matches played yet</div>`;
-
-  // H2H dropdowns
-  const opts=TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
-  const selA=document.getElementById('h2h-team-a');
-  const selB=document.getElementById('h2h-team-b');
-  if(!selA.options.length){selA.innerHTML=opts;selB.innerHTML=opts;if(TEAMS.length>1)selB.value=TEAMS[1].id;}
-  renderH2H();
-}
-
-function renderH2H(){
-  const aId=+document.getElementById('h2h-team-a').value;
-  const bId=+document.getElementById('h2h-team-b').value;
-  const el=document.getElementById('h2h-result');
-  const tA=TEAMS[aId],tB=TEAMS[bId];
-  if(!tA||!tB||aId===bId){el.innerHTML=`<div class="h2h-empty">Select two different teams</div>`;return;}
-  const h2hFixtures=fixtures.filter(f=>f.homeGoals!==null&&f.awayGoals!==null&&((Number(f.home)===aId&&Number(f.away)===bId)||(Number(f.home)===bId&&Number(f.away)===aId)));
-  if(!h2hFixtures.length){el.innerHTML=`<div class="h2h-empty">No meetings between ${tA.name} and ${tB.name} yet</div>`;return;}
-  let aWins=0,bWins=0,draws=0,aGoals=0,bGoals=0;
-  h2hFixtures.forEach(f=>{const homeIsA=Number(f.home)===aId;const gA=homeIsA?f.homeGoals:f.awayGoals,gB=homeIsA?f.awayGoals:f.homeGoals;aGoals+=gA;bGoals+=gB;if(gA>gB)aWins++;else if(gB>gA)bWins++;else draws++;});
-  const aWinPct=Math.round(aWins/h2hFixtures.length*100),bWinPct=Math.round(bWins/h2hFixtures.length*100);
-  const history=h2hFixtures.map(f=>{const homeIsA=Number(f.home)===aId;const gA=homeIsA?f.homeGoals:f.awayGoals,gB=homeIsA?f.awayGoals:f.homeGoals;let badge,badgeCls;if(gA>gB){badge='WIN';badgeCls='win';}else if(gB>gA){badge='LOSE';badgeCls='lose';}else{badge='DRAW';badgeCls='draw';}const hT=TEAMS[Number(f.home)],aT=TEAMS[Number(f.away)];return`<div class="h2h-match-row"><span>${hT?.name||'–'}</span><span class="h2h-match-score">${f.homeGoals} – ${f.awayGoals}</span><span>${aT?.name||'–'}</span><span class="h2h-badge ${badgeCls}">${badge}</span></div>`;}).join('');
-  el.innerHTML=`<div class="h2h-result-block"><div class="h2h-scoreline"><div class="h2h-team-side"><svg width="56" height="63"><use href="#${tA.bid}"/></svg><div class="h2h-team-name">${tA.name}</div></div><div class="h2h-big-score"><span class="${aGoals>bGoals?'h2h-win':''}">${aWins}</span><span class="h2h-sep">–</span><span class="${bGoals>aGoals?'h2h-win':''}">${bWins}</span></div><div class="h2h-team-side"><svg width="56" height="63"><use href="#${tB.bid}"/></svg><div class="h2h-team-name">${tB.name}</div></div></div><div class="h2h-stats-row"><div class="h2h-stat-block"><div class="h2h-stat-val">${aGoals}</div><div class="h2h-stat-lbl">Goals</div></div><div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--gold)">${draws}</div><div class="h2h-stat-lbl">Draws</div></div><div class="h2h-stat-block"><div class="h2h-stat-val">${bGoals}</div><div class="h2h-stat-lbl">Goals</div></div></div><div class="h2h-stats-row"><div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--pitch)">${aWinPct}%</div><div class="h2h-stat-lbl">Win Rate</div></div><div class="h2h-stat-block"><div class="h2h-stat-val">${h2hFixtures.length}</div><div class="h2h-stat-lbl">Meetings</div></div><div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--pitch)">${bWinPct}%</div><div class="h2h-stat-lbl">Win Rate</div></div></div><div class="h2h-match-history">${history}</div></div>`;
-}
-
-function renderAll(){
-  renderStandings();renderFixtures();renderStats();
-  renderTOTW();buildTicker();startCountdown();
-}
-
-// ════════════════════════════════════════════
-// CONFETTI
-// ════════════════════════════════════════════
-function launchConfetti(){
-  const colors=['#00d068','#f5c518','#ef4444','#7c3aed','#a855f7','#ffffff','#29b6f6','#ff6b35'];
-  for(let i=0;i<70;i++){setTimeout(()=>{const el=document.createElement('div');el.className='confetti-piece';const size=Math.random()*8+4;el.style.cssText=`left:${Math.random()*100}%;top:-10px;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>0.5?'50%':'2px'};animation-duration:${Math.random()*1.5+1.2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),3000);},i*30);}
-}
-
-// ════════════════════════════════════════════
-// CUP — MANUAL BRACKET BUILDER
-// ════════════════════════════════════════════
-let cupListener=null;
-// manualSlots[slotIndex] = teamId or null  (length = bracket size)
-let manualSlots=[];
-
-function loadCup(){
-  if(cupListener)cupListener();cupListener=null;
-  const ref=db.ref(cupDbRef());
-  const h=snap=>{cupData=snap.val()||null;renderCupPage();};
-  ref.on('value',h);cupListener=()=>ref.off('value',h);
-}
-function saveCup(){db.ref(cupDbRef()).set(cupData);}
-
-// Build team selector chips (click to toggle selection)
-function buildCupCheckboxes(){
-  document.getElementById('cup-team-checkboxes').innerHTML=TEAMS.map(t=>`<div class="cup-team-check ${cupSelectedTeams.has(t.id)?'sel':''}" id="tc-${t.id}" onclick="toggleCupTeam(${t.id})"><div class="cup-chk-box">${cupSelectedTeams.has(t.id)?'✓':''}</div>${svgBadge(t.id,20)}<span class="cup-chk-name">${t.name}</span></div>`).join('');
-  document.getElementById('cup-selected-count').textContent=cupSelectedTeams.size;
-  updateManualBracketSlots();
-}
-
-function toggleCupTeam(id){
-  if(!isAdmin){toast('Login as Admin first 🔒');return;}
-  if(cupSelectedTeams.has(id))cupSelectedTeams.delete(id);
-  else cupSelectedTeams.add(id);
-  buildCupCheckboxes();
-}
-
-// Render the manual slot assignment UI
-function updateManualBracketSlots(){
-  const sel=[...cupSelectedTeams];
-  const wrap=document.getElementById('cup-manual-bracket');
-  if(sel.length<2){wrap.style.display='none';return;}
-  // Determine bracket size (next power of 2)
-  let size=2;while(size<sel.length)size*=2;
-  // Resize manualSlots array
-  while(manualSlots.length<size)manualSlots.push(null);
-  manualSlots=manualSlots.slice(0,size);
-  // Remove any slots that are no longer selected
-  manualSlots=manualSlots.map(s=>cupSelectedTeams.has(s)?s:null);
-
-  wrap.style.display='block';
-  const pairs=size/2;
-  let html=`<div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px">📋 Assign Teams to Bracket Slots (${size}-team bracket)</div>`;
-  html+=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">`;
-  for(let i=0;i<size;i+=2){
-    const mNum=i/2+1;
-    html+=`<div style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px">
-      <div style="font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text2)">Match ${mNum}</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        ${slotDropdown(i,sel)}
-        <span style="font-family:'Oswald',sans-serif;font-size:14px;color:var(--text2)">vs</span>
-        ${slotDropdown(i+1,sel)}
-      </div>
-    </div>`;
+function editFixture(fixtureId) {
+  if (!isAdmin) {
+    toast('Login as Admin first 🔒');
+    return;
   }
-  html+=`</div>`;
-  wrap.innerHTML=html;
-}
 
-function slotDropdown(idx,sel){
-  const curVal=manualSlots[idx]!=null?manualSlots[idx]:'';
-  const opts=`<option value="">— Pick Team —</option>`+sel.map(id=>`<option value="${id}" ${Number(id)===Number(manualSlots[idx])?'selected':''}>${TEAMS[id]?.name||id}</option>`).join('');
-  return`<select onchange="setManualSlot(${idx},this.value)" style="flex:1;font-size:12px;padding:7px 8px">${opts}</select>`;
-}
+  const fix = fixtures.find(f => f.id === fixtureId);
+  if (!fix) return;
 
-function setManualSlot(idx,val){
-  if(!isAdmin){toast('Login as Admin first 🔒');return;}
-  const newVal=val===''?null:Number(val);
-  // If team already in another slot, clear that slot first
-  manualSlots=manualSlots.map((s,i)=>(i!==idx&&s===newVal)?null:s);
-  manualSlots[idx]=newVal;
-  updateManualBracketSlots();
-}
+  const homeId = Number(fix.home);
+  const awayId = Number(fix.away);
 
-function confirmManualBracket(){
-  if(!isAdmin){toast('Login as Admin first 🔒');return;}
-  const sel=[...cupSelectedTeams];
-  if(sel.length<2){toast('Select at least 2 teams!');return;}
-  let size=2;while(size<sel.length)size*=2;
-  // Check all selected teams placed
-  const placed=manualSlots.filter(s=>s!=null);
-  if(placed.length<sel.length){toast(`Place all ${sel.length} selected teams in the bracket slots!`);return;}
-  // Check no duplicates
-  const unique=new Set(placed);
-  if(unique.size!==placed.length){toast('Each team can only appear once!');return;}
+  // Populate modal
+  populateSelects();
+  document.getElementById('sel-home').value = homeId;
+  document.getElementById('sel-away').value = awayId;
+  document.getElementById('score-home').value = fix.homeGoals ?? 0;
+  document.getElementById('score-away').value = fix.awayGoals ?? 0;
+  document.getElementById('match-week').value = fix.week || 1;
 
-  // Build round 1 from manualSlots
-  const r1=[];
-  for(let i=0;i<size;i+=2){
-    const home=manualSlots[i]!=null?manualSlots[i]:null;
-    const away=manualSlots[i+1]!=null?manualSlots[i+1]:null;
-    const m={home,away,homeGoals:null,awayGoals:null};
-    // Bye: one team auto-advances
-    if(home!==null&&away===null){m.homeGoals=1;m.awayGoals=0;}
-    if(home===null&&away!==null){m.homeGoals=0;m.awayGoals=1;}
-    r1.push(m);
+  // Clear previous scorers
+  document.getElementById('scorer-entries').innerHTML = '';
+  sc = 0;
+
+  // Pre-fill scorers for this match (optional - you can enhance this later)
+  const matchScorers = goalScorers.filter(s => 
+    (s.teamId === homeId || s.teamId === awayId)
+  );
+
+  if (matchScorers.length > 0) {
+    matchScorers.forEach(s => addScorerEntry(s.name, s.teamId, s.goals));
   }
-  const numR=Math.log2(size);
-  const rounds=[r1];
-  for(let r=1;r<numR;r++)rounds.push(Array.from({length:rounds[r-1].length/2},()=>({home:null,away:null,homeGoals:null,awayGoals:null})));
-  cupData={rounds};
-  propagateWinners();
-  saveCup();
-  toast('Bracket confirmed! 🏆 Tap matches to enter scores.');
-}
 
-function nextPow2(n){let p=1;while(p<n)p*=2;return p;}
-function getWinner(m){const hg=m.homeGoals!=null?Number(m.homeGoals):null,ag=m.awayGoals!=null?Number(m.awayGoals):null,home=m.home!=null?Number(m.home):null,away=m.away!=null?Number(m.away):null;if(hg===null||ag===null)return null;if(home===null)return away;if(away===null)return home;if(hg>ag)return home;if(ag>hg)return away;return null;}
-function propagateWinners(){
-  if(!cupData)return;const{rounds}=cupData;
-  for(let r=0;r<rounds.length-1;r++){rounds[r].forEach((m,mi)=>{const w=getWinner(m);if(w===null)return;const next=rounds[r+1][Math.floor(mi/2)],slot=mi%2===0?'home':'away';if(Number(next[slot])!==w){next[slot]=w;next.homeGoals=null;next.awayGoals=null;}});}
-}
-function resetCup(){
-  if(!isAdmin){toast('Login as Admin first 🔒');return;}
-  if(!confirm('Reset the Kinross Cup?'))return;
-  cupData=null;cupSelectedTeams=new Set();manualSlots=[];
-  db.ref(cupDbRef()).remove();
-}
-function getRoundLabel(rIdx,total){const rem=total-rIdx;if(rem===1)return'🏆 Final';if(rem===2)return'Semi-Finals';if(rem===3)return'Quarter-Finals';return`Round ${rIdx+1}`;}
-function renderCupPage(){
-  const sEl=document.getElementById('cup-setup-panel'),bEl=document.getElementById('cup-bracket-panel'),wEl=document.getElementById('cup-winner-card');
-  if(!cupData){sEl.style.display='block';bEl.style.display='none';wEl.style.display='none';buildCupCheckboxes();return;}
-  sEl.style.display='none';bEl.style.display='block';
-  const w=getWinner(cupData.rounds[cupData.rounds.length-1][0]);
-  if(w!==null&&TEAMS[w]){wEl.style.display='flex';document.getElementById('cup-winner-name').textContent=TEAMS[w].name;}else wEl.style.display='none';
-  renderBracket();
-}
-function renderBracket(){
-  const{rounds}=cupData,total=rounds.length;
-  const base=new Date();base.setDate(base.getDate()+1);base.setHours(15,0,0,0);let mc=0;
-  function ko(n){const d=new Date(base.getTime()+n*86400000);return fmtKO(d);}
-  document.getElementById('cup-bracket').innerHTML=rounds.map((round,rIdx)=>{
-    const matches=round.map((m,mIdx)=>{
-      const hId=m.home!=null?Number(m.home):null,aId=m.away!=null?Number(m.away):null;
-      const hg=m.homeGoals!=null?Number(m.homeGoals):null,ag=m.awayGoals!=null?Number(m.awayGoals):null;
-      const hT=hId!==null?TEAMS[hId]:null,aT=aId!==null?TEAMS[aId]:null;
-      const played=hg!==null&&ag!==null,fm={home:hId,away:aId,homeGoals:hg,awayGoals:ag},winner=getWinner(fm);
-      const canClick=isAdmin&&hT&&aT;
-      const hCls=played?(winner===hId?'b-win':'b-lose'):(!hT?'b-slot-tbd':'');
-      const aCls=played?(winner===aId?'b-win':'b-lose'):(!aT?'b-slot-tbd':'');
-      const hScore=played?`<span class="b-slot-score ${winner===hId?'b-gs':''}">${hg}</span>`:'';
-      const aScore=played?`<span class="b-slot-score ${winner===aId?'b-gs':''}">${ag}</span>`:'';
-      const koStr=(!played&&hT&&aT)?`<div class="b-ko">🕒 ${ko(mc++)}</div>`:'';
-      const ca=canClick?`data-ri="${rIdx}" data-mi="${mIdx}" style="cursor:pointer"`:'' ;
-      return`<div class="b-match-wrap cup-m" ${ca}><div class="b-slot ${hCls}">${hT?svgBadge(hId,19):'<span style="font-size:10px;color:var(--text2)">TBD</span>'}<span class="b-slot-name">${hT?hT.name:'???'}</span>${hScore}</div><div class="b-divider"></div><div class="b-slot ${aCls}">${aT?svgBadge(aId,19):'<span style="font-size:10px;color:var(--text2)">TBD</span>'}<span class="b-slot-name">${aT?aT.name:'???'}</span>${aScore}</div>${koStr}</div>`;
-    }).join('');
-    return`<div class="b-round"><div class="b-round-lbl">${getRoundLabel(rIdx,total)}</div>${matches}</div>`;
-  }).join('');
-  document.getElementById('cup-bracket').addEventListener('click',e=>{const m=e.target.closest('.cup-m[data-ri]');if(!m)return;openCupScoreModal(parseInt(m.getAttribute('data-ri')),parseInt(m.getAttribute('data-mi')));});
-}
-function openCupScoreModal(rIdx,mIdx){
-  if(!isAdmin)return;const m=cupData.rounds[rIdx][mIdx];const hT=TEAMS[Number(m.home)],aT=TEAMS[Number(m.away)];if(!hT||!aT)return;
-  cupMatchEditing={rIdx,mIdx};
-  document.getElementById('cup-home-label').textContent=hT.name;document.getElementById('cup-away-label').textContent=aT.name;
-  document.getElementById('cup-match-info').textContent=`${getRoundLabel(rIdx,cupData.rounds.length)} · ${hT.name} vs ${aT.name}`;
-  document.getElementById('cup-score-home').value=m.homeGoals??0;document.getElementById('cup-score-away').value=m.awayGoals??0;
-  document.getElementById('cup-score-modal').classList.add('open');
-}
-function saveCupResult(){
-  if(!cupMatchEditing)return;const hg=+document.getElementById('cup-score-home').value,ag=+document.getElementById('cup-score-away').value;
-  if(hg===ag){toast('No draws in knockout!');return;}
-  const{rIdx,mIdx}=cupMatchEditing;cupData.rounds[rIdx][mIdx].homeGoals=hg;cupData.rounds[rIdx][mIdx].awayGoals=ag;
-  propagateWinners();saveCup();document.getElementById('cup-score-modal').classList.remove('open');launchConfetti();toast('Cup result saved! 🏆');
-}
-
-// ════════════════════════════════════════════
-// PIN
-// ════════════════════════════════════════════
-let pinBuffer='';const PIN_LEN=6;
-function fabClick(){isAdmin?openResultModal():openPinModal();}
-function openPinModal(){pinBuffer='';updatePinDots();document.getElementById('pin-error').textContent='';document.getElementById('pin-modal-overlay').classList.add('open');}
-function closePinModal(){document.getElementById('pin-modal-overlay').classList.remove('open');pinBuffer='';updatePinDots();}
-function pinPress(d){if(pinBuffer.length>=PIN_LEN)return;pinBuffer+=d;updatePinDots();if(pinBuffer.length===PIN_LEN)setTimeout(checkPin,120);}
-function pinDel(){pinBuffer=pinBuffer.slice(0,-1);updatePinDots();document.getElementById('pin-error').textContent='';}
-function pinClear(){pinBuffer='';updatePinDots();document.getElementById('pin-error').textContent='';}
-function updatePinDots(){for(let i=0;i<PIN_LEN;i++){const d=document.getElementById('pd'+i);d.classList.toggle('filled',i<pinBuffer.length);d.classList.remove('error');}}
-function checkPin(){
-  if(pinBuffer===CORRECT_PIN){isAdmin=true;closePinModal();updateFab();openResultModal();toast('Welcome, Admin! 👋');}
-  else{for(let i=0;i<PIN_LEN;i++)document.getElementById('pd'+i).classList.add('error');document.getElementById('pin-error').textContent='Incorrect PIN.';setTimeout(()=>{pinBuffer='';updatePinDots();},900);}
-}
-function updateFab(){const fab=document.getElementById('fab-btn');if(isAdmin){fab.textContent='+';fab.classList.remove('locked');}else{fab.textContent='🔒';fab.classList.add('locked');}}
-function logout(){isAdmin=false;updateFab();closeResultModal();document.getElementById('cup-score-modal').classList.remove('open');toast('Logged out 🔒');}
-
-// ════════════════════════════════════════════
-// RESULT MODAL
-// ════════════════════════════════════════════
-function populateSelects(){
-  const opts=TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
-  document.getElementById('sel-home').innerHTML=opts;document.getElementById('sel-away').innerHTML=opts;
-  if(TEAMS.length>1)document.getElementById('sel-away').value=1;
-}
-let sc=0;
-function addScorerEntry(name='',tid=0,goals=1){
-  sc++;const id='sc'+sc;const d=document.createElement('div');d.className='scorer-entry';d.id=id;
-  d.innerHTML=`<button class="rm-btn" onclick="document.getElementById('${id}').remove()">×</button><div class="f-row" style="margin-bottom:0"><div class="f-group"><label class="f-label">Player Name</label><input type="text" class="sc-name" placeholder="e.g. Ronaldo" value="${name}"/></div><div class="f-group"><label class="f-label">Team</label><select class="sc-team">${TEAMS.map(t=>`<option value="${t.id}"${t.id==tid?' selected':''}>${t.name}</option>`).join('')}</select></div><div class="f-group" style="max-width:80px"><label class="f-label">Goals</label><input type="number" class="sc-goals" min="1" max="20" value="${goals}"/></div></div>`;
-  document.getElementById('scorer-entries').appendChild(d);
-}
-function openResultModal(){
-  if(!isAdmin)return;populateSelects();
-  document.getElementById('scorer-entries').innerHTML='';sc=0;
-  ['score-home','score-away'].forEach(id=>document.getElementById(id).value=0);
-  document.getElementById('match-week').value=1;
   document.getElementById('result-modal').classList.add('open');
 }
-function closeResultModal(){document.getElementById('result-modal').classList.remove('open');}
-function submitResult(){
-  if(!isAdmin)return;
-  const homeId=+document.getElementById('sel-home').value,awayId=+document.getElementById('sel-away').value;
-  if(homeId===awayId){toast('Teams must be different!');return;}
-  const hg=+document.getElementById('score-home').value,ag=+document.getElementById('score-away').value,wk=+document.getElementById('match-week').value;
 
-  if(currentSeason===3){
-    // S3 Home & Away: exact home/away match matters — find exact fixture or create new
-    let fix=fixtures.find(f=>Number(f.home)===homeId&&Number(f.away)===awayId);
-    if(fix){fix.homeGoals=hg;fix.awayGoals=ag;fix.week=wk;}
-    else fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag});
+// ════════════════════════════════════════════
+// SUBMIT RESULT - IMPROVED FOR BOTH NEW & EDIT
+// ════════════════════════════════════════════
+function submitResult() {
+  if (!isAdmin) return;
+
+  const homeId = +document.getElementById('sel-home').value;
+  const awayId = +document.getElementById('sel-away').value;
+  if (homeId === awayId) {
+    toast('Teams must be different!');
+    return;
+  }
+
+  const hg = +document.getElementById('score-home').value;
+  const ag = +document.getElementById('score-away').value;
+  const wk = +document.getElementById('match-week').value;
+
+  // Find existing fixture
+  let fix = null;
+
+  if (currentSeason === 3) {
+    // Exact home vs away match
+    fix = fixtures.find(f => Number(f.home) === homeId && Number(f.away) === awayId);
   } else {
-    // S1/S2: single round-robin — find fixture in either direction
-    let fix=fixtures.find(f=>
-      (Number(f.home)===homeId&&Number(f.away)===awayId)||
-      (Number(f.home)===awayId&&Number(f.away)===homeId)
+    // S1/S2 - allow either direction
+    fix = fixtures.find(f =>
+      (Number(f.home) === homeId && Number(f.away) === awayId) ||
+      (Number(f.home) === awayId && Number(f.away) === homeId)
     );
-    if(fix){
-      // Store goals so that the selected homeId is always "home" in our scoring
-      if(Number(fix.home)===homeId){
-        fix.homeGoals=hg;fix.awayGoals=ag;
-      } else {
-        // fixture is stored as awayId-vs-homeId; swap goals to keep consistent
-        fix.homeGoals=ag;fix.awayGoals=hg;
-      }
-      fix.week=wk;
+  }
+
+  if (fix) {
+    // UPDATE EXISTING MATCH
+    if (Number(fix.home) === homeId) {
+      fix.homeGoals = hg;
+      fix.awayGoals = ag;
     } else {
-      fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag});
+      fix.homeGoals = ag;
+      fix.awayGoals = hg;
     }
+    fix.week = wk;
+  } else {
+    // CREATE NEW FIXTURE
+    fixtures.push({
+      id: fixtures.length,
+      home: homeId,
+      away: awayId,
+      week: wk,
+      homeGoals: hg,
+      awayGoals: ag
+    });
   }
-  document.querySelectorAll('.scorer-entry').forEach(entry=>{
-    const name=entry.querySelector('.sc-name').value.trim();if(!name)return;
-    const tid=+entry.querySelector('.sc-team').value,gls=+entry.querySelector('.sc-goals').value;
-    const ex=goalScorers.find(s=>s.name.toLowerCase()===name.toLowerCase()&&Number(s.teamId)===tid);
-    if(ex)ex.goals+=gls;else goalScorers.push({name,teamId:tid,goals:gls});
+
+  // Save scorers
+  document.querySelectorAll('.scorer-entry').forEach(entry => {
+    const name = entry.querySelector('.sc-name').value.trim();
+    if (!name) return;
+    const tid = +entry.querySelector('.sc-team').value;
+    const gls = +entry.querySelector('.sc-goals').value;
+
+    const existing = goalScorers.find(s => 
+      s.name.toLowerCase() === name.toLowerCase() && Number(s.teamId) === tid
+    );
+    if (existing) existing.goals += gls;
+    else goalScorers.push({ name, teamId: tid, goals: gls });
   });
-  saveData();renderAll();closeResultModal();launchConfetti();toast('Result saved! 🎉');
+
+  saveData();
+  renderAll();
+  closeResultModal();
+  launchConfetti();
+  toast('Result saved/updated! 🎉');
 }
 
+// Keep your other functions (openResultModal, etc.) as they are
+
 // ════════════════════════════════════════════
-// UTILS
+// INIT - Make sure renderFixtures is called
 // ════════════════════════════════════════════
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
-function showSection(id,btn){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('sec-'+id).classList.add('active');
-  document.querySelectorAll('#main-nav button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
+function renderAll(){
+  renderStandings();
+  renderFixtures();     // ← Now supports editing
+  renderStats();
+  renderTOTW();
+  buildTicker();
+  startCountdown();
 }
 
-// ════════════════════════════════════════════
-// PARTICLE CANVAS
-// ════════════════════════════════════════════
-(function initParticles(){
-  const canvas=document.getElementById('hero-canvas');
-  const ctx=canvas.getContext('2d');
-  let W,H,particles=[];
-  function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
-  window.addEventListener('resize',resize);setTimeout(resize,100);
-  const COLORS=['#00d068','#7c3aed','#ffd700','#ef4444','#29b6f6','#ffffff','#ff6b35'];
-  for(let i=0;i<55;i++){particles.push({x:Math.random(),y:Math.random(),r:Math.random()*2.2+0.4,vx:(Math.random()-0.5)*0.0004,vy:(Math.random()-0.5)*0.0004,color:COLORS[Math.floor(Math.random()*COLORS.length)],alpha:Math.random()*0.5+0.15,pulse:Math.random()*Math.PI*2});}
-  function draw(){
-    if(!W||!H){requestAnimationFrame(draw);return;}
-    ctx.clearRect(0,0,W,H);
-    particles.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.pulse+=0.025;if(p.x<0)p.x=1;if(p.x>1)p.x=0;if(p.y<0)p.y=1;if(p.y>1)p.y=0;const a=p.alpha*(0.7+0.3*Math.sin(p.pulse));ctx.beginPath();ctx.arc(p.x*W,p.y*H,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.globalAlpha=a;ctx.fill();});
-    ctx.globalAlpha=1;
-    for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=(particles[i].x-particles[j].x)*W,dy=(particles[i].y-particles[j].y)*H,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(particles[i].x*W,particles[i].y*H);ctx.lineTo(particles[j].x*W,particles[j].y*H);ctx.strokeStyle=particles[i].color;ctx.globalAlpha=(1-dist/120)*0.12;ctx.lineWidth=0.7;ctx.stroke();}}}
-    ctx.globalAlpha=1;requestAnimationFrame(draw);
-  }
-  draw();
-})();
-
-// ════════════════════════════════════════════
-// FLOATING GHOST BADGES
-// ════════════════════════════════════════════
-function initFloatingBadges(){
-  const wrap=document.getElementById('floating-badges');if(!wrap)return;
-  wrap.innerHTML='';
-  const bids=TEAMS.map(t=>t.bid);
-  for(let i=0;i<8;i++){
-    const bid=bids[i%bids.length];const el=document.createElement('div');el.className='float-badge';
-    const size=Math.random()*60+40,dur=Math.random()*18+14,delay=Math.random()*-20,left=Math.random()*100;
-    el.style.cssText=`left:${left}%;width:${size}px;height:${size*1.13}px;animation-duration:${dur}s;animation-delay:${delay}s;bottom:-20%;`;
-    el.innerHTML=`<svg width="${size}" height="${size*1.13}" viewBox="0 0 80 90"><use href="#${bid}"/></svg>`;
-    wrap.appendChild(el);
-  }
-}
-
-// ════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════
-buildClubsRow();initFloatingBadges();loadData();loadCup();
-</script>
-
+// At the very bottom, after all functions:
+buildClubsRow();
+initFloatingBadges();
+loadData();
+loadCup();
+  </script>
 <!-- FOOTER -->
 <footer id="site-footer">
   <div class="footer-inner">
