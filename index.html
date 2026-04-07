@@ -318,6 +318,65 @@
     <rect x="10" y="71" width="60" height="1.5" fill="#ffd600" rx="0.6"/>
     <text x="40" y="80" text-anchor="middle" font-family="'Rajdhani',sans-serif" font-size="7" font-weight="700" fill="#ff8a80" letter-spacing="2">F · C</text>
   </symbol>
+  <!-- 14 · Manchester United FC — red devil, theatre of dreams -->
+  <symbol id="badge-14" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b14r" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#cc0000"/>
+        <stop offset="100%" stop-color="#660000"/>
+      </linearGradient>
+      <linearGradient id="b14g" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#ffe600"/>
+        <stop offset="50%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#ffe600"/>
+      </linearGradient>
+      <radialGradient id="b14glow" cx="50%" cy="40%" r="50%">
+        <stop offset="0%" stop-color="#ff4444" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+    <!-- Shield body -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b14r)" stroke="url(#b14g)" stroke-width="2.5"/>
+    <!-- Glow overlay -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z" fill="url(#b14glow)"/>
+    <!-- Inner border -->
+    <path d="M40 8 L72 20 L72 52 Q72 73 40 83 Q8 73 8 52 L8 20 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
+    <!-- Gold top banner -->
+    <path d="M40 3 L77 17 L77 23 L3 23 L3 17 Z" fill="url(#b14g)" opacity="0.95"/>
+    <text x="40" y="19" text-anchor="middle" font-family="'Oswald',sans-serif" font-size="7.5" font-weight="700" fill="#660000" letter-spacing="2">MAN UTD</text>
+    <!-- Devil body -->
+    <g transform="translate(40,46)">
+      <!-- Devil head -->
+      <circle cx="0" cy="-8" r="7" fill="#cc0000" stroke="rgba(255,200,0,0.6)" stroke-width="0.8"/>
+      <!-- Left horn -->
+      <path d="M-5,-14 Q-10,-22 -6,-18" stroke="#ffe600" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Right horn -->
+      <path d="M5,-14 Q10,-22 6,-18" stroke="#ffe600" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Devil eyes -->
+      <circle cx="-2.5" cy="-9" r="1.5" fill="#ffe600"/>
+      <circle cx="2.5" cy="-9" r="1.5" fill="#ffe600"/>
+      <circle cx="-2.5" cy="-9" r="0.7" fill="#000"/>
+      <circle cx="2.5" cy="-9" r="0.7" fill="#000"/>
+      <!-- Wicked grin -->
+      <path d="M-3,-5 Q0,-2.5 3,-5" stroke="#ffe600" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <!-- Devil body/torso -->
+      <ellipse cx="0" cy="3" rx="6" ry="8" fill="#cc0000" stroke="rgba(255,200,0,0.4)" stroke-width="0.7"/>
+      <!-- Left arm with trident -->
+      <path d="M-6,0 Q-13,2 -14,8" stroke="#ffe600" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Trident top -->
+      <line x1="-14" y1="5" x2="-14" y2="11" stroke="#ffe600" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="-16" y1="6" x2="-16" y2="9" stroke="#ffe600" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="-12" y1="6" x2="-12" y2="9" stroke="#ffe600" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- Right arm -->
+      <path d="M6,0 Q12,2 13,6" stroke="#ffe600" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Devil tail -->
+      <path d="M0,11 Q6,16 4,20 Q2,22 5,22" stroke="#ffe600" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- MUFC text -->
+    <text x="40" y="70" text-anchor="middle" font-family="'Oswald',sans-serif" font-size="8.5" font-weight="700" fill="url(#b14g)" letter-spacing="2">MANCHESTER</text>
+    <rect x="14" y="72" width="52" height="1.2" fill="url(#b14g)" rx="0.6"/>
+    <text x="40" y="81" text-anchor="middle" font-family="'Oswald',sans-serif" font-size="7" font-weight="700" fill="rgba(255,230,0,0.8)" letter-spacing="2">UNITED F·C</text>
+  </symbol>
 </defs>
 </svg>
 
@@ -404,9 +463,6 @@ nav button::after { content:''; position:absolute; bottom:2px; left:12px; right:
 nav button:hover { color:var(--text); }
 nav button.active { color:var(--pitch); }
 nav button.active::after { transform:scaleX(1); }
-nav button.cup-nav { color:var(--gold); }
-nav button.cup-nav::after { background:var(--gold); }
-nav button.cup-nav:hover, nav button.cup-nav.active { color:var(--gold); }
 
 /* Theme toggle */
 .theme-toggle { background:var(--surface2); border:1px solid var(--border2); border-radius:20px; padding:5px 10px; cursor:pointer; font-size:16px; transition:all .2s; flex-shrink:0; }
@@ -823,48 +879,6 @@ select:focus, input:focus { border-color:var(--pitch); }
 .h2h-badge.draw { background: rgba(245,197,24,0.15); color: var(--gold); }
 .h2h-empty { padding: 24px 16px; text-align: center; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 13px; letter-spacing: 1px; }
 
-/* ════════════ CUP ════════════ */
-.cup-hero-wrap { background:linear-gradient(160deg,#0b0e22 0%,#151030 50%,#0b0e22 100%); border-bottom:2px solid var(--gold); text-align:center; padding:28px 16px 16px; position:relative; overflow:hidden; }
-.cup-hero-wrap::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(245,197,24,0.12) 0%,transparent 70%); pointer-events:none; }
-.cup-trophy-anim { font-size:52px; display:block; margin-bottom:6px; animation:tPulse 3s ease-in-out infinite; filter:drop-shadow(0 0 16px rgba(245,197,24,0.5)); }
-@keyframes tPulse { 0%,100%{filter:drop-shadow(0 0 14px rgba(245,197,24,0.4))} 50%{filter:drop-shadow(0 0 30px rgba(245,197,24,0.8))} }
-.cup-title-text { font-family:'Oswald',sans-serif; font-size:clamp(32px,8vw,66px); font-weight:700; letter-spacing:5px; color:var(--gold); text-transform:uppercase; }
-.cup-subtitle-text { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--text2); margin-top:4px; }
-.cup-winner-card { display:flex; flex-direction:column; align-items:center; padding:24px; margin-bottom:20px; background:linear-gradient(135deg,rgba(245,197,24,0.1),rgba(245,197,24,0.03)); border:1px solid rgba(245,197,24,0.3); border-radius:12px; animation:slideUp .4s ease; }
-.cup-winner-card .w-t { font-size:54px; margin-bottom:8px; }
-.cup-winner-label-txt { font-family:'Rajdhani',sans-serif; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--text2); }
-.cup-winner-club { font-family:'Oswald',sans-serif; font-size:38px; font-weight:700; color:var(--gold); letter-spacing:3px; margin-top:4px; }
-.cup-setup-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; margin-bottom:20px; }
-.cup-setup-title { font-family:'Oswald',sans-serif; font-size:15px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--pitch); margin-bottom:6px; }
-.cup-setup-desc { color:var(--text2); font-size:13px; margin-bottom:14px; }
-.cup-team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:7px; margin-bottom:14px; }
-.cup-team-check { display:flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:8px 10px; cursor:pointer; transition:all .2s; user-select:none; }
-.cup-team-check:hover { border-color:rgba(245,197,24,0.4); }
-.cup-team-check.sel { border-color:var(--gold); background:rgba(245,197,24,0.07); }
-.cup-chk-box { width:17px; height:17px; border-radius:4px; border:2px solid var(--border2); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:700; transition:all .2s; }
-.cup-team-check.sel .cup-chk-box { background:var(--gold); border-color:var(--gold); color:#000; }
-.cup-chk-name { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.cup-sel-count { font-family:'Rajdhani',sans-serif; font-size:12px; color:var(--text2); margin-bottom:12px; }
-.cup-sel-count span { color:var(--gold); font-weight:700; }
-.bracket-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:20px; }
-.bracket-card-hdr { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-bottom:2px solid var(--gold); background:var(--surface2); }
-.bracket-scroll { overflow-x:auto; padding:16px 8px; }
-.bracket-grid { display:flex; gap:0; align-items:stretch; min-width:440px; }
-.b-round { display:flex; flex-direction:column; justify-content:space-around; flex:1; min-width:165px; }
-.b-round-lbl { font-family:'Oswald',sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); text-align:center; padding:0 8px 10px; border-bottom:1px solid rgba(245,197,24,0.15); margin-bottom:4px; }
-.b-match-wrap { display:flex; flex-direction:column; margin:8px 6px; }
-.b-slot { display:flex; align-items:center; gap:7px; padding:8px 10px; background:var(--surface2); border:1px solid var(--border); border-radius:6px; cursor:pointer; transition:all .15s; min-height:36px; }
-.b-slot:hover:not(.b-slot-tbd) { border-color:rgba(245,197,24,0.5); background:rgba(245,197,24,0.05); }
-.b-slot.b-win { border-color:var(--gold); background:rgba(245,197,24,0.1); }
-.b-slot.b-lose { opacity:0.35; }
-.b-slot.b-slot-tbd { opacity:0.3; cursor:default; }
-.b-slot-name { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:700; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.b-slot-score { font-family:'Oswald',sans-serif; font-size:17px; min-width:18px; text-align:center; }
-.b-slot-score.b-gs { color:var(--gold); }
-.b-divider { height:1px; background:var(--border); }
-.b-ko { font-family:'Rajdhani',sans-serif; font-size:10px; font-weight:700; color:var(--gold); padding:3px 10px 1px; opacity:0.75; }
-.bracket-hint { padding:12px 16px; font-size:12px; color:var(--text2); border-top:1px solid var(--border); }
-
 /* ════════════ CONFETTI ════════════ */
 .confetti-piece { position:fixed; pointer-events:none; z-index:999; border-radius:2px; animation:confettiFall linear forwards; }
 @keyframes confettiFall { 0%{top:-10px;opacity:1} 100%{top:110vh;opacity:0} }
@@ -1116,7 +1130,6 @@ select:focus, input:focus { border-color:var(--pitch); }
     <button class="active" onclick="showSection('standings',this)">Table</button>
     <button onclick="showSection('fixtures',this)">Fixtures</button>
     <button onclick="showSection('stats',this)">📊 Stats</button>
-    <button class="cup-nav" onclick="showSection('cup',this)">🏆 Cup</button>
   </nav>
   <div style="display:flex;align-items:center;gap:8px">
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
@@ -1271,39 +1284,6 @@ select:focus, input:focus { border-color:var(--pitch); }
   </div>
 </div>
 
-<!-- ════════════ CUP ════════════ -->
-<div id="sec-cup" class="section">
-  <div class="cup-hero-wrap">
-    <span class="cup-trophy-anim">🏆</span>
-    <div class="cup-title-text">KINROSS CUP</div>
-    <div class="cup-subtitle-text" id="cup-subtitle">Single Elimination · Season 2</div>
-  </div>
-  <div class="container">
-    <div class="cup-winner-card" id="cup-winner-card" style="display:none">
-      <div class="w-t">🏆</div>
-      <div class="cup-winner-label-txt">Kinross Cup Champion</div>
-      <div class="cup-winner-club" id="cup-winner-name"></div>
-    </div>
-    <div class="cup-setup-card" id="cup-setup-panel">
-      <div class="cup-setup-title">⚙ Set Up the Draw</div>
-      <p class="cup-setup-desc">Select teams for the Kinross Cup. Pick <strong style="color:var(--gold)">4, 8, or 16</strong> teams for a clean bracket. Admin PIN required.</p>
-      <div class="cup-team-grid" id="cup-team-checkboxes"></div>
-      <div class="cup-sel-count">Selected: <span id="cup-selected-count">0</span> teams</div>
-      <div class="btn-row" style="justify-content:flex-start;margin-top:0">
-        <button class="btn" style="background:var(--gold);color:#000;font-family:'Oswald',sans-serif;font-weight:700" onclick="drawCup()">🎲 Draw Bracket</button>
-        <button class="btn btn-ghost" onclick="resetCup()">Reset</button>
-      </div>
-    </div>
-    <div class="bracket-card" id="cup-bracket-panel" style="display:none">
-      <div class="bracket-card-hdr">
-        <div style="font-family:'Oswald',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">Cup Bracket</div>
-        <button class="btn btn-ghost" style="padding:5px 12px;font-size:12px;font-family:'Oswald',sans-serif" onclick="resetCup()">🔄 Reset</button>
-      </div>
-      <div class="bracket-scroll"><div class="bracket-grid" id="cup-bracket"></div></div>
-      <div class="bracket-hint">💡 Tap any match to enter result (Admin only) · No draws in knockout</div>
-    </div>
-  </div>
-</div>
 
 <button class="fab locked" id="fab-btn" onclick="fabClick()" title="Admin Login">🔒</button>
 
@@ -1360,24 +1340,6 @@ select:focus, input:focus { border-color:var(--pitch); }
     <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeResultModal()">Cancel</button>
       <button class="btn btn-primary" onclick="submitResult()">Save Result</button>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════ CUP SCORE MODAL ════════════ -->
-<div class="modal-overlay" id="cup-score-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:370px">
-    <div class="modal-title" style="color:var(--gold)">🏆 Cup Result</div>
-    <p style="color:var(--text2);font-size:13px;margin-bottom:18px;text-align:center" id="cup-match-info"></p>
-    <div class="f-row">
-      <div class="f-group"><label class="f-label" id="cup-home-label">Home</label><input type="number" id="cup-score-home" min="0" max="99" value="0" style="text-align:center;font-size:26px;font-family:'Oswald',sans-serif"/></div>
-      <div style="display:flex;align-items:flex-end;padding-bottom:10px"><span class="score-dash">–</span></div>
-      <div class="f-group"><label class="f-label" id="cup-away-label">Away</label><input type="number" id="cup-score-away" min="0" max="99" value="0" style="text-align:center;font-size:26px;font-family:'Oswald',sans-serif"/></div>
-    </div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:4px">⚠️ No draws — scores must be different.</p>
-    <div class="btn-row">
-      <button class="btn btn-ghost" onclick="document.getElementById('cup-score-modal').classList.remove('open')">Cancel</button>
-      <button class="btn" style="background:var(--gold);color:#000;font-family:'Oswald',sans-serif;font-weight:700" onclick="saveCupResult()">Save</button>
     </div>
   </div>
 </div>
@@ -1443,25 +1405,26 @@ const TEAMS_S2=[
 ];
 // Season 3 — Home & Away (each pair plays twice)
 const TEAMS_S3=[
-  {id:0,name:'ZiezGeek FC',short:'ZGK',bid:'badge-0'},
-  {id:1,name:'Matlala FC',short:'MTL',bid:'badge-2'},
-  {id:2,name:'RC Lens FC',short:'RCL',bid:'badge-12'},
-  {id:3,name:'Tito FC',short:'TTO',bid:'badge-5'},
-  {id:4,name:'Magolide FC',short:'MGL',bid:'badge-6'},
-  {id:5,name:'Pro ST FC',short:'PST',bid:'badge-8'},
-  {id:6,name:'Rangers FC',short:'RNG',bid:'badge-9'},
-  {id:7,name:'Vamos!!!',short:'VMO',bid:'badge-13'},
-  {id:8,name:'Sporting FC',short:'SPT',bid:'badge-11'},
+  {id:0, name:'ZiezGeek FC',      short:'ZGK', bid:'badge-0'},
+  {id:1, name:'Matlala FC',       short:'MTL', bid:'badge-2'},
+  {id:2, name:'RC Lens FC',       short:'RCL', bid:'badge-12'},
+  {id:3, name:'Tito FC',          short:'TTO', bid:'badge-5'},
+  {id:4, name:'Magolide FC',      short:'MGL', bid:'badge-6'},
+  {id:5, name:'Pro ST FC',        short:'PST', bid:'badge-8'},
+  {id:6, name:'Rangers FC',       short:'RNG', bid:'badge-9'},
+  {id:7, name:'Vamos!!!',         short:'VMO', bid:'badge-13'},
+  {id:8, name:'Sporting FC',      short:'SPT', bid:'badge-11'},
+  {id:9, name:'Kosabo FC',        short:'KSB', bid:'badge-1'},
+  {id:10,name:'Manchester United',short:'MNU', bid:'badge-14'},
 ];
 
 let currentSeason=3,TEAMS=TEAMS_S3;
-let fixtures=[],goalScorers=[],cupData=null,cupSelectedTeams=new Set(),cupMatchEditing=null;
+let fixtures=[],goalScorers=[];
 const CORRECT_PIN='020707';
 let isAdmin=false;
 let countdownTimer=null;
 
 function dbRef(){return currentSeason===1?'leagueData':currentSeason===2?'leagueData_s2':'leagueData_s3';}
-function cupDbRef(){return currentSeason===1?'cupData':currentSeason===2?'cupData_s2':'cupData_s3';}
 
 function svgBadge(id,w=32){
   const t=TEAMS[Number(id)];if(!t)return'';
@@ -1629,8 +1592,7 @@ document.addEventListener('click',e=>{
 function setSeason(n){
   currentSeason=n;
   TEAMS = n===1?TEAMS_S1 : n===2?TEAMS_S2 : TEAMS_S3;
-  fixtures=[];goalScorers=[];cupData=null;cupSelectedTeams=new Set();
-
+  fixtures=[];goalScorers=[];
   // Fire theme class
   document.body.classList.toggle('s3-active', n===3);
 
@@ -1638,7 +1600,6 @@ function setSeason(n){
   document.getElementById('hero-label').textContent=`⚡ eFootball Mobile · Season ${n}`;
   document.getElementById('hero-season-text').textContent=`Season ${n} · 2025`;
   document.getElementById('hero-sub').textContent=`${TEAMS.length} clubs · ${n===3?'HOME & AWAY · AZISHE MAJITA 🔥':'AZISHE MAJITA · AKUFE OFAYO 😂'}`;
-  document.getElementById('cup-subtitle').textContent=`Single Elimination · Season ${n}`;
 
   // Dropdown active states
   ['s-opt-1','s-opt-2','s-opt-3'].forEach(id=>{
@@ -1656,7 +1617,7 @@ function setSeason(n){
   document.getElementById('sec-standings').classList.add('active');
   document.querySelectorAll('#main-nav button').forEach(b=>b.classList.remove('active'));
   document.querySelector('#main-nav button').classList.add('active');
-  loadData();loadCup();
+  loadData();
 }
 function buildClubsRow(){
   document.getElementById('clubs-row').innerHTML=TEAMS.map((t,i)=>`
@@ -2151,118 +2112,6 @@ function launchConfetti(){
 }
 
 // ════════════════════════════════════════════
-// CUP
-// ════════════════════════════════════════════
-let cupListener=null;
-function loadCup(){
-  if(cupListener)cupListener();cupListener=null;
-  const ref=db.ref(cupDbRef());
-  const h=snap=>{cupData=snap.val()||null;renderCupPage();};
-  ref.on('value',h);cupListener=()=>ref.off('value',h);
-}
-function saveCup(){db.ref(cupDbRef()).set(cupData);}
-function buildCupCheckboxes(){
-  document.getElementById('cup-team-checkboxes').innerHTML=TEAMS.map(t=>`
-    <div class="cup-team-check ${cupSelectedTeams.has(t.id)?'sel':''}" id="tc-${t.id}" onclick="toggleCupTeam(${t.id})">
-      <div class="cup-chk-box">${cupSelectedTeams.has(t.id)?'✓':''}</div>
-      ${svgBadge(t.id,20)}<span class="cup-chk-name">${t.name}</span>
-    </div>`).join('');
-  document.getElementById('cup-selected-count').textContent=cupSelectedTeams.size;
-}
-function toggleCupTeam(id){if(!isAdmin){toast('Login as Admin first 🔒');return;}if(cupSelectedTeams.has(id))cupSelectedTeams.delete(id);else cupSelectedTeams.add(id);buildCupCheckboxes();}
-function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function nextPow2(n){let p=1;while(p<n)p*=2;return p;}
-function drawCup(){
-  if(!isAdmin){toast('Login as Admin first 🔒');return;}
-  const sel=[...cupSelectedTeams];if(sel.length<2){toast('Select at least 2 teams!');return;}
-  const size=nextPow2(sel.length),shuffled=shuffle(sel);
-  while(shuffled.length<size)shuffled.push(null);
-  const r1=[];for(let i=0;i<size;i+=2){const m={home:shuffled[i],away:shuffled[i+1],homeGoals:null,awayGoals:null};if(m.home!==null&&m.away===null){m.homeGoals=1;m.awayGoals=0;}if(m.home===null&&m.away!==null){m.homeGoals=0;m.awayGoals=1;}r1.push(m);}
-  const numR=Math.log2(size),rounds=[r1];
-  for(let r=1;r<numR;r++)rounds.push(Array.from({length:rounds[r-1].length/2},()=>({home:null,away:null,homeGoals:null,awayGoals:null})));
-  cupData={rounds};propagateWinners();saveCup();
-}
-function getWinner(m){
-  const hg=m.homeGoals!=null?Number(m.homeGoals):null,ag=m.awayGoals!=null?Number(m.awayGoals):null;
-  const home=m.home!=null?Number(m.home):null,away=m.away!=null?Number(m.away):null;
-  if(hg===null||ag===null)return null;if(home===null)return away;if(away===null)return home;
-  if(hg>ag)return home;if(ag>hg)return away;return null;
-}
-function propagateWinners(){
-  if(!cupData)return;const{rounds}=cupData;
-  for(let r=0;r<rounds.length-1;r++){rounds[r].forEach((m,mi)=>{const w=getWinner(m);if(w===null)return;const next=rounds[r+1][Math.floor(mi/2)],slot=mi%2===0?'home':'away';if(Number(next[slot])!==w){next[slot]=w;next.homeGoals=null;next.awayGoals=null;}});}
-}
-function resetCup(){if(!isAdmin){toast('Login as Admin first 🔒');return;}if(!confirm('Reset the Kinross Cup?'))return;cupData=null;cupSelectedTeams=new Set();db.ref(cupDbRef()).remove();}
-function getRoundLabel(rIdx,total){const rem=total-rIdx;if(rem===1)return'🏆 Final';if(rem===2)return'Semi-Finals';if(rem===3)return'Quarter-Finals';return`Round ${rIdx+1}`;}
-function renderCupPage(){
-  const sEl=document.getElementById('cup-setup-panel'),bEl=document.getElementById('cup-bracket-panel'),wEl=document.getElementById('cup-winner-card');
-  if(!cupData){sEl.style.display='block';bEl.style.display='none';wEl.style.display='none';buildCupCheckboxes();return;}
-  sEl.style.display='none';bEl.style.display='block';
-  const w=getWinner(cupData.rounds[cupData.rounds.length-1][0]);
-  if(w!==null&&TEAMS[w]){wEl.style.display='flex';document.getElementById('cup-winner-name').textContent=TEAMS[w].name;}else wEl.style.display='none';
-  renderBracket();
-}
-function renderBracket(){
-  const{rounds}=cupData,total=rounds.length;
-  const base=new Date();base.setDate(base.getDate()+1);base.setHours(15,0,0,0);let mc=0;
-  function ko(n){const d=new Date(base.getTime()+n*86400000);return fmtKO(d);}
-  document.getElementById('cup-bracket').innerHTML=rounds.map((round,rIdx)=>{
-    const matches=round.map((m,mIdx)=>{
-      const hId=m.home!=null?Number(m.home):null,aId=m.away!=null?Number(m.away):null;
-      const hg=m.homeGoals!=null?Number(m.homeGoals):null,ag=m.awayGoals!=null?Number(m.awayGoals):null;
-      const hT=hId!==null?TEAMS[hId]:null,aT=aId!==null?TEAMS[aId]:null;
-      const played=hg!==null&&ag!==null,fm={home:hId,away:aId,homeGoals:hg,awayGoals:ag},winner=getWinner(fm);
-      const canClick=isAdmin&&hT&&aT;
-      const hCls=played?(winner===hId?'b-win':'b-lose'):(!hT?'b-slot-tbd':'');
-      const aCls=played?(winner===aId?'b-win':'b-lose'):(!aT?'b-slot-tbd':'');
-      const hScore=played?`<span class="b-slot-score ${winner===hId?'b-gs':''}">${hg}</span>`:'';
-      const aScore=played?`<span class="b-slot-score ${winner===aId?'b-gs':''}">${ag}</span>`:'';
-      const koStr=(!played&&hT&&aT)?`<div class="b-ko">🕒 ${ko(mc++)}</div>`:'';
-      const ca=canClick?`data-ri="${rIdx}" data-mi="${mIdx}" style="cursor:pointer"`:'' ;
-      return`<div class="b-match-wrap cup-m" ${ca}>
-        <div class="b-slot ${hCls}">
-          ${hT?svgBadge(hId,19):'<span style="font-size:10px;color:var(--text2)">TBD</span>'}
-          <span class="b-slot-name">${hT?hT.name:'???'}</span>${hScore}
-        </div>
-        <div class="b-divider"></div>
-        <div class="b-slot ${aCls}">
-          ${aT?svgBadge(aId,19):'<span style="font-size:10px;color:var(--text2)">TBD</span>'}
-          <span class="b-slot-name">${aT?aT.name:'???'}</span>${aScore}
-        </div>${koStr}
-      </div>`;
-    }).join('');
-    return`<div class="b-round"><div class="b-round-lbl">${getRoundLabel(rIdx,total)}</div>${matches}</div>`;
-  }).join('');
-  document.getElementById('cup-bracket').addEventListener('click',e=>{
-    const m=e.target.closest('.cup-m[data-ri]');if(!m)return;
-    openCupScoreModal(parseInt(m.getAttribute('data-ri')),parseInt(m.getAttribute('data-mi')));
-  });
-}
-function openCupScoreModal(rIdx,mIdx){
-  if(!isAdmin)return;
-  const m=cupData.rounds[rIdx][mIdx];
-  const hT=TEAMS[Number(m.home)],aT=TEAMS[Number(m.away)];if(!hT||!aT)return;
-  cupMatchEditing={rIdx,mIdx};
-  document.getElementById('cup-home-label').textContent=hT.name;
-  document.getElementById('cup-away-label').textContent=aT.name;
-  document.getElementById('cup-match-info').textContent=`${getRoundLabel(rIdx,cupData.rounds.length)} · ${hT.name} vs ${aT.name}`;
-  document.getElementById('cup-score-home').value=m.homeGoals??0;
-  document.getElementById('cup-score-away').value=m.awayGoals??0;
-  document.getElementById('cup-score-modal').classList.add('open');
-}
-function saveCupResult(){
-  if(!cupMatchEditing)return;
-  const hg=+document.getElementById('cup-score-home').value,ag=+document.getElementById('cup-score-away').value;
-  if(hg===ag){toast('No draws in knockout!');return;}
-  const{rIdx,mIdx}=cupMatchEditing;
-  cupData.rounds[rIdx][mIdx].homeGoals=hg;cupData.rounds[rIdx][mIdx].awayGoals=ag;
-  propagateWinners();saveCup();
-  document.getElementById('cup-score-modal').classList.remove('open');
-  launchConfetti();
-  toast('Cup result saved! 🏆');
-}
-
-// ════════════════════════════════════════════
 // PIN
 // ════════════════════════════════════════════
 let pinBuffer='';const PIN_LEN=6;
@@ -2282,7 +2131,7 @@ function updateFab(){
   if(isAdmin){fab.textContent='+';fab.classList.remove('locked');}
   else{fab.textContent='🔒';fab.classList.add('locked');}
 }
-function logout(){isAdmin=false;updateFab();closeResultModal();document.getElementById('cup-score-modal').classList.remove('open');toast('Logged out 🔒');}
+function logout(){isAdmin=false;updateFab();closeResultModal();toast('Logged out 🔒');}
 
 // ════════════════════════════════════════════
 // RESULT MODAL
@@ -2437,7 +2286,7 @@ function initFloatingBadges() {
 // ════════════════════════════════════════════
 buildClubsRow(); initFloatingBadges();
 document.body.classList.add('s3-active'); // boot on season 3
-loadData(); loadCup();
+loadData();
 </script>
 <!-- ════════════ FOOTER ════════════ -->
 <footer id="site-footer">
