@@ -545,6 +545,145 @@ select:focus, input:focus { border-color:var(--pitch); }
 .add-scorer-btn { background:none; border:1px dashed var(--border2); border-radius:8px; color:var(--text2); padding:10px; width:100%; cursor:pointer; font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:1px; text-transform:uppercase; transition:all .2s; margin-bottom:8px; }
 .add-scorer-btn:hover { border-color:var(--pitch); color:var(--pitch); }
 
+/* ════════════ STATS ════════════ */
+.stats-records-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px; margin-bottom: 16px;
+}
+.record-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  position: relative; overflow: hidden;
+  transition: transform .2s, box-shadow .2s;
+}
+.record-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.record-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  border-radius: 10px 10px 0 0;
+}
+.record-card.rc-green::before { background: var(--pitch); }
+.record-card.rc-gold::before  { background: var(--gold); }
+.record-card.rc-violet::before{ background: var(--violet2); }
+.record-card.rc-red::before   { background: var(--red); }
+.record-card.rc-blue::before  { background: #29b6f6; }
+.record-card-icon { font-size: 22px; margin-bottom: 6px; display: block; }
+.record-card-val {
+  font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700;
+  color: var(--text); line-height: 1; margin-bottom: 2px;
+}
+.record-card-val span { color: var(--pitch); }
+.record-card-lbl {
+  font-family: 'Rajdhani', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--text2);
+}
+.record-card-team {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--text2); margin-top: 4px; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px; margin-bottom: 12px;
+}
+.stats-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+  margin-bottom: 12px;
+}
+.stats-card-hdr {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border-bottom: 2px solid var(--pitch);
+  font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--text);
+}
+.stats-card-icon { font-size: 18px; }
+
+/* stat row inside cards */
+.stat-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.stat-row:last-child { border-bottom: none; }
+.stat-row:hover { background: rgba(255,255,255,0.03); }
+.stat-row-rank {
+  font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--text2); width: 22px; flex-shrink: 0; text-align: center;
+}
+.stat-row-rank.sr1 { color: var(--gold); }
+.stat-row-rank.sr2 { color: var(--silver); }
+.stat-row-rank.sr3 { color: var(--bronze); }
+.stat-row-info { flex: 1; }
+.stat-row-name {
+  font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: var(--text);
+}
+.stat-row-sub {
+  font-family: 'Rajdhani', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; color: var(--text2); margin-top: 1px;
+}
+.stat-row-val {
+  font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700;
+  color: var(--pitch); line-height: 1;
+}
+.stat-bar-wrap { margin-top: 4px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; }
+.stat-bar { height: 100%; border-radius: 2px; background: var(--pitch); transition: width .6s cubic-bezier(0.34,1.56,0.64,1); }
+.stat-bar.bar-gold { background: var(--gold); }
+.stat-bar.bar-red  { background: var(--red); }
+.stat-bar.bar-blue { background: #29b6f6; }
+
+/* H2H */
+.h2h-selectors {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px 10px; flex-wrap: wrap;
+}
+.h2h-selectors select { flex: 1; min-width: 120px; }
+.h2h-vs {
+  font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--text2); flex-shrink: 0;
+}
+.h2h-result-block {
+  padding: 14px 16px;
+}
+.h2h-scoreline {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+  margin-bottom: 16px;
+}
+.h2h-team-side { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.h2h-team-name { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; text-align: center; }
+.h2h-big-score {
+  font-family: 'Oswald', sans-serif; font-size: 48px; font-weight: 700; line-height: 1;
+  display: flex; align-items: center; gap: 10px;
+}
+.h2h-big-score .h2h-sep { font-size: 30px; color: var(--text2); }
+.h2h-big-score .h2h-win { color: var(--pitch); }
+.h2h-stats-row {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px; margin-bottom: 12px;
+}
+.h2h-stat-block { text-align: center; }
+.h2h-stat-val { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); }
+.h2h-stat-lbl { font-family: 'Rajdhani', sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text2); }
+.h2h-match-history { }
+.h2h-match-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0; border-bottom: 1px solid var(--border); font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600;
+}
+.h2h-match-row:last-child { border-bottom: none; }
+.h2h-match-score { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; }
+.h2h-badge { padding: 2px 8px; border-radius: 4px; font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+.h2h-badge.win { background: rgba(0,208,104,0.15); color: var(--pitch); }
+.h2h-badge.lose { background: rgba(239,68,68,0.15); color: var(--red); }
+.h2h-badge.draw { background: rgba(245,197,24,0.15); color: var(--gold); }
+.h2h-empty { padding: 24px 16px; text-align: center; color: var(--text2); font-family: 'Rajdhani', sans-serif; font-size: 13px; letter-spacing: 1px; }
+
 /* ════════════ CUP ════════════ */
 .cup-hero-wrap { background:linear-gradient(160deg,#0b0e22 0%,#151030 50%,#0b0e22 100%); border-bottom:2px solid var(--gold); text-align:center; padding:28px 16px 16px; position:relative; overflow:hidden; }
 .cup-hero-wrap::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(245,197,24,0.12) 0%,transparent 70%); pointer-events:none; }
@@ -632,7 +771,7 @@ select:focus, input:focus { border-color:var(--pitch); }
   <nav id="main-nav">
     <button class="active" onclick="showSection('standings',this)">Table</button>
     <button onclick="showSection('fixtures',this)">Fixtures</button>
-    <button onclick="showSection('scorers',this)">Scorers</button>
+    <button onclick="showSection('stats',this)">📊 Stats</button>
     <button class="cup-nav" onclick="showSection('cup',this)">🏆 Cup</button>
   </nav>
   <div style="display:flex;align-items:center;gap:8px">
@@ -717,11 +856,68 @@ select:focus, input:focus { border-color:var(--pitch); }
   </div>
 </div>
 
-<!-- ════════════ SCORERS ════════════ -->
-<div id="sec-scorers" class="section">
+<!-- ════════════ STATS ════════════ -->
+<div id="sec-stats" class="section">
   <div class="container">
-    <div class="section-header"><div class="section-title">Top Scorers</div></div>
-    <div class="scorer-wrap" id="scorers-list"></div>
+
+    <!-- Top scorers mini-list stays here, embedded inside Stats -->
+    <div class="section-header"><div class="section-title">League Stats</div></div>
+
+    <!-- ── RECORD CARDS ROW ── -->
+    <div class="stats-records-row" id="stats-records-row"></div>
+
+    <!-- ── TWO-COL GRID ── -->
+    <div class="stats-grid">
+
+      <!-- Top Scorers -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">⚽</span>Top Scorers</div>
+        <div id="stats-scorers"></div>
+      </div>
+
+      <!-- Clean Sheets -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">🧤</span>Clean Sheets</div>
+        <div id="stats-cleansheets"></div>
+      </div>
+
+      <!-- Most Wins -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">🏆</span>Most Wins</div>
+        <div id="stats-wins"></div>
+      </div>
+
+      <!-- Best Attack -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">🔥</span>Best Attack</div>
+        <div id="stats-attack"></div>
+      </div>
+
+      <!-- Best Defence -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">🛡️</span>Best Defence</div>
+        <div id="stats-defence"></div>
+      </div>
+
+      <!-- Unbeaten Run -->
+      <div class="stats-card">
+        <div class="stats-card-hdr"><span class="stats-card-icon">📈</span>Best Unbeaten Run</div>
+        <div id="stats-unbeaten"></div>
+      </div>
+
+    </div>
+
+    <!-- ── HEAD TO HEAD ── -->
+    <div class="stats-card" style="margin-top:0">
+      <div class="stats-card-hdr"><span class="stats-card-icon">⚔️</span>Head-to-Head</div>
+      <div class="h2h-selectors">
+        <select id="h2h-team-a" onchange="renderH2H()"></select>
+        <div class="h2h-vs">VS</div>
+        <select id="h2h-team-b" onchange="renderH2H()"></select>
+      </div>
+      <div id="h2h-result"></div>
+    </div>
+
   </div>
 </div>
 
@@ -1147,9 +1343,56 @@ function saveData(){db.ref(dbRef()).set({fixtures,scorers:goalScorers});}
 // SCHEDULE
 // ════════════════════════════════════════════
 function buildSchedule(list){
-  const base=new Date();base.setHours(15,0,0,0);
-  const unplayed=list.filter(f=>f.homeGoals===null&&f.awayGoals===null).sort((a,b)=>a.week-b.week||a.id-b.id);
-  const sched={};unplayed.forEach((f,i)=>{const d=new Date(base.getTime()+i*86400000);sched[f.id]=d;});
+  const now = new Date();
+
+  // ── Find the remaining days in THIS week (today → Sunday inclusive) ──
+  const todayDow = now.getDay(); // 0=Sun,1=Mon,...,6=Sat
+  // Days remaining this week including today (Sun=0 means 0 days left to Sun)
+  const daysLeftInWeek = 7 - todayDow; // e.g. if today is Mon(1): 6 days left (Mon→Sun)
+
+  // Build a list of available day slots: each day gets time slots at 15:00, 17:00, 19:00, 21:00
+  const timeSlots = [15, 17, 19, 21];
+  const slots = [];
+  for (let d = 0; d < daysLeftInWeek; d++) {
+    timeSlots.forEach(h => {
+      const slot = new Date(now);
+      slot.setDate(now.getDate() + d);
+      slot.setHours(h, 0, 0, 0);
+      // Only include slots that are at least 30 min in the future
+      if (slot.getTime() - now.getTime() > 30 * 60 * 1000) {
+        slots.push(new Date(slot));
+      }
+    });
+  }
+
+  const unplayed = list
+    .filter(f => f.homeGoals === null && f.awayGoals === null)
+    .sort((a, b) => a.week - b.week || a.id - b.id);
+
+  const sched = {};
+
+  if (!slots.length || !unplayed.length) {
+    // Fallback: 1 per day from today at 15:00 if no slots fit
+    const base = new Date(); base.setHours(15, 0, 0, 0);
+    unplayed.forEach((f, i) => {
+      sched[f.id] = new Date(base.getTime() + i * 86400000);
+    });
+    return sched;
+  }
+
+  if (unplayed.length <= slots.length) {
+    // Enough slots — space them evenly so they don't all bunch up
+    const step = slots.length / unplayed.length;
+    unplayed.forEach((f, i) => {
+      sched[f.id] = slots[Math.floor(i * step)];
+    });
+  } else {
+    // More fixtures than slots — pack as many as possible, cycle through slots
+    unplayed.forEach((f, i) => {
+      sched[f.id] = slots[i % slots.length];
+    });
+  }
+
   return sched;
 }
 function fmtKO(d){
@@ -1228,24 +1471,265 @@ function renderFixtures(){
   document.getElementById('fixtures-list').innerHTML=html;
 }
 
-function renderScorers(){
-  const el=document.getElementById('scorers-list');
-  if(!goalScorers.length){el.innerHTML=`<div style="padding:28px;text-align:center;color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:14px;letter-spacing:1px">NO GOALS YET — RESULTS WILL APPEAR HERE</div>`;return;}
-  const sorted=[...goalScorers].sort((a,b)=>b.goals-a.goals),rc=['r1','r2','r3'];
-  el.innerHTML=sorted.map((s,i)=>{
-    const tid=Number(s.teamId),team=TEAMS[tid];if(!team)return'';
-    return`<div class="scorer-row">
-      <div class="scorer-rank ${rc[i]||''}">${i+1}</div>
-      ${svgBadge(tid,38)}
-      <div class="scorer-info"><div class="scorer-name">${s.name}</div><div class="scorer-club">${team.name}</div></div>
-      <div class="scorer-goals-block"><div class="scorer-goals-num">${s.goals}</div><div class="scorer-goals-lbl">Goals</div></div>
+// ════════════════════════════════════════════
+// STATS SECTION
+// ════════════════════════════════════════════
+function getTeamStats() {
+  return getStats(); // reuse existing getStats
+}
+
+function getBiggestWin() {
+  const played = fixtures.filter(f => f.homeGoals !== null && f.awayGoals !== null);
+  if (!played.length) return null;
+  let best = null, bestDiff = 0;
+  played.forEach(f => {
+    const diff = Math.abs(f.homeGoals - f.awayGoals);
+    if (diff > bestDiff) {
+      bestDiff = diff;
+      const winner = f.homeGoals > f.awayGoals ? f.home : f.away;
+      const loser  = f.homeGoals > f.awayGoals ? f.away : f.home;
+      const wG = Math.max(f.homeGoals, f.awayGoals);
+      const lG = Math.min(f.homeGoals, f.awayGoals);
+      best = { winner, loser, wG, lG, diff };
+    }
+  });
+  return best;
+}
+
+function getCleanSheets() {
+  const cs = {};
+  TEAMS.forEach(t => cs[t.id] = 0);
+  fixtures.filter(f => f.homeGoals !== null && f.awayGoals !== null).forEach(f => {
+    if (f.awayGoals === 0)  cs[Number(f.home)] = (cs[Number(f.home)] || 0) + 1;
+    if (f.homeGoals === 0)  cs[Number(f.away)] = (cs[Number(f.away)] || 0) + 1;
+  });
+  return TEAMS.map(t => ({ ...t, cs: cs[t.id] || 0 })).sort((a, b) => b.cs - a.cs);
+}
+
+function getBestUnbeaten() {
+  // Calculate longest unbeaten run per team from their form array
+  const stats = getStats();
+  return stats.map(s => {
+    let best = 0, cur = 0;
+    s.form.forEach(r => { if (r !== 'L') { cur++; best = Math.max(best, cur); } else cur = 0; });
+    return { ...s, unbeaten: best };
+  }).sort((a, b) => b.unbeaten - a.unbeaten);
+}
+
+function getMostGoalsGame() {
+  const played = fixtures.filter(f => f.homeGoals !== null && f.awayGoals !== null);
+  if (!played.length) return null;
+  return played.sort((a, b) => (b.homeGoals + b.awayGoals) - (a.homeGoals + a.awayGoals))[0];
+}
+
+function renderStatRow(rank, badgeId, name, sub, val, barPct, barClass='') {
+  const rc = rank === 1 ? 'sr1' : rank === 2 ? 'sr2' : rank === 3 ? 'sr3' : '';
+  return `<div class="stat-row">
+    <div class="stat-row-rank ${rc}">${rank}</div>
+    ${svgBadge(badgeId, 28)}
+    <div class="stat-row-info">
+      <div class="stat-row-name">${name}</div>
+      ${sub ? `<div class="stat-row-sub">${sub}</div>` : ''}
+      <div class="stat-bar-wrap"><div class="stat-bar ${barClass}" style="width:${barPct}%"></div></div>
+    </div>
+    <div class="stat-row-val">${val}</div>
+  </div>`;
+}
+
+function renderStats() {
+  const stats = getTeamStats();
+  const played = fixtures.filter(f => f.homeGoals !== null && f.awayGoals !== null);
+  const totalGoals = played.reduce((t, f) => t + f.homeGoals + f.awayGoals, 0);
+  const avgGoals = played.length ? (totalGoals / played.length).toFixed(1) : '0.0';
+  const bigWin = getBiggestWin();
+  const csData = getCleanSheets();
+  const unbeatenData = getBestUnbeaten();
+  const leader = stats[0];
+  const topAttack = [...stats].sort((a,b) => b.GF - a.GF)[0];
+  const topDefence = [...stats].sort((a,b) => a.GA - b.GA)[0]; // fewest goals against
+
+  // ── RECORD CARDS ──
+  const mostGoalGame = getMostGoalsGame();
+  const hT = mostGoalGame ? TEAMS[mostGoalGame.home] : null;
+  const aT = mostGoalGame ? TEAMS[mostGoalGame.away] : null;
+  document.getElementById('stats-records-row').innerHTML = `
+    <div class="record-card rc-green">
+      <span class="record-card-icon">⚽</span>
+      <div class="record-card-val"><span>${totalGoals}</span></div>
+      <div class="record-card-lbl">Total Goals</div>
+    </div>
+    <div class="record-card rc-gold">
+      <span class="record-card-icon">📊</span>
+      <div class="record-card-val"><span>${avgGoals}</span></div>
+      <div class="record-card-lbl">Goals / Game</div>
+    </div>
+    <div class="record-card rc-violet">
+      <span class="record-card-icon">🎯</span>
+      <div class="record-card-val"><span>${played.length}</span></div>
+      <div class="record-card-lbl">Matches Played</div>
+    </div>
+    ${bigWin ? `<div class="record-card rc-red">
+      <span class="record-card-icon">💥</span>
+      <div class="record-card-val"><span>${bigWin.wG}–${bigWin.lG}</span></div>
+      <div class="record-card-lbl">Biggest Win</div>
+      <div class="record-card-team">${TEAMS[bigWin.winner]?.name || '–'}</div>
+    </div>` : ''}
+    ${mostGoalGame && hT && aT ? `<div class="record-card rc-blue">
+      <span class="record-card-icon">🔥</span>
+      <div class="record-card-val"><span>${mostGoalGame.homeGoals + mostGoalGame.awayGoals}</span></div>
+      <div class="record-card-lbl">Most Goals, 1 Game</div>
+      <div class="record-card-team">${hT.short} ${mostGoalGame.homeGoals}–${mostGoalGame.awayGoals} ${aT.short}</div>
+    </div>` : ''}
+  `;
+
+  // ── TOP SCORERS ──
+  const sortedScorers = [...goalScorers].sort((a, b) => b.goals - a.goals).slice(0, 6);
+  const maxGoals = sortedScorers[0]?.goals || 1;
+  document.getElementById('stats-scorers').innerHTML = sortedScorers.length
+    ? sortedScorers.map((s, i) => {
+        const team = TEAMS[Number(s.teamId)];
+        if (!team) return '';
+        return renderStatRow(i+1, team.id, s.name, team.name, `${s.goals} ⚽`, Math.round(s.goals/maxGoals*100));
+      }).join('')
+    : `<div class="h2h-empty">No goals recorded yet</div>`;
+
+  // ── CLEAN SHEETS ──
+  const maxCS = csData[0]?.cs || 1;
+  document.getElementById('stats-cleansheets').innerHTML = csData
+    .filter(t => t.cs > 0).slice(0, 6)
+    .map((t, i) => renderStatRow(i+1, t.id, t.name, `${t.P} games played`, `${t.cs}`, Math.round(t.cs/maxCS*100), 'bar-blue'))
+    .join('') || `<div class="h2h-empty">No clean sheets yet</div>`;
+
+  // ── MOST WINS ──
+  const maxW = stats[0]?.W || 1;
+  document.getElementById('stats-wins').innerHTML = [...stats]
+    .sort((a,b) => b.W - a.W).slice(0,6)
+    .map((t,i) => renderStatRow(i+1, t.id, t.name, `${t.P} played`, `${t.W}W`, Math.round(t.W/maxW*100)))
+    .join('');
+
+  // ── BEST ATTACK ──
+  const maxGF = topAttack?.GF || 1;
+  document.getElementById('stats-attack').innerHTML = [...stats]
+    .sort((a,b) => b.GF - a.GF).slice(0,6)
+    .map((t,i) => renderStatRow(i+1, t.id, t.name, `${t.P} games`, `${t.GF}`, Math.round(t.GF/maxGF*100)))
+    .join('');
+
+  // ── BEST DEFENCE (fewest goals conceded) ──
+  const playedTeams = stats.filter(t => t.P > 0);
+  const minGA = playedTeams.length ? Math.min(...playedTeams.map(t => t.GA)) : 0;
+  const maxGA = playedTeams.length ? Math.max(...playedTeams.map(t => t.GA)) : 1;
+  document.getElementById('stats-defence').innerHTML = playedTeams.length
+    ? [...playedTeams].sort((a,b) => a.GA - b.GA).slice(0,6)
+        .map((t,i) => renderStatRow(i+1, t.id, t.name, `${t.P} games`, `${t.GA} conceded`,
+          Math.round((1 - (t.GA - minGA) / Math.max(maxGA - minGA, 1)) * 100), 'bar-red'))
+        .join('')
+    : `<div class="h2h-empty">No matches played yet</div>`;
+
+  // ── UNBEATEN RUN ──
+  const maxUB = unbeatenData[0]?.unbeaten || 1;
+  document.getElementById('stats-unbeaten').innerHTML = unbeatenData
+    .filter(t => t.unbeaten > 0).slice(0,6)
+    .map((t,i) => renderStatRow(i+1, t.id, t.name, `${t.P} played`, `${t.unbeaten} games`,
+      Math.round(t.unbeaten/maxUB*100), 'bar-gold'))
+    .join('') || `<div class="h2h-empty">No matches played yet</div>`;
+
+  // ── H2H DROPDOWNS ──
+  const opts = TEAMS.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+  const selA = document.getElementById('h2h-team-a');
+  const selB = document.getElementById('h2h-team-b');
+  if (!selA.options.length) {
+    selA.innerHTML = opts; selB.innerHTML = opts;
+    if (TEAMS.length > 1) selB.value = TEAMS[1].id;
+  }
+  renderH2H();
+}
+
+function renderH2H() {
+  const aId = +document.getElementById('h2h-team-a').value;
+  const bId = +document.getElementById('h2h-team-b').value;
+  const el = document.getElementById('h2h-result');
+  const tA = TEAMS[aId], tB = TEAMS[bId];
+  if (!tA || !tB || aId === bId) {
+    el.innerHTML = `<div class="h2h-empty">Select two different teams</div>`; return;
+  }
+
+  const h2hFixtures = fixtures.filter(f =>
+    f.homeGoals !== null && f.awayGoals !== null && (
+      (Number(f.home) === aId && Number(f.away) === bId) ||
+      (Number(f.home) === bId && Number(f.away) === aId)
+    )
+  );
+
+  if (!h2hFixtures.length) {
+    el.innerHTML = `<div class="h2h-empty">No meetings between ${tA.name} and ${tB.name} yet</div>`; return;
+  }
+
+  let aWins = 0, bWins = 0, draws = 0, aGoals = 0, bGoals = 0;
+  h2hFixtures.forEach(f => {
+    const homeIsA = Number(f.home) === aId;
+    const gA = homeIsA ? f.homeGoals : f.awayGoals;
+    const gB = homeIsA ? f.awayGoals : f.homeGoals;
+    aGoals += gA; bGoals += gB;
+    if (gA > gB) aWins++;
+    else if (gB > gA) bWins++;
+    else draws++;
+  });
+
+  const aWinPct = Math.round(aWins / h2hFixtures.length * 100);
+  const bWinPct = Math.round(bWins / h2hFixtures.length * 100);
+  const aIsAhead = aGoals > bGoals;
+  const bIsAhead = bGoals > aGoals;
+
+  const history = h2hFixtures.map(f => {
+    const homeIsA = Number(f.home) === aId;
+    const gA = homeIsA ? f.homeGoals : f.awayGoals;
+    const gB = homeIsA ? f.awayGoals : f.homeGoals;
+    let badge, badgeCls;
+    if (gA > gB) { badge = 'WIN'; badgeCls = 'win'; }
+    else if (gB > gA) { badge = 'LOSE'; badgeCls = 'lose'; }
+    else { badge = 'DRAW'; badgeCls = 'draw'; }
+    const hTeam = TEAMS[Number(f.home)], aTeam = TEAMS[Number(f.away)];
+    return `<div class="h2h-match-row">
+      <span>${hTeam?.name || '–'}</span>
+      <span class="h2h-match-score">${f.homeGoals} – ${f.awayGoals}</span>
+      <span>${aTeam?.name || '–'}</span>
+      <span class="h2h-badge ${badgeCls}">${badge}</span>
     </div>`;
   }).join('');
+
+  el.innerHTML = `<div class="h2h-result-block">
+    <div class="h2h-scoreline">
+      <div class="h2h-team-side">
+        <svg width="56" height="63"><use href="#${tA.bid}"/></svg>
+        <div class="h2h-team-name">${tA.name}</div>
+      </div>
+      <div class="h2h-big-score">
+        <span class="${aIsAhead ? 'h2h-win' : ''}">${aWins}</span>
+        <span class="h2h-sep">–</span>
+        <span class="${bIsAhead ? 'h2h-win' : ''}">${bWins}</span>
+      </div>
+      <div class="h2h-team-side">
+        <svg width="56" height="63"><use href="#${tB.bid}"/></svg>
+        <div class="h2h-team-name">${tB.name}</div>
+      </div>
+    </div>
+    <div class="h2h-stats-row">
+      <div class="h2h-stat-block"><div class="h2h-stat-val">${aGoals}</div><div class="h2h-stat-lbl">Goals</div></div>
+      <div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--gold)">${draws}</div><div class="h2h-stat-lbl">Draws</div></div>
+      <div class="h2h-stat-block"><div class="h2h-stat-val">${bGoals}</div><div class="h2h-stat-lbl">Goals</div></div>
+    </div>
+    <div class="h2h-stats-row">
+      <div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--pitch)">${aWinPct}%</div><div class="h2h-stat-lbl">Win Rate</div></div>
+      <div class="h2h-stat-block"><div class="h2h-stat-val">${h2hFixtures.length}</div><div class="h2h-stat-lbl">Meetings</div></div>
+      <div class="h2h-stat-block"><div class="h2h-stat-val" style="color:var(--pitch)">${bWinPct}%</div><div class="h2h-stat-lbl">Win Rate</div></div>
+    </div>
+    <div class="h2h-match-history">${history}</div>
+  </div>`;
 }
 
 function renderAll(){
-  renderStandings();renderFixtures();renderScorers();
-  renderTOTW();buildTicker();startCountdown();
+  renderStandings(); renderFixtures(); renderStats();
+  renderTOTW(); buildTicker(); startCountdown();
 }
 
 // ════════════════════════════════════════════
