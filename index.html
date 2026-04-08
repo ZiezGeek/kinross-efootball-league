@@ -1318,9 +1318,11 @@ select:focus, input:focus { border-color:var(--pitch); }
       <span class="admin-tag" onclick="logout()">✓ Admin ✕</span>
     </div>
     <div class="f-row">
-      <div class="f-group"><label class="f-label">Home Team</label><select id="sel-home"></select></div>
-      <div class="f-group"><label class="f-label">Away Team</label><select id="sel-away"></select></div>
+      <div class="f-group"><label class="f-label">Home Team</label><select id="sel-home" onchange="updateLegIndicator()"></select></div>
+      <div class="f-group"><label class="f-label">Away Team</label><select id="sel-away" onchange="updateLegIndicator()"></select></div>
     </div>
+    <!-- Leg indicator — Season 3 only -->
+    <div id="leg-indicator" style="display:none;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;background:rgba(255,255,255,0.04);border-radius:6px;padding:7px 12px;margin-bottom:12px;"></div>
     <div class="f-row">
       <div class="f-group">
         <label class="f-label">Score</label>
@@ -2066,6 +2068,7 @@ function renderH2H() {
       <div class="h2h-team-side">
         <svg width="56" height="63"><use href="#${tB.bid}"/></svg>
         <div class="h2h-team-name">${tB.name}</div>
+        
       </div>
     </div>
     <div class="h2h-stats-row">
@@ -2138,7 +2141,42 @@ function logout(){isAdmin=false;updateFab();closeResultModal();toast('Logged out
 // ════════════════════════════════════════════
 function populateSelects(){
   const opts=TEAMS.map(t=>`<option value="${t.id}">${t.name}</option>`).join('');
-  document.getElementById('sel-home').innerHTML=opts;document.getElementById('sel-away').innerHTML=opts;document.getElementById('sel-away').value=1;
+  document.getElementById('sel-home').innerHTML=opts;
+  document.getElementById('sel-away').innerHTML=opts;
+  document.getElementById('sel-away').value=1;
+  updateLegIndicator();
+}
+
+function updateLegIndicator(){
+  const ind = document.getElementById('leg-indicator');
+  if(!ind) return;
+  if(currentSeason!==3){ind.style.display='none';return;}
+  const homeId=+document.getElementById('sel-home').value;
+  const awayId=+document.getElementById('sel-away').value;
+  if(homeId===awayId){ind.style.display='none';return;}
+
+  // Count how many times this exact home→away fixture already has a result
+  const played = fixtures.filter(f=>
+    Number(f.home)===homeId && Number(f.away)===awayId && f.homeGoals!==null
+  ).length;
+  const revPlayed = fixtures.filter(f=>
+    Number(f.home)===awayId && Number(f.away)===homeId && f.homeGoals!==null
+  ).length;
+
+  const hT=TEAMS[homeId]?.name||'?', aT=TEAMS[awayId]?.name||'?';
+  let msg='', color='var(--pitch)';
+  if(played===0){
+    msg=`🏠 1st Leg — ${hT} at home`;
+  } else if(played>=1 && revPlayed===0){
+    msg=`✈️ 2nd Leg — ${hT} away (reverse)`;
+    color='#ff9800';
+  } else {
+    msg=`⚠️ Both legs already played — will overwrite`;
+    color='var(--red)';
+  }
+  ind.textContent=msg;
+  ind.style.color=color;
+  ind.style.display='block';
 }
 let sc=0;
 function addScorerEntry(name='',tid=0,goals=1){
@@ -2164,9 +2202,48 @@ function submitResult(){
   const homeId=+document.getElementById('sel-home').value,awayId=+document.getElementById('sel-away').value;
   if(homeId===awayId){toast('Teams must be different!');return;}
   const hg=+document.getElementById('score-home').value,ag=+document.getElementById('score-away').value,wk=+document.getElementById('match-week').value;
-  let fix=fixtures.find(f=>(Number(f.home)===homeId&&Number(f.away)===awayId)||(Number(f.home)===awayId&&Number(f.away)===homeId));
-  if(fix){if(Number(fix.home)===homeId){fix.homeGoals=hg;fix.awayGoals=ag;}else{fix.homeGoals=ag;fix.awayGoals=hg;}fix.week=wk;}
-  else fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag});
+
+  let fix;
+  if(currentSeason===3){
+    // Season 3: Home & Away — match EXACT home/away direction
+    // First try to find an unplayed fixture with exact home/away
+    fix = fixtures.find(f=>
+      Number(f.home)===homeId && Number(f.away)===awayId && f.homeGoals===null
+    );
+    // If none unplayed with exact direction, find any exact direction (to overwrite)
+    if(!fix){
+      fix = fixtures.find(f=>
+        Number(f.home)===homeId && Number(f.away)===awayId
+      );
+    }
+    // If still nothing (e.g. reversed selection), find reversed unplayed
+    if(!fix){
+      fix = fixtures.find(f=>
+        Number(f.home)===awayId && Number(f.away)===homeId && f.homeGoals===null
+      );
+      if(fix){
+        // swap goals since user entered home/away opposite to fixture direction
+        const tmp=hg; fix.homeGoals=ag; fix.awayGoals=tmp; fix.week=wk;
+        fix=null; // mark as handled
+      }
+    }
+  } else {
+    // Season 1 & 2: single leg — find any match between the two teams
+    fix = fixtures.find(f=>
+      (Number(f.home)===homeId&&Number(f.away)===awayId)||
+      (Number(f.home)===awayId&&Number(f.away)===homeId)
+    );
+  }
+
+  if(fix){
+    if(Number(fix.home)===homeId){fix.homeGoals=hg;fix.awayGoals=ag;}
+    else{fix.homeGoals=ag;fix.awayGoals=hg;}
+    fix.week=wk;
+  } else {
+    // No matching fixture found — push a new one
+    fixtures.push({id:fixtures.length,home:homeId,away:awayId,week:wk,homeGoals:hg,awayGoals:ag,leg:1});
+  }
+
   document.querySelectorAll('.scorer-entry').forEach(entry=>{
     const name=entry.querySelector('.sc-name').value.trim();if(!name)return;
     const tid=+entry.querySelector('.sc-team').value,gls=+entry.querySelector('.sc-goals').value;
