@@ -377,6 +377,92 @@
     <rect x="14" y="72" width="52" height="1.2" fill="url(#b14g)" rx="0.6"/>
     <text x="40" y="81" text-anchor="middle" font-family="'Oswald',sans-serif" font-size="7" font-weight="700" fill="rgba(255,230,0,0.8)" letter-spacing="2">UNITED F·C</text>
   </symbol>
+
+  <!-- 15 · Bayer Leverkusen — black & red, iconic B04 pill shield -->
+  <symbol id="badge-15" viewBox="0 0 80 90">
+    <defs>
+      <linearGradient id="b15blk" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#1a0000"/>
+        <stop offset="100%" stop-color="#0a0000"/>
+      </linearGradient>
+      <linearGradient id="b15red" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#e8001c"/>
+        <stop offset="100%" stop-color="#9b0014"/>
+      </linearGradient>
+      <linearGradient id="b15sil" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#c8c8c8"/>
+        <stop offset="50%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#b0b0b0"/>
+      </linearGradient>
+      <radialGradient id="b15glow" cx="50%" cy="38%" r="52%">
+        <stop offset="0%" stop-color="#e8001c" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="transparent"/>
+      </radialGradient>
+    </defs>
+
+    <!-- ── OUTER SHIELD ── -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z"
+          fill="url(#b15blk)" stroke="url(#b15sil)" stroke-width="2.6"/>
+    <!-- Red glow overlay -->
+    <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z"
+          fill="url(#b15glow)"/>
+
+    <!-- ── RED LEFT HALF (diagonal split — Leverkusen style) ── -->
+    <path d="M3 17 L40 3 L40 88 Q3 77 3 53 Z"
+          fill="url(#b15red)" clip-path="url(#b15shClip)" opacity="0.92"/>
+
+    <!-- Clip shape so red stays inside shield -->
+    <defs>
+      <clipPath id="b15shClip">
+        <path d="M40 3 L77 17 L77 53 Q77 77 40 88 Q3 77 3 53 L3 17 Z"/>
+      </clipPath>
+    </defs>
+
+    <!-- ── INNER BORDER ── -->
+    <path d="M40 8 L71 20 L71 52 Q71 72 40 82 Q9 72 9 52 L9 20 Z"
+          fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.1"/>
+
+    <!-- ── SILVER TOP BANNER ── -->
+    <path d="M40 3 L77 17 L77 23 L3 23 L3 17 Z"
+          fill="url(#b15sil)" opacity="0.94" clip-path="url(#b15shClip)"/>
+    <text x="40" y="19" text-anchor="middle"
+          font-family="'Oswald',sans-serif" font-size="7" font-weight="700"
+          fill="#1a0000" letter-spacing="2.5">BAYER 04</text>
+
+    <!-- ── CENTRAL PILL / ROUNDEL ── -->
+    <!-- Pill background -->
+    <rect x="18" y="30" width="44" height="26" rx="13" ry="13"
+          fill="url(#b15sil)" clip-path="url(#b15shClip)"/>
+    <!-- Red left half of pill -->
+    <path d="M18 43 Q18 30 31 30 L40 30 L40 56 L31 56 Q18 56 18 43 Z"
+          fill="url(#b15red)" clip-path="url(#b15shClip)"/>
+    <!-- Pill border -->
+    <rect x="18" y="30" width="44" height="26" rx="13" ry="13"
+          fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="1"
+          clip-path="url(#b15shClip)"/>
+
+    <!-- B04 text inside pill -->
+    <text x="31" y="47.5" text-anchor="middle"
+          font-family="'Oswald',sans-serif" font-size="11" font-weight="700"
+          fill="#ffffff" letter-spacing="0.5">B</text>
+    <text x="51" y="47.5" text-anchor="middle"
+          font-family="'Oswald',sans-serif" font-size="11" font-weight="700"
+          fill="#1a0000" letter-spacing="0.5">04</text>
+
+    <!-- ── LEVERKUSEN NAME ── -->
+    <text x="40" y="68" text-anchor="middle"
+          font-family="'Oswald',sans-serif" font-size="8" font-weight="700"
+          fill="url(#b15sil)" letter-spacing="1">LEVERKUSEN</text>
+    <rect x="12" y="70" width="56" height="1.2" fill="url(#b15red)" rx="0.6"/>
+    <text x="40" y="79" text-anchor="middle"
+          font-family="'Oswald',sans-serif" font-size="7" font-weight="700"
+          fill="rgba(200,200,200,0.7)" letter-spacing="2">F · C</text>
+
+    <!-- ── CORNER STAR ACCENTS ── -->
+    <circle cx="13" cy="60" r="1.8" fill="url(#b15red)" opacity="0.6"/>
+    <circle cx="67" cy="60" r="1.8" fill="url(#b15red)" opacity="0.6"/>
+  </symbol>
+
 </defs>
 </svg>
 
@@ -1415,7 +1501,7 @@ const TEAMS_S3=[
   {id:5, name:'Pro ST FC',        short:'PST', bid:'badge-8'},
   {id:6, name:'Rangers FC',       short:'RNG', bid:'badge-9'},
   {id:7, name:'Vamos!!!',         short:'VMO', bid:'badge-13'},
-  {id:8, name:'Sporting FC',      short:'SPT', bid:'badge-11'},
+  {id:8, name:'Bayer Leverkusen', short:'B04', bid:'badge-15'},
   {id:9, name:'Kosabo FC',        short:'KSB', bid:'badge-1'},
   {id:10,name:'Manchester United',short:'MNU', bid:'badge-14'},
 ];
@@ -2068,7 +2154,6 @@ function renderH2H() {
       <div class="h2h-team-side">
         <svg width="56" height="63"><use href="#${tB.bid}"/></svg>
         <div class="h2h-team-name">${tB.name}</div>
-        
       </div>
     </div>
     <div class="h2h-stats-row">
