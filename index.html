@@ -778,6 +778,158 @@ body.s3-active .standings-table tbody tr.pos-champ td:nth-child(2)::after { cont
 .cp-scorer-name { font-family:'Oswald',sans-serif; font-weight:600; }
 .cp-scorer-g { font-family:'Oswald',sans-serif; font-size:15px; color:var(--pitch); font-weight:700; }
 
+/* ════════════ PLAYER CARDS (FIFA-STYLE) ════════════ */
+
+/* Nav tab inside club profile */
+.cp-tabs { display:flex; gap:0; margin:12px 0 0; border-bottom:2px solid var(--border); }
+.cp-tab {
+  font-family:'Oswald',sans-serif; font-size:13px; font-weight:600; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--text2); padding:8px 16px;
+  background:none; border:none; cursor:pointer; position:relative;
+  transition:color .2s;
+}
+.cp-tab.active { color:var(--pitch); }
+.cp-tab.active::after {
+  content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px;
+  background:var(--pitch); border-radius:2px;
+}
+.cp-tab-panel { display:none; padding-top:14px; }
+.cp-tab-panel.active { display:block; }
+
+/* Squad grid */
+.squad-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:10px; margin-bottom:12px;
+}
+
+/* Single FIFA card */
+.pcard {
+  position:relative; border-radius:10px; overflow:hidden;
+  cursor:pointer; transition:transform .2s, box-shadow .2s;
+  aspect-ratio: 0.72;
+  background:linear-gradient(160deg,#1a2a0a 0%,#0d1a05 100%);
+  border:1px solid rgba(255,255,255,0.08);
+  display:flex; flex-direction:column;
+}
+.pcard:hover { transform:translateY(-4px) scale(1.03); box-shadow:0 12px 30px rgba(0,0,0,0.5); }
+
+/* Card colour themes by rating */
+.pcard.card-gold    { background:linear-gradient(160deg,#3d2e00,#1e1500); border-color:rgba(255,200,0,0.3); }
+.pcard.card-silver  { background:linear-gradient(160deg,#1e2230,#0d1020); border-color:rgba(160,180,220,0.3); }
+.pcard.card-bronze  { background:linear-gradient(160deg,#2a1200,#140900); border-color:rgba(180,100,40,0.3); }
+.pcard.card-special { background:linear-gradient(160deg,#300030,#100010); border-color:rgba(200,80,255,0.4); }
+
+/* Top strip */
+.pcard-top {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:8px 8px 0;
+}
+.pcard-ovr {
+  font-family:'Oswald',sans-serif; font-size:22px; font-weight:700; line-height:1;
+  color:#fff; text-shadow:0 0 8px rgba(0,0,0,0.8);
+}
+.pcard-pos {
+  font-family:'Oswald',sans-serif; font-size:11px; font-weight:600;
+  color:rgba(255,255,255,0.6); letter-spacing:1px;
+}
+.pcard-flag { font-size:16px; line-height:1; }
+
+/* Badge in card */
+.pcard-badge {
+  display:flex; justify-content:center; align-items:center;
+  flex:1; padding:4px 0;
+}
+.pcard-badge svg { width:52px; height:59px; filter:drop-shadow(0 2px 10px rgba(0,0,0,0.7)); }
+
+/* Player name */
+.pcard-name {
+  font-family:'Oswald',sans-serif; font-size:11px; font-weight:700;
+  text-align:center; color:#fff; letter-spacing:1px;
+  padding:0 6px 4px; text-transform:uppercase;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Stats row at bottom */
+.pcard-stats {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding:4px 2px;
+}
+.pcard-stat { text-align:center; }
+.pcard-stat-val {
+  font-family:'Oswald',sans-serif; font-size:13px; font-weight:700;
+  color:#fff; line-height:1;
+}
+.pcard-stat-lbl {
+  font-family:'Rajdhani',sans-serif; font-size:8px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,0.45);
+}
+
+/* Rarity shimmer on gold cards */
+.pcard.card-gold::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,transparent 40%,rgba(255,215,0,0.06) 50%,transparent 60%);
+  animation:cardShimmer 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes cardShimmer {
+  0%,100%{opacity:0} 50%{opacity:1}
+}
+
+/* Add player form */
+.add-player-form {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:10px; padding:14px; margin-bottom:12px;
+  display:none;
+}
+.add-player-form.open { display:block; animation:fadeIn .2s ease; }
+.pf-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px; }
+.pf-full  { grid-column:1/-1; }
+.rating-slider-wrap { display:flex; align-items:center; gap:10px; }
+.rating-slider {
+  flex:1; -webkit-appearance:none; appearance:none;
+  height:6px; border-radius:3px; outline:none;
+  background:linear-gradient(90deg, var(--pitch) 0%, var(--pitch) var(--pct,50%), var(--border2) var(--pct,50%));
+}
+.rating-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:18px; height:18px;
+  border-radius:50%; background:var(--pitch); cursor:pointer;
+  box-shadow:0 0 6px rgba(0,208,104,0.5);
+}
+.rating-val {
+  font-family:'Oswald',sans-serif; font-size:20px; font-weight:700;
+  color:var(--pitch); min-width:32px; text-align:center;
+}
+
+/* Position badge inside card */
+.pos-pill {
+  display:inline-block; padding:1px 6px; border-radius:4px;
+  font-family:'Oswald',sans-serif; font-size:9px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase;
+}
+.pos-GK  { background:rgba(255,193,7,0.25);  color:#ffc107; }
+.pos-DEF { background:rgba(33,150,243,0.25); color:#64b5f6; }
+.pos-MID { background:rgba(76,175,80,0.25);  color:#81c784; }
+.pos-FWD { background:rgba(244,67,54,0.25);  color:#ef9a9a; }
+
+/* Empty squad message */
+.squad-empty {
+  text-align:center; padding:28px 16px;
+  font-family:'Rajdhani',sans-serif; font-size:13px;
+  letter-spacing:1px; color:var(--text2);
+}
+.squad-empty .se-icon { font-size:36px; display:block; margin-bottom:8px; }
+
+/* Delete btn on card when admin */
+.pcard-del {
+  position:absolute; top:4px; right:4px; width:18px; height:18px;
+  background:rgba(239,68,68,0.8); border:none; border-radius:50%;
+  color:#fff; font-size:11px; cursor:pointer; display:none;
+  align-items:center; justify-content:center; line-height:1;
+  z-index:10;
+}
+.pcard:hover .pcard-del { display:flex; }
+
 /* ════════════ FAB ════════════ */
 .fab { position:fixed; bottom:24px; right:24px; z-index:200; width:52px; height:52px; border-radius:50%; background:linear-gradient(135deg,var(--pitch),#00a851); border:none; cursor:pointer; font-size:22px; font-weight:700; color:#000; box-shadow:0 4px 20px rgba(0,208,104,0.45); transition:transform .2s,box-shadow .2s; display:flex; align-items:center; justify-content:center; }
 .fab:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(0,208,104,0.6); }
@@ -1130,6 +1282,168 @@ select:focus, input:focus { border-color:var(--pitch); }
   background: linear-gradient(90deg, rgba(0,208,104,0.03), transparent, rgba(0,208,104,0.03));
 }
 
+/* ════════════ SQUAD / PLAYER CARDS ════════════ */
+.squad-team-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.squad-tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: var(--surface); cursor: pointer;
+  font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text2);
+  transition: all .2s;
+}
+.squad-tab:hover { border-color: var(--pitch); color: var(--pitch); }
+.squad-tab.active { background: var(--pitch); color: #000; border-color: var(--pitch); }
+.squad-tab .tab-count {
+  background: rgba(0,0,0,0.2); border-radius: 10px;
+  padding: 0 6px; font-size: 10px;
+}
+.squad-tab.active .tab-count { background: rgba(0,0,0,0.25); }
+
+.squad-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 14px;
+}
+
+/* ── THE CARD ── */
+.player-card {
+  position: relative; border-radius: 12px; overflow: hidden;
+  aspect-ratio: 3/4.2;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(0.34,1.56,0.64,1), box-shadow .25s;
+  user-select: none;
+}
+.player-card:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+/* Card background gradient — colour varies by rating tier */
+.player-card .card-bg {
+  position: absolute; inset: 0;
+  background: var(--card-bg);
+  z-index: 0;
+}
+.player-card .card-shine {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+.player-card .card-pattern {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: repeating-linear-gradient(
+    45deg, transparent, transparent 6px,
+    rgba(255,255,255,0.03) 6px, rgba(255,255,255,0.03) 7px
+  );
+  pointer-events: none;
+}
+
+/* Rating top-left block */
+.card-rating-block {
+  position: absolute; top: 10px; left: 10px; z-index: 3;
+  text-align: center; line-height: 1;
+}
+.card-ovr {
+  font-family: 'Oswald', sans-serif; font-size: 26px; font-weight: 700;
+  color: var(--card-accent); text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  display: block;
+}
+.card-pos {
+  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--card-accent); letter-spacing: 1px; opacity: 0.9;
+  display: block; margin-top: 1px;
+}
+
+/* Team badge top-right */
+.card-team-badge {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+}
+
+/* Player silhouette / avatar area */
+.card-avatar-wrap {
+  position: absolute; bottom: 44%; left: 0; right: 0; z-index: 2;
+  display: flex; justify-content: center; align-items: flex-end;
+  height: 52%;
+}
+.card-avatar-num {
+  font-family: 'Oswald', sans-serif; font-size: 56px; font-weight: 900;
+  color: rgba(255,255,255,0.07); line-height: 1; letter-spacing: -4px;
+  position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
+}
+.card-kit-icon {
+  font-size: 42px; position: relative; z-index: 2;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+  animation: kitFloat 3s ease-in-out infinite;
+}
+@keyframes kitFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+/* Name ribbon at bottom */
+.card-name-ribbon {
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  padding: 6px 8px 8px;
+  text-align: center;
+}
+.card-name {
+  font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700;
+  color: #fff; letter-spacing: 1px; text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: block; margin-bottom: 4px;
+}
+
+/* Mini stat bars at bottom of card */
+.card-stats-row {
+  display: flex; gap: 3px; justify-content: center;
+}
+.card-mini-stat {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  flex: 1;
+}
+.cms-label {
+  font-family: 'Rajdhani', sans-serif; font-size: 7px; font-weight: 700;
+  letter-spacing: 0.5px; color: rgba(255,255,255,0.5); text-transform: uppercase;
+}
+.cms-val {
+  font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700;
+  color: var(--card-accent);
+}
+.cms-bar-wrap {
+  width: 100%; height: 2px; background: rgba(255,255,255,0.15); border-radius: 1px;
+}
+.cms-bar {
+  height: 100%; border-radius: 1px;
+  background: var(--card-accent);
+  transition: width .6s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Card tier colours */
+.tier-gold    { --card-bg: linear-gradient(160deg,#3d2a00,#7a5200,#3d2a00); --card-accent:#ffd700; }
+.tier-silver  { --card-bg: linear-gradient(160deg,#1a1f2e,#2a3148,#1a1f2e); --card-accent:#c8d0e8; }
+.tier-bronze  { --card-bg: linear-gradient(160deg,#2a1800,#5a3500,#2a1800); --card-accent:#cd8040; }
+.tier-special { --card-bg: linear-gradient(160deg,#1a0035,#4a0080,#1a0035); --card-accent:#bf80ff; }
+
+/* Admin edit overlay */
+.card-edit-btn {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  z-index: 10; background: rgba(0,208,104,0.9); color: #000;
+  border: none; border-radius: 10px; padding: 3px 10px;
+  font-family: 'Rajdhani', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer; opacity: 0;
+  transition: opacity .2s;
+}
+.player-card:hover .card-edit-btn { opacity: 1; }
+
+/* Section empty / add wrap */
+#squad-add-wrap .btn-primary { padding: 14px 36px; font-size: 15px; letter-spacing: 2px; }
+
+@media(max-width:480px){
+  .squad-cards-grid { grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap:10px; }
+  .card-ovr { font-size:22px; }
+  .card-kit-icon { font-size:34px; }
+}
+
 /* ════════════ FOOTER ════════════ */
 #site-footer {
   margin-top: 48px;
@@ -1216,6 +1530,7 @@ select:focus, input:focus { border-color:var(--pitch); }
     <button class="active" onclick="showSection('standings',this)">Table</button>
     <button onclick="showSection('fixtures',this)">Fixtures</button>
     <button onclick="showSection('stats',this)">📊 Stats</button>
+    <button onclick="showSection('squad',this)">🎴 Squad</button>
   </nav>
   <div style="display:flex;align-items:center;gap:8px">
     <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
@@ -1396,6 +1711,82 @@ select:focus, input:focus { border-color:var(--pitch); }
   </div>
 </div>
 
+<!-- ════════════ SQUAD ════════════ -->
+<div id="sec-squad" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-title">Squad Cards</div>
+      <div id="squad-admin-hint" style="display:none;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--pitch)">✏️ Tap any card to edit</div>
+    </div>
+    <!-- Team filter tabs -->
+    <div class="squad-team-tabs" id="squad-team-tabs"></div>
+    <!-- Cards grid -->
+    <div class="squad-cards-grid" id="squad-cards-grid"></div>
+    <!-- Empty state -->
+    <div id="squad-empty" style="display:none;text-align:center;padding:48px 16px;color:var(--text2);font-family:'Rajdhani',sans-serif;font-size:14px;letter-spacing:1px">
+      NO PLAYERS ADDED YET<br>
+      <span style="font-size:12px;opacity:0.6;display:block;margin-top:6px">Login as Admin and tap <strong style="color:var(--pitch)">+ Add Player</strong> to get started</span>
+    </div>
+    <!-- Add player button (admin only) -->
+    <div id="squad-add-wrap" style="display:none;margin-top:20px;text-align:center">
+      <button class="btn btn-primary" onclick="openPlayerModal(null)" style="font-family:'Oswald',sans-serif;letter-spacing:2px">+ Add Player</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PLAYER CARD MODAL ════════════ -->
+<div class="modal-overlay" id="player-modal" onclick="if(event.target===this)closePlayerModal()">
+  <div class="modal" style="max-width:480px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div class="modal-title" style="margin-bottom:0" id="player-modal-title">🎴 Add Player</div>
+      <span class="admin-tag" onclick="logout()">✓ Admin ✕</span>
+    </div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label">Player Name</label><input type="text" id="pm-name" placeholder="e.g. Cristiano Ronaldo"/></div>
+      <div class="f-group" style="max-width:140px"><label class="f-label">Team</label><select id="pm-team"></select></div>
+    </div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label">Position</label>
+        <select id="pm-pos">
+          <option value="GK">GK — Goalkeeper</option>
+          <option value="CB">CB — Centre Back</option>
+          <option value="LB">LB — Left Back</option>
+          <option value="RB">RB — Right Back</option>
+          <option value="CDM">CDM — Def. Midfielder</option>
+          <option value="CM">CM — Midfielder</option>
+          <option value="CAM">CAM — Att. Midfielder</option>
+          <option value="LW">LW — Left Wing</option>
+          <option value="RW">RW — Right Wing</option>
+          <option value="ST">ST — Striker</option>
+          <option value="CF">CF — Centre Forward</option>
+        </select>
+      </div>
+      <div class="f-group" style="max-width:100px">
+        <label class="f-label">Overall (/99)</label>
+        <input type="number" id="pm-overall" min="40" max="99" value="75"/>
+      </div>
+    </div>
+    <div style="margin-bottom:6px"><label class="f-label">Attribute Ratings (0–99)</label></div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label" style="font-size:9px">Pace</label><input type="number" id="pm-pac" min="0" max="99" value="70"/></div>
+      <div class="f-group"><label class="f-label" style="font-size:9px">Shooting</label><input type="number" id="pm-sho" min="0" max="99" value="70"/></div>
+      <div class="f-group"><label class="f-label" style="font-size:9px">Passing</label><input type="number" id="pm-pas" min="0" max="99" value="70"/></div>
+    </div>
+    <div class="f-row">
+      <div class="f-group"><label class="f-label" style="font-size:9px">Dribbling</label><input type="number" id="pm-dri" min="0" max="99" value="70"/></div>
+      <div class="f-group"><label class="f-label" style="font-size:9px">Defending</label><input type="number" id="pm-def" min="0" max="99" value="60"/></div>
+      <div class="f-group"><label class="f-label" style="font-size:9px">Physical</label><input type="number" id="pm-phy" min="0" max="99" value="70"/></div>
+    </div>
+    <div id="pm-delete-wrap" style="display:none">
+      <button class="btn" style="background:rgba(239,68,68,0.15);color:var(--red);border:1px solid var(--red);width:100%;margin-bottom:8px" onclick="deletePlayer()">🗑️ Delete Player</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closePlayerModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="savePlayer()">Save Player</button>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════ RESULT MODAL ════════════ -->
 <div class="modal-overlay" id="result-modal" onclick="if(event.target===this)closeResultModal()">
   <div class="modal">
@@ -1434,7 +1825,7 @@ select:focus, input:focus { border-color:var(--pitch); }
 
 <!-- ════════════ CLUB PROFILE MODAL ════════════ -->
 <div class="modal-overlay club-profile-modal" id="club-profile-modal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="modal" style="max-width:420px">
+  <div class="modal" style="max-width:480px">
     <div class="cp-header">
       <div class="cp-badge" id="cp-badge"></div>
       <div>
@@ -1442,13 +1833,74 @@ select:focus, input:focus { border-color:var(--pitch); }
         <div class="cp-season-tag" id="cp-season">–</div>
       </div>
     </div>
-    <div class="cp-stats-grid" id="cp-stats-grid"></div>
-    <div class="cp-form-row">
-      <span class="cp-form-label">Form</span>
-      <div class="form-pills" id="cp-form"></div>
+
+    <!-- Tabs -->
+    <div class="cp-tabs">
+      <button class="cp-tab active" onclick="switchCpTab('overview',this)">📊 Overview</button>
+      <button class="cp-tab" onclick="switchCpTab('squad',this)">🎴 Squad</button>
     </div>
-    <div class="cp-scorers-list" id="cp-scorers-list"></div>
-    <div class="btn-row" style="margin-top:16px">
+
+    <!-- Overview Panel -->
+    <div class="cp-tab-panel active" id="cp-panel-overview">
+      <div class="cp-stats-grid" id="cp-stats-grid"></div>
+      <div class="cp-form-row">
+        <span class="cp-form-label">Form</span>
+        <div class="form-pills" id="cp-form"></div>
+      </div>
+      <div class="cp-scorers-list" id="cp-scorers-list"></div>
+    </div>
+
+    <!-- Squad Panel -->
+    <div class="cp-tab-panel" id="cp-panel-squad">
+      <!-- Add player form (admin only) -->
+      <div class="add-player-form" id="add-player-form">
+        <div style="font-family:'Oswald',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--pitch);margin-bottom:10px">➕ Add Player</div>
+        <div class="pf-grid">
+          <div class="pf-full f-group"><label class="f-label">Player Name</label><input type="text" id="pf-name" placeholder="e.g. Ronaldo"/></div>
+          <div class="f-group">
+            <label class="f-label">Position</label>
+            <select id="pf-pos">
+              <option value="GK">GK — Goalkeeper</option>
+              <option value="DEF">DEF — Defender</option>
+              <option value="MID" selected>MID — Midfielder</option>
+              <option value="FWD">FWD — Forward</option>
+            </select>
+          </div>
+          <div class="f-group">
+            <label class="f-label">Nationality 🌍</label>
+            <input type="text" id="pf-nation" placeholder="e.g. 🇧🇷 Brazil"/>
+          </div>
+          <div class="pf-full f-group">
+            <label class="f-label">Overall Rating — <span id="pf-rating-lbl">75</span></label>
+            <div class="rating-slider-wrap">
+              <input type="range" class="rating-slider" id="pf-rating" min="40" max="99" value="75"
+                oninput="document.getElementById('pf-rating-lbl').textContent=this.value;this.style.setProperty('--pct',(this.value-40)/59*100+'%')"/>
+              <div class="rating-val" id="pf-rating-show">75</div>
+            </div>
+          </div>
+          <div class="f-group"><label class="f-label">PAC</label><input type="number" id="pf-pac" min="1" max="99" value="70" placeholder="PAC"/></div>
+          <div class="f-group"><label class="f-label">SHO</label><input type="number" id="pf-sho" min="1" max="99" value="65" placeholder="SHO"/></div>
+          <div class="f-group"><label class="f-label">PAS</label><input type="number" id="pf-pas" min="1" max="99" value="70" placeholder="PAS"/></div>
+          <div class="f-group"><label class="f-label">DRI</label><input type="number" id="pf-dri" min="1" max="99" value="72" placeholder="DRI"/></div>
+          <div class="f-group"><label class="f-label">DEF</label><input type="number" id="pf-def" min="1" max="99" value="55" placeholder="DEF"/></div>
+          <div class="f-group"><label class="f-label">PHY</label><input type="number" id="pf-phy" min="1" max="99" value="68" placeholder="PHY"/></div>
+        </div>
+        <div class="btn-row" style="margin-top:0">
+          <button class="btn btn-ghost" onclick="document.getElementById('add-player-form').classList.remove('open')">Cancel</button>
+          <button class="btn btn-primary" onclick="savePlayer()">Save Player</button>
+        </div>
+      </div>
+
+      <!-- Admin add button -->
+      <div id="squad-admin-bar" style="display:none;margin-bottom:10px">
+        <button class="add-scorer-btn" onclick="openAddPlayerForm()">➕ Add Player to Squad</button>
+      </div>
+
+      <!-- Cards grid -->
+      <div class="squad-grid" id="squad-grid"></div>
+    </div>
+
+    <div class="btn-row" style="margin-top:8px">
       <button class="btn btn-ghost" onclick="document.getElementById('club-profile-modal').classList.remove('open')">Close</button>
     </div>
   </div>
@@ -1662,7 +2114,183 @@ function openClubProfile(teamIdx){
   }
 
   document.getElementById('club-profile-modal').classList.add('open');
+  // Switch to overview tab by default
+  switchCpTab('overview', document.querySelector('.cp-tab'));
+  // Load squad for this team
+  loadSquad(teamIdx);
 }
+
+// ════════════════════════════════════════════
+// PLAYER CARDS SYSTEM
+// ════════════════════════════════════════════
+let currentProfileTeamIdx = 0;
+
+function switchCpTab(tab, btn) {
+  document.querySelectorAll('.cp-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cp-tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(`cp-panel-${tab}`).classList.add('active');
+  if (tab === 'squad') {
+    document.getElementById('squad-admin-bar').style.display = isAdmin ? 'block' : 'none';
+  }
+}
+
+function squadDbKey(teamIdx) {
+  return `squads/s${currentSeason}/t${teamIdx}`;
+}
+
+let squadListener = null;
+function loadSquad(teamIdx) {
+  currentProfileTeamIdx = teamIdx;
+  if (squadListener) { squadListener(); squadListener = null; }
+  const ref = db.ref(squadDbKey(teamIdx));
+  const handler = snap => {
+    const data = snap.val();
+    const players = data ? (Array.isArray(data) ? data : Object.values(data)).filter(Boolean) : [];
+    renderSquadCards(players, teamIdx);
+  };
+  ref.on('value', handler);
+  squadListener = () => ref.off('value', handler);
+}
+
+function getCardClass(ovr) {
+  if (ovr >= 87) return 'card-special';
+  if (ovr >= 80) return 'card-gold';
+  if (ovr >= 73) return 'card-silver';
+  return 'card-bronze';
+}
+
+function getStatColor(val) {
+  if (val >= 80) return '#4ade80';
+  if (val >= 65) return '#facc15';
+  return '#f87171';
+}
+
+function renderSquadCards(players, teamIdx) {
+  const grid = document.getElementById('squad-grid');
+  const team = TEAMS[teamIdx];
+  if (!team) return;
+
+  if (!players.length) {
+    grid.innerHTML = `<div class="squad-empty" style="grid-column:1/-1">
+      <span class="se-icon">🎴</span>
+      No players added yet${isAdmin ? ' — tap "Add Player" to build your squad!' : '.'}
+    </div>`;
+    return;
+  }
+
+  // Sort by overall rating desc
+  const sorted = [...players].sort((a, b) => b.ovr - a.ovr);
+
+  grid.innerHTML = sorted.map((p, i) => {
+    const cardCls = getCardClass(p.ovr);
+    const posCls = `pos-${p.pos}`;
+    // Pick 3 most relevant stats based on position
+    let stats;
+    if      (p.pos === 'GK')  stats = [['DIV',p.pac||0],['REF',p.sho||0],['HAN',p.pas||0]];
+    else if (p.pos === 'DEF') stats = [['PAC',p.pac||0],['DEF',p.def||0],['PHY',p.phy||0]];
+    else if (p.pos === 'MID') stats = [['PAS',p.pas||0],['DRI',p.dri||0],['PHY',p.phy||0]];
+    else                      stats = [['PAC',p.pac||0],['SHO',p.sho||0],['DRI',p.dri||0]];
+
+    const delBtn = isAdmin
+      ? `<button class="pcard-del" title="Remove" onclick="deletePlayer(${i},event)">✕</button>` : '';
+
+    return `<div class="pcard ${cardCls}" title="${p.name}">
+      ${delBtn}
+      <div class="pcard-top">
+        <div>
+          <div class="pcard-ovr">${p.ovr}</div>
+          <div class="pos-pill ${posCls}">${p.pos}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="pcard-flag">${p.nation||'🌍'}</div>
+        </div>
+      </div>
+      <div class="pcard-badge">
+        <svg width="52" height="59" viewBox="0 0 80 90"><use href="#${team.bid}"/></svg>
+      </div>
+      <div class="pcard-name">${p.name}</div>
+      <div class="pcard-stats">
+        ${stats.map(([lbl,val]) => `<div class="pcard-stat">
+          <div class="pcard-stat-val" style="color:${getStatColor(val)}">${val}</div>
+          <div class="pcard-stat-lbl">${lbl}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddPlayerForm() {
+  if (!isAdmin) { toast('Login as Admin first 🔒'); return; }
+  // Reset form
+  document.getElementById('pf-name').value = '';
+  document.getElementById('pf-rating').value = 75;
+  document.getElementById('pf-rating-lbl').textContent = '75';
+  document.getElementById('pf-rating-show').textContent = '75';
+  document.getElementById('pf-rating').style.setProperty('--pct','59.3%');
+  document.getElementById('pf-pac').value = 70;
+  document.getElementById('pf-sho').value = 65;
+  document.getElementById('pf-pas').value = 70;
+  document.getElementById('pf-dri').value = 72;
+  document.getElementById('pf-def').value = 55;
+  document.getElementById('pf-phy').value = 68;
+  document.getElementById('pf-nation').value = '';
+  document.getElementById('pf-pos').value = 'MID';
+  document.getElementById('add-player-form').classList.add('open');
+}
+
+function savePlayer() {
+  if (!isAdmin) return;
+  const name = document.getElementById('pf-name').value.trim();
+  if (!name) { toast('Enter a player name!'); return; }
+  const player = {
+    name,
+    pos:    document.getElementById('pf-pos').value,
+    nation: document.getElementById('pf-nation').value.trim() || '🌍',
+    ovr:    +document.getElementById('pf-rating').value,
+    pac:    +document.getElementById('pf-pac').value,
+    sho:    +document.getElementById('pf-sho').value,
+    pas:    +document.getElementById('pf-pas').value,
+    dri:    +document.getElementById('pf-dri').value,
+    def:    +document.getElementById('pf-def').value,
+    phy:    +document.getElementById('pf-phy').value,
+  };
+  const ref = db.ref(squadDbKey(currentProfileTeamIdx));
+  ref.once('value', snap => {
+    const existing = snap.val();
+    const arr = existing ? (Array.isArray(existing) ? existing : Object.values(existing)).filter(Boolean) : [];
+    arr.push(player);
+    ref.set(arr).then(() => {
+      document.getElementById('add-player-form').classList.remove('open');
+      toast(`${name} added! 🎴`);
+    });
+  });
+}
+
+function deletePlayer(idx, e) {
+  e.stopPropagation();
+  if (!isAdmin) return;
+  if (!confirm('Remove this player?')) return;
+  const ref = db.ref(squadDbKey(currentProfileTeamIdx));
+  ref.once('value', snap => {
+    const existing = snap.val();
+    const arr = existing ? (Array.isArray(existing) ? existing : Object.values(existing)).filter(Boolean) : [];
+    // Sort same way as render (by ovr desc) then remove by index
+    arr.sort((a, b) => b.ovr - a.ovr);
+    arr.splice(idx, 1);
+    ref.set(arr).then(() => toast('Player removed.'));
+  });
+}
+
+// Sync rating slider display
+document.addEventListener('input', e => {
+  if (e.target.id === 'pf-rating') {
+    const v = e.target.value;
+    document.getElementById('pf-rating-show').textContent = v;
+    document.getElementById('pf-rating-lbl').textContent = v;
+    e.target.style.setProperty('--pct', (v - 40) / 59 * 100 + '%');
+  }
+});
 
 // ════════════════════════════════════════════
 // SEASON SWITCH
@@ -1705,7 +2333,7 @@ function setSeason(n){
   document.getElementById('sec-standings').classList.add('active');
   document.querySelectorAll('#main-nav button').forEach(b=>b.classList.remove('active'));
   document.querySelector('#main-nav button').classList.add('active');
-  loadData();
+  loadData(); loadSquad();
 }
 function buildClubsRow(){
   document.getElementById('clubs-row').innerHTML=TEAMS.map((t,i)=>`
@@ -2218,8 +2846,15 @@ function updateFab(){
   const fab=document.getElementById('fab-btn');fab.classList.remove('hidden');
   if(isAdmin){fab.textContent='+';fab.classList.remove('locked');}
   else{fab.textContent='🔒';fab.classList.add('locked');}
+  // Refresh squad admin controls
+  if(typeof renderSquadPage === 'function') renderSquadPage();
 }
-function logout(){isAdmin=false;updateFab();closeResultModal();toast('Logged out 🔒');}
+function logout(){
+  isAdmin=false;updateFab();closeResultModal();
+  const bar=document.getElementById('squad-admin-bar');
+  if(bar) bar.style.display='none';
+  toast('Logged out 🔒');
+}
 
 // ════════════════════════════════════════════
 // RESULT MODAL
@@ -2343,6 +2978,248 @@ function submitResult(){
 // ════════════════════════════════════════════
 // UTILS
 // ════════════════════════════════════════════
+// ════════════════════════════════════════════
+// PLAYER CARDS — FIFA-STYLE SQUAD SYSTEM
+// ════════════════════════════════════════════
+let squadData = {};       // { teamId: [ {id,name,pos,ovr,pac,sho,pas,dri,def,phy}, ... ] }
+let squadListener = null;
+let activeSquadTeam = 'all';
+let editingPlayerId = null;
+
+function squadDbRef(){ return `squadData_s${currentSeason}`; }
+
+function loadSquad(){
+  if(squadListener) squadListener();
+  squadListener = null;
+  const ref = db.ref(squadDbRef());
+  const h = snap => {
+    squadData = snap.val() || {};
+    renderSquadPage();
+  };
+  ref.on('value', h);
+  squadListener = () => ref.off('value', h);
+}
+
+function saveSquadData(){ db.ref(squadDbRef()).set(squadData); }
+
+function getTierClass(ovr){
+  if(ovr >= 88) return 'tier-special';
+  if(ovr >= 80) return 'tier-gold';
+  if(ovr >= 70) return 'tier-silver';
+  return 'tier-bronze';
+}
+
+function getPositionIcon(pos){
+  const icons = {GK:'🧤',CB:'🛡️',LB:'🏃',RB:'🏃',CDM:'⚔️',CM:'⚙️',CAM:'✨',LW:'⚡',RW:'⚡',ST:'🔥',CF:'🎯'};
+  return icons[pos] || '⚽';
+}
+
+function renderSquadPage(){
+  // Build team filter tabs
+  const tabsEl = document.getElementById('squad-team-tabs');
+  // Count all players
+  let totalCount = 0;
+  const teamCounts = {};
+  TEAMS.forEach(t => {
+    const arr = squadData[t.id] ? Object.values(squadData[t.id]) : [];
+    teamCounts[t.id] = arr.length;
+    totalCount += arr.length;
+  });
+
+  tabsEl.innerHTML = `
+    <div class="squad-tab ${activeSquadTeam==='all'?'active':''}" onclick="setSquadTeam('all')">
+      All Teams <span class="tab-count">${totalCount}</span>
+    </div>
+    ${TEAMS.map(t => `
+      <div class="squad-tab ${activeSquadTeam==t.id?'active':''}" onclick="setSquadTeam(${t.id})">
+        <svg width="18" height="20" viewBox="0 0 80 90"><use href="#${t.bid}"/></svg>
+        ${t.short} <span class="tab-count">${teamCounts[t.id]}</span>
+      </div>`).join('')}
+  `;
+
+  // Build cards
+  const grid = document.getElementById('squad-cards-grid');
+  const empty = document.getElementById('squad-empty');
+  const addWrap = document.getElementById('squad-add-wrap');
+  const adminHint = document.getElementById('squad-admin-hint');
+
+  if(isAdmin){
+    addWrap.style.display = 'block';
+    adminHint.style.display = 'block';
+  } else {
+    addWrap.style.display = 'none';
+    adminHint.style.display = 'none';
+  }
+
+  // Collect players to show
+  let players = [];
+  TEAMS.forEach(t => {
+    if(activeSquadTeam !== 'all' && Number(activeSquadTeam) !== t.id) return;
+    const arr = squadData[t.id] ? Object.values(squadData[t.id]) : [];
+    arr.forEach(p => players.push({ ...p, teamId: t.id, teamObj: t }));
+  });
+
+  // Sort: by team then by OVR desc
+  players.sort((a,b) => {
+    if(a.teamId !== b.teamId) return a.teamId - b.teamId;
+    return b.ovr - a.ovr;
+  });
+
+  if(!players.length){
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  grid.innerHTML = players.map(p => {
+    const tier = getTierClass(p.ovr);
+    const icon = getPositionIcon(p.pos);
+    const attrs = [
+      {k:'PAC',v:p.pac},{k:'SHO',v:p.sho},{k:'PAS',v:p.pas},
+      {k:'DRI',v:p.dri},{k:'DEF',v:p.def},{k:'PHY',v:p.phy}
+    ];
+    const miniStats = attrs.map(a =>
+      `<div class="card-mini-stat">
+        <span class="cms-val">${a.v}</span>
+        <div class="cms-bar-wrap"><div class="cms-bar" style="width:${a.v}%"></div></div>
+        <span class="cms-label">${a.k}</span>
+      </div>`
+    ).join('');
+
+    const editBtn = isAdmin
+      ? `<button class="card-edit-btn" onclick="event.stopPropagation();openPlayerModal('${p.teamId}','${p.id}')">✏️ Edit</button>`
+      : '';
+
+    return `<div class="player-card ${tier}" onclick="${isAdmin?`openPlayerModal('${p.teamId}','${p.id}')`:''}" >
+      <div class="card-bg"></div>
+      <div class="card-shine"></div>
+      <div class="card-pattern"></div>
+      ${editBtn}
+      <div class="card-rating-block">
+        <span class="card-ovr">${p.ovr}</span>
+        <span class="card-pos">${p.pos}</span>
+      </div>
+      <div class="card-team-badge">
+        <svg width="22" height="25" viewBox="0 0 80 90"><use href="#${p.teamObj.bid}"/></svg>
+      </div>
+      <div class="card-avatar-wrap">
+        <div class="card-avatar-num">${p.ovr}</div>
+        <div class="card-kit-icon">${icon}</div>
+      </div>
+      <div class="card-name-ribbon">
+        <span class="card-name">${p.name}</span>
+        <div class="card-stats-row">${miniStats}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setSquadTeam(teamId){
+  activeSquadTeam = teamId;
+  renderSquadPage();
+}
+
+function openPlayerModal(teamId, playerId){
+  if(!isAdmin){ toast('Login as Admin first 🔒'); return; }
+
+  editingPlayerId = playerId || null;
+  const isEdit = !!(teamId && playerId && squadData[teamId]?.[playerId]);
+
+  document.getElementById('player-modal-title').textContent = isEdit ? '✏️ Edit Player' : '🎴 Add Player';
+  document.getElementById('pm-delete-wrap').style.display = isEdit ? 'block' : 'none';
+
+  // Populate team select
+  const opts = TEAMS.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+  document.getElementById('pm-team').innerHTML = opts;
+
+  if(isEdit){
+    const p = squadData[teamId][playerId];
+    document.getElementById('pm-name').value = p.name || '';
+    document.getElementById('pm-team').value = p.teamId !== undefined ? p.teamId : teamId;
+    document.getElementById('pm-pos').value = p.pos || 'ST';
+    document.getElementById('pm-overall').value = p.ovr || 75;
+    document.getElementById('pm-pac').value = p.pac || 70;
+    document.getElementById('pm-sho').value = p.sho || 70;
+    document.getElementById('pm-pas').value = p.pas || 70;
+    document.getElementById('pm-dri').value = p.dri || 70;
+    document.getElementById('pm-def').value = p.def || 60;
+    document.getElementById('pm-phy').value = p.phy || 70;
+    // Store editing context
+    document.getElementById('player-modal').dataset.editTeam = teamId;
+    document.getElementById('player-modal').dataset.editId = playerId;
+  } else {
+    document.getElementById('pm-name').value = '';
+    document.getElementById('pm-team').value = teamId !== null ? teamId : TEAMS[0]?.id;
+    document.getElementById('pm-pos').value = 'ST';
+    document.getElementById('pm-overall').value = 75;
+    document.getElementById('pm-pac').value = 70;
+    document.getElementById('pm-sho').value = 70;
+    document.getElementById('pm-pas').value = 70;
+    document.getElementById('pm-dri').value = 70;
+    document.getElementById('pm-def').value = 60;
+    document.getElementById('pm-phy').value = 70;
+    document.getElementById('player-modal').dataset.editTeam = '';
+    document.getElementById('player-modal').dataset.editId = '';
+  }
+
+  document.getElementById('player-modal').classList.add('open');
+}
+
+function closePlayerModal(){ document.getElementById('player-modal').classList.remove('open'); }
+
+function savePlayer(){
+  if(!isAdmin) return;
+  const name = document.getElementById('pm-name').value.trim();
+  if(!name){ toast('Enter a player name!'); return; }
+
+  const teamId = +document.getElementById('pm-team').value;
+  const pos    = document.getElementById('pm-pos').value;
+  const ovr    = +document.getElementById('pm-overall').value;
+  const pac    = +document.getElementById('pm-pac').value;
+  const sho    = +document.getElementById('pm-sho').value;
+  const pas    = +document.getElementById('pm-pas').value;
+  const dri    = +document.getElementById('pm-dri').value;
+  const def    = +document.getElementById('pm-def').value;
+  const phy    = +document.getElementById('pm-phy').value;
+
+  const modal = document.getElementById('player-modal');
+  const editTeam = modal.dataset.editTeam;
+  const editId   = modal.dataset.editId;
+
+  // If team changed while editing, remove from old team
+  if(editTeam && editId && Number(editTeam) !== teamId){
+    if(squadData[editTeam]?.[editId]){
+      delete squadData[editTeam][editId];
+    }
+  }
+
+  if(!squadData[teamId]) squadData[teamId] = {};
+
+  const pid = (editTeam && editId && Number(editTeam)===teamId)
+    ? editId
+    : 'p' + Date.now();
+
+  squadData[teamId][pid] = { id:pid, name, teamId, pos, ovr, pac, sho, pas, dri, def, phy };
+
+  saveSquadData();
+  closePlayerModal();
+  toast(`${name} saved! 🎴`);
+}
+
+function deletePlayer(){
+  if(!isAdmin) return;
+  const modal = document.getElementById('player-modal');
+  const editTeam = modal.dataset.editTeam;
+  const editId   = modal.dataset.editId;
+  if(!editTeam || !editId) return;
+  if(!confirm('Delete this player?')) return;
+  if(squadData[editTeam]?.[editId]) delete squadData[editTeam][editId];
+  saveSquadData();
+  closePlayerModal();
+  toast('Player deleted 🗑️');
+}
+
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 function showSection(id,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -2448,7 +3325,7 @@ function initFloatingBadges() {
 // ════════════════════════════════════════════
 buildClubsRow(); initFloatingBadges();
 document.body.classList.add('s3-active'); // boot on season 3
-loadData();
+loadData(); loadSquad();
 </script>
 <!-- ════════════ FOOTER ════════════ -->
 <footer id="site-footer">
